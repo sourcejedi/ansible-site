@@ -1,0 +1,1 @@
+- copy: src=yum.repos.d/ dest=/etc/yum.repos.d/
