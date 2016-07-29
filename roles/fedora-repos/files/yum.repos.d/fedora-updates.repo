@@ -1,3 +1,6 @@
+# Do not edit.  This file is managed by an ansible playbook.
+# Any changes will be overwritten.
+
 [updates]
 name=Fedora $releasever - $basearch - Updates
 failovermethod=priority
