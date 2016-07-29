@@ -1,4 +1,8 @@
 ---
 - hosts: all
+  roles:
+    - ansible-target
+
+- hosts: all
   roles: 
     - fedora-repos

@@ -1,0 +1,22 @@
+# Note: this only goes so far.
+# E.g. on Fedora 24 you need to install python2 first.
+
+- name: 'Install package required by dnf module'
+  command: 'dnf install -y python2-dnf'
+  when: ansible_pkg_mgr == 'dnf'
+
+
+- name: 'Check for selinux distribution'
+  stat: path=/etc/selinux
+  register: selinux_stat
+
+- name: 'Install package required under selinux (for e.g. copy module)'
+  package:
+    state: present
+    name: libselinux-python
+  when: selinux_stat.stat.exists
+  register: selinux_install
+
+- name: 'Read selinux facts'
+  setup: {} # setup module does not require any arguments
+  when: selinux_install.changed
