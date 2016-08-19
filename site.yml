@@ -1,6 +1,11 @@
 ---
 - hosts: all
   roles:
+    - ansible-target-raw
+  gather_facts: no
+
+- hosts: all
+  roles:
     - ansible-target
 
 - hosts: all

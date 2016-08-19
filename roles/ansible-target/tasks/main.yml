@@ -1,22 +1,39 @@
-# Note: this only goes so far.
-# E.g. on Fedora 24 you need to install python2 first.
+# Command task below is run conditionally, for accurate "changed" status
+- name: Check python module for dnf
+  when: ansible_pkg_mgr == "dnf"
+  command: python2 -c "import dnf"
+  register: python_dnf
+  failed_when: False
+  changed_when: False  # no change
 
-- name: 'Install package required by dnf module'
-  command: 'dnf install -y python2-dnf'
-  when: ansible_pkg_mgr == 'dnf'
+- name: Install package required by ansible dnf module
+  when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
+  command: dnf install -y python2-dnf
+  args:
+    warn: no  # can't use dnf module, we're installing it's requirements
 
 
-- name: 'Check for selinux distribution'
+- name: Check if selinux is installed
   stat: path=/etc/selinux
   register: selinux_stat
 
-- name: 'Install package required under selinux (for e.g. copy module)'
+# Package task below is run conditionally as a micro-optimization
+# since we're already using the exact same pattern above.
+- name: Check for python selinux module
+  when: selinux_stat.stat.exists
+  command: python2 -c "import selinux"
+  register: python_selinux
+  failed_when: False
+  changed_when: False  # no change
+
+- name: Install package required under selinux (for e.g. copy module)
+  when: selinux_stat.stat.exists and python_selinux.rc != 0
   package:
     state: present
     name: libselinux-python
-  when: selinux_stat.stat.exists
   register: selinux_install
 
-- name: 'Read selinux facts'
-  setup: {} # setup module does not require any arguments
-  when: selinux_install.changed
+# NOTE new selinux facts are not read here
+# however setup module is re-run before each playbook
+# so we have no reason to refresh it here
+
