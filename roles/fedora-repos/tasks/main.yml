@@ -1,1 +1,13 @@
-- copy: src=yum.repos.d/ dest=/etc/yum.repos.d/
+- name: Check OS is Fedora
+  assert:
+    that: "ansible_distribution == 'Fedora'"
+
+- name: Configure Fedora repos using local cache
+  copy: src=yum.repos.d/ dest=/etc/yum.repos.d/
+
+- name: Test repo access
+  command: dnf check-update
+  args:
+    warn: no  # can't use ansible dnf module, it does not implement this
+  changed_when: False
+

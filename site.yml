@@ -2,6 +2,7 @@
 - hosts: all
   roles:
     - ansible-target-raw
+  # bootstrap using raw module, do not run setup module
   gather_facts: no
 
 - hosts: all

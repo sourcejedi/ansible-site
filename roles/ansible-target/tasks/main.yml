@@ -1,32 +1,34 @@
 # Command task below is run conditionally, for accurate "changed" status
-- name: Check python module for dnf
+- name: Query for python dnf module
   when: ansible_pkg_mgr == "dnf"
   command: python2 -c "import dnf"
   register: python_dnf
   failed_when: False
   changed_when: False  # no change
 
-- name: Install package required by ansible dnf module
+- name: Install package required for ansible dnf module
   when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
   command: dnf install -y python2-dnf
   args:
     warn: no  # can't use dnf module, we're installing it's requirements
 
 
-- name: Check if selinux is installed
+- name: Query whether selinux is installed
   stat: path=/etc/selinux
   register: selinux_stat
 
 # Package task below is run conditionally as a micro-optimization
 # since we're already using the exact same pattern above.
-- name: Check for python selinux module
+- name: Query for python selinux module
   when: selinux_stat.stat.exists
   command: python2 -c "import selinux"
   register: python_selinux
   failed_when: False
   changed_when: False  # no change
 
-- name: Install package required under selinux (for e.g. copy module)
+# Reminder: package installation is *not* portable, because names vary between distros
+# Debian package is python-selinux
+- name: Install package required under selinux (e.g. for copy module)
   when: selinux_stat.stat.exists and python_selinux.rc != 0
   package:
     state: present
