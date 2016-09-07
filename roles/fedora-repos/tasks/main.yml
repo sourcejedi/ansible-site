@@ -8,17 +8,11 @@
 
 
 # This test is slow, only bother when changed.
-# ansible will consider this a change,
-# I don't think it matters much either way.
-- name: Expire repo cache
+# Ansible will consider this a change by default;
+# I don't really have a strong feeling either way.
+- name: Test "dnf check-update"
   when: fedora_repos.changed
-  command: dnf clean expire-cache
-  args:
-    warn: no  # can't use ansible dnf module, it does not implement this
-
-- name: Test repo access, this could take a minute or so
-  when: fedora_repos.changed
-  command: dnf check-update
+  command: dnf --refresh check-update
   args:
     warn: no  # can't use ansible dnf module, it does not implement this
 
