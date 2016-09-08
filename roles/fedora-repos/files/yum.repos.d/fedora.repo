@@ -23,11 +23,13 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 skip_if_unavailable=False
 
+
+# Source is not provided by all mirrors, so we use the metalink for this section.
 [fedora-source]
 name=Fedora $releasever - Source
 failovermethod=priority
-baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/releases/$releasever/Everything/source/SRPMS/
-#metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-source-$releasever&arch=$basearch
+#baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/releases/$releasever/Everything/source/SRPMS/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-source-$releasever&arch=$basearch
 enabled=0
 metadata_expire=28d
 gpgcheck=1
