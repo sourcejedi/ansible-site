@@ -28,8 +28,8 @@ skip_if_unavailable=False
 [fedora-source]
 name=Fedora $releasever - Source
 failovermethod=priority
-#baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/releases/$releasever/Everything/source/SRPMS/
-metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-source-$releasever&arch=$basearch
+baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/releases/$releasever/Everything/source/tree/
+#metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-source-$releasever&arch=$basearch
 enabled=0
 metadata_expire=28d
 gpgcheck=1

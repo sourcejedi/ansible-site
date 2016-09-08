@@ -27,8 +27,8 @@ skip_if_unavailable=False
 [updates-testing-source]
 name=Fedora $releasever - Test Updates Source
 failovermethod=priority
-#baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/updates/testing/$releasever/SRPMS/
-metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-source-f$releasever&arch=$basearch
+baseurl=http://fedora-mirror.carrier.duckdns.org/pub/fedora/linux/updates/testing/$releasever/SRPMS/
+#metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-source-f$releasever&arch=$basearch
 enabled=0
 gpgcheck=1
 metadata_expire=6h
