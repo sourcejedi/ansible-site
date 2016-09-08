@@ -12,7 +12,9 @@
 # I don't really have a strong feeling either way.
 - name: Test "dnf check-update"
   when: fedora_repos.changed
-  command: dnf --refresh check-update
+  command: dnf \
+           --disablerepo="*" --enablerepo=fedora --enablerepo=updates
+           --refresh check-update
   args:
     warn: no  # can't use ansible dnf module, it does not implement this
 
