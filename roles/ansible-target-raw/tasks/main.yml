@@ -1,0 +1,30 @@
+# TODO:
+# fedora-specific?  takes a while, so it would be better to be specific here?
+# and I think docs (intro) should also be fixed to replace obsolete --sudo option.
+
+- name: Test use of ansible raw module
+  raw: "true"
+  changed_when: False  # no change (this is default for raw)
+
+
+- name: Query requirement for non-raw ansible modules (python2)
+  raw: "[ -x /usr/bin/python2 ]"
+  register: python2_executable
+  failed_when: False  # no fail.  rc is our result
+  changed_when: False
+
+- name: Install python2 using raw module
+  when: python2_executable.rc != 0
+  # Try candidate install methods in sequence
+  raw: "/usr/bin/dnf install -y python2 ||
+        echo Failed to install required package python2"
+  changed_when: True  # always changes (unless failed)
+
+
+- name: Test python2
+  raw: "python2 -c \"import sys; print sys.version\" "
+  changed_when: False
+
+- name: Test ansible ping module
+  ping:
+
