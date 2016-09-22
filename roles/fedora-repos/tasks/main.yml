@@ -8,6 +8,7 @@
 
 
 # This test is slow, only bother when changed.
+# (In which case, the next use of dnf would probably have had to do this anyway).
 # Ansible will consider this a change by default;
 # I don't really have a strong feeling either way.
 - name: Test "dnf check-update"
