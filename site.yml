@@ -8,3 +8,6 @@
 - hosts: volcano
   roles: 
     - fedora-repos
+
+- hosts:
+    - openssh-server

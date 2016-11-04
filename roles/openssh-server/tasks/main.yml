@@ -1,0 +1,38 @@
+- name: install openssh-server
+  package: name=openssh-server state=latest
+
+- name: try to enable ssh.service
+  service:
+    name: ssh  # Debian
+    enabled: yes
+    state: started
+  register: ssh_service
+  ignore_errors: yes
+
+- name: try to enable sshd.service
+  service:
+    name: sshd  # Fedora
+    enabled: yes
+    state: started
+  register: sshd_service
+  ignore_errors: yes
+
+- name: enabled either ssh.service or sshd.service
+  ping:  # do nothing
+  failed_when: (ssh_service is defined and ssh_service|failed) and
+               (sshd_service is defined and sshd_service|failed)
+
+# hmm block does not get any blank link separation
+- name: insert/update configuation block in /etc/ssh/sshd_config
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      # No brute force attacks
+      PasswordAuthentication no
+      # No root user (unless given command enabled in /root/.ssh/authorized_keys)
+      PermitRootLogin forced-commands-only
+      # SSH users must be whitelisted by admin
+      AllowGroups sshlogin root
+      # No fearmongering about missing DNS ("POSSIBLE BREAK IN ATTEMPT")
+      UseDNS no
+
