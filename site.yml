@@ -1,14 +1,10 @@
 ---
 - hosts: all
   roles:
-    - ansible-target-raw
-  # bootstrap using raw module, do not run setup module
+    - ansible-target
+  # bootstrap using raw module, do not run setup module first
   gather_facts: no
 
-- hosts: all
-  roles:
-    - ansible-target
-
-- hosts: all
+- hosts: volcano
   roles: 
     - fedora-repos

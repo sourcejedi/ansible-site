@@ -1,3 +1,46 @@
+# TODO:
+# fedora-specific?  takes a while, so it would be better to be specific here?
+# I think docs (intro) should also be fixed to replace obsolete --sudo option
+# and am confused about whether becoming should work when using local connection
+# (it doesn't seem to; run ansible under sudo instead)
+
+### bootstrap using raw module ###
+
+- name: Test use of ansible raw module
+  raw: "true"
+  changed_when: False  # no change (this is default for raw)
+  always_run: yes  # run this non-check module even in --check mode
+
+- name: Query requirement for non-raw ansible modules (python2)
+  raw: "[ -x /usr/bin/python2 ]"
+  register: python2_executable
+  failed_when: False  # no fail.  rc is our result
+  changed_when: False
+  always_run: yes
+
+- name: Install python2 using raw module
+  when: python2_executable.rc != 0
+  # Try candidate install methods in sequence
+  raw: "/usr/bin/dnf install -y python2 ||
+        echo Failed to install required package python2"
+  changed_when: True  # always changes (unless failed)
+
+### now non-raw modules should work ###
+
+- name: Test python2
+  raw: "python2 -c \"import sys; print sys.version\" "
+  changed_when: False
+  always_run: yes
+
+- name: Test ansible ping module
+  ping:
+  always_run: yes
+
+- name: Gather ansible facts
+  setup:
+
+### now we should have ansible facts ###
+
 # Command task below is run conditionally, for accurate "changed" status
 - name: Query for python dnf module
   when: ansible_pkg_mgr == "dnf"
@@ -19,8 +62,8 @@
   register: selinux_stat
   always_run: yes
 
-# Package task below is run conditionally as a micro-optimization
-# since we're already using the exact same pattern above.
+# Package task below is run conditionally as a micro-optimization,
+# we're already using the exact same pattern as above.
 - name: Query for python selinux module
   when: selinux_stat.stat.exists
   command: python2 -c "import selinux"
@@ -30,7 +73,7 @@
   always_run: yes
 
 # Reminder: package installation is *not* portable, because names vary between distros
-# Debian package is python-selinux
+# Debian package would be python-selinux
 - name: Install package required under selinux (e.g. for copy module)
   when: selinux_stat.stat.exists and python_selinux.rc != 0
   package:
@@ -41,4 +84,3 @@
 # NOTE new selinux facts are not read here
 # however setup module is re-run before each playbook
 # so we have no reason to refresh it here, at the end of a playbook
-
