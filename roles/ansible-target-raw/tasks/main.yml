@@ -1,10 +1,13 @@
 # TODO:
 # fedora-specific?  takes a while, so it would be better to be specific here?
-# and I think docs (intro) should also be fixed to replace obsolete --sudo option.
+# I think docs (intro) should also be fixed to replace obsolete --sudo option
+# and am confused about whether becoming should work when using local connection
+# (it doesn't seem to; run ansible under sudo instead)
 
 - name: Test use of ansible raw module
   raw: "true"
   changed_when: False  # no change (this is default for raw)
+  always_run: yes  # run this non-check module even in --check mode
 
 
 - name: Query requirement for non-raw ansible modules (python2)
@@ -12,6 +15,7 @@
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
+  always_run: yes
 
 - name: Install python2 using raw module
   when: python2_executable.rc != 0
@@ -24,7 +28,8 @@
 - name: Test python2
   raw: "python2 -c \"import sys; print sys.version\" "
   changed_when: False
+  always_run: yes
 
 - name: Test ansible ping module
   ping:
-
+  always_run: yes

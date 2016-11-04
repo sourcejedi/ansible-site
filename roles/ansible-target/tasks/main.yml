@@ -5,6 +5,7 @@
   register: python_dnf
   failed_when: False
   changed_when: False  # no change
+  always_run: yes
 
 - name: Install package required for ansible dnf module
   when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
@@ -16,6 +17,7 @@
 - name: Query whether selinux is installed
   stat: path=/etc/selinux
   register: selinux_stat
+  always_run: yes
 
 # Package task below is run conditionally as a micro-optimization
 # since we're already using the exact same pattern above.
@@ -25,6 +27,7 @@
   register: python_selinux
   failed_when: False
   changed_when: False  # no change
+  always_run: yes
 
 # Reminder: package installation is *not* portable, because names vary between distros
 # Debian package is python-selinux
@@ -37,5 +40,5 @@
 
 # NOTE new selinux facts are not read here
 # however setup module is re-run before each playbook
-# so we have no reason to refresh it here
+# so we have no reason to refresh it here, at the end of a playbook
 
