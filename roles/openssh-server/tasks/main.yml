@@ -1,5 +1,35 @@
+# We don't want service started at install time!
+# TODO: policy-rc.d
+
 - name: install openssh-server
-  package: name=openssh-server state=latest
+  package:
+    name: openssh-server
+    state: latest
+    # "present" is normally good enough, and can avoid some time-wasting.
+    # Reason for extra caution here, is to avoid enabling an out-of-date ssh server.
+
+- name: create sshlogin group
+  group: name=sshlogin state=present
+
+- name: insert/update configuation block in /etc/ssh/sshd_config
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    insertbefore: BOF  # Insert at start, because earlier lines take precedence
+    block: |+
+      
+      # No brute force attacks
+      PasswordAuthentication no
+      
+      # No root user (unless given command enabled in /root/.ssh/authorized_keys)
+      PermitRootLogin forced-commands-only
+      
+      # SSH users must be whitelisted by admin
+      AllowGroups sshlogin root
+      
+      # No fearmongering about missing DNS ("POSSIBLE BREAK IN ATTEMPT")
+      UseDNS no
+      
+    #end block
 
 - name: try to enable ssh.service
   service:
@@ -21,18 +51,4 @@
   ping:  # do nothing
   failed_when: (ssh_service is defined and ssh_service|failed) and
                (sshd_service is defined and sshd_service|failed)
-
-# hmm block does not get any blank link separation
-- name: insert/update configuation block in /etc/ssh/sshd_config
-  blockinfile:
-    dest: /etc/ssh/sshd_config
-    block: |
-      # No brute force attacks
-      PasswordAuthentication no
-      # No root user (unless given command enabled in /root/.ssh/authorized_keys)
-      PermitRootLogin forced-commands-only
-      # SSH users must be whitelisted by admin
-      AllowGroups sshlogin root
-      # No fearmongering about missing DNS ("POSSIBLE BREAK IN ATTEMPT")
-      UseDNS no
 
