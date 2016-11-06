@@ -56,16 +56,16 @@
   args:
     warn: no  # can't use dnf module, we're installing it's requirements
 
-
-- name: Query whether selinux is installed
-  stat: path=/etc/selinux
-  register: selinux_stat
+- name: Query whether selinux is enabled
+  command: selinuxenabled
+  failed_when: False
+  register: selinuxenabled
   always_run: yes
 
 # Package task below is run conditionally as a micro-optimization,
 # we're already using the exact same pattern as above.
 - name: Query for python selinux module
-  when: selinux_stat.stat.exists
+  when: selinuxenabled.rc == 0
   command: python2 -c "import selinux"
   register: python_selinux
   failed_when: False
@@ -75,7 +75,7 @@
 # Reminder: package installation is *not* portable, because names vary between distros
 # Debian package would be python-selinux
 - name: Install package required under selinux (e.g. for copy module)
-  when: selinux_stat.stat.exists and python_selinux.rc != 0
+  when: selinuxenabled.rc == 0 and python_selinux.rc != 0
   package:
     state: present
     name: libselinux-python
