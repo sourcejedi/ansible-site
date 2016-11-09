@@ -4,20 +4,20 @@
   command: python2 -c "import dnf"
   register: python_dnf
   failed_when: False
-  changed_when: False  # no change
+  changed_when: False
   always_run: yes
 
 - name: Install package required for ansible dnf module
   when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
   command: dnf install -y python2-dnf
   args:
-    warn: no  # can't use dnf module, we're installing it's requirements
+    warn: no  # can't use dnf module, we're installing its requirements
 
 - name: Query whether selinux is enabled
   shell: command -v selinuxenabled >/dev/null && selinuxenabled
   register: selinuxenabled
   failed_when: selinuxenabled.rc not in [0, 1]
-  changed_when: False  # no change
+  changed_when: False
   always_run: yes
 
 # Package task below is run conditionally as a micro-optimization,
@@ -27,7 +27,7 @@
   command: python2 -c "import selinux"
   register: python_selinux
   failed_when: False
-  changed_when: False  # no change
+  changed_when: False
   always_run: yes
 
 # Reminder: package installation is *not* portable, because names vary between distros
