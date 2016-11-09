@@ -57,9 +57,10 @@
     warn: no  # can't use dnf module, we're installing it's requirements
 
 - name: Query whether selinux is enabled
-  command: selinuxenabled
-  failed_when: False
+  shell: command -v selinuxenabled >/dev/null && selinuxenabled
   register: selinuxenabled
+  failed_when: selinuxenabled.rc not in [0, 1]
+  changed_when: False  # no change
   always_run: yes
 
 # Package task below is run conditionally as a micro-optimization,
