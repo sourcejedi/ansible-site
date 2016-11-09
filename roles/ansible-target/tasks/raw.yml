@@ -1,0 +1,38 @@
+# If we don't have the required python interpreter,
+# use the raw module to install it.
+# Then we shouldn't need to use the raw module any more.
+
+- name: Test use of ansible raw module
+  raw: "true"
+  changed_when: False  # no change (this is default for raw)
+  always_run: yes  # run this non-check module even in --check mode
+
+- name: Query requirement for non-raw ansible modules (python2)
+  raw: "[ -x /usr/bin/python2 ]"
+  register: python2_executable
+  failed_when: False  # no fail.  rc is our result
+  changed_when: False
+  always_run: yes
+
+- name: Install python2 using raw module
+  when: python2_executable.rc != 0
+  # Try candidate install methods in sequence
+  raw: "/usr/bin/dnf install -y python2 ||
+        echo Failed to install required package python2"
+  changed_when: True  # always changes (unless failed)
+
+### now non-raw modules should work ###
+
+- name: Test python2
+  raw: "python2 -c \"import sys; print sys.version\" "
+  changed_when: False
+  always_run: yes
+
+- name: Test ansible ping module
+  ping:
+  always_run: yes
+
+- name: Gather ansible facts
+  setup:
+
+### now we should have ansible facts ###
