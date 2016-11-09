@@ -18,7 +18,7 @@
   when: python2_executable.rc != 0
   # Try candidate install methods in sequence
   raw: "/usr/bin/dnf install -y python2 ||
-        echo Failed to install required package python2"
+        (echo Failed to install required package python2; exit 1)"
   changed_when: True  # always changes (unless failed)
 
 ### now non-raw modules should work ###
