@@ -14,7 +14,7 @@
     warn: no  # can't use dnf module, we're installing its requirements
 
 - name: Query whether selinux is enabled
-  shell: command -v selinuxenabled >/dev/null && selinuxenabled
+  shell: CMD=/usr/sbin/selinuxenabled; test -x $CMD && $CMD
   register: selinuxenabled
   failed_when: selinuxenabled.rc not in [0, 1]
   changed_when: False
