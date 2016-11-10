@@ -1,5 +1,17 @@
-# We don't want service started at install time!
-# TODO: policy-rc.d
+# FIXME: We don't want service started at install time like Debian does!
+# use dpkg-divert to install a secure config first (doesn't need to be usable)
+
+- name: Query - expect Debian-compatible openssh-server package?
+  set_fact: service_ssh_server="ssh"
+  when: ansible_os_family == "Debian"
+
+- name: Query - expect RedHat-compatible openssh-server package?
+  set_fact: service_ssh_server="sshd"
+  when: ansible_os_family == "RedHat"
+
+- name: Test operating system is supported
+  assert:
+    that: service_ssh_server is defined
 
 - name: install openssh-server
   package:
@@ -31,24 +43,9 @@
       
     #end block
 
-- name: try to enable ssh.service
+- name: Enable ssh server
   service:
-    name: ssh  # Debian
+    name: "{{ service_ssh_server }}"
     enabled: yes
     state: started
-  register: ssh_service
-  ignore_errors: yes
-
-- name: try to enable sshd.service
-  service:
-    name: sshd  # Fedora
-    enabled: yes
-    state: started
-  register: sshd_service
-  ignore_errors: yes
-
-- name: enabled either ssh.service or sshd.service
-  ping:  # do nothing
-  failed_when: (ssh_service is defined and ssh_service|failed) and
-               (sshd_service is defined and sshd_service|failed)
 
