@@ -1,0 +1,20 @@
+# Ubuntu changed the default to bzr instead of git, sigh.
+# Before running this on Ubuntu, I would want to revert that default
+# (see etckeeper README "This choice [git] has been carefully made").
+- name: Supported OS - Debian or Fedora
+  assert:
+    that: ansible_lsb.id in ["Debian", "Fedora"]
+
+- name: Install etckeeper
+  package: name=etckeeper state=present
+
+- name: Create etckeeper repo
+  command: etckeeper init
+           creates=/etc/.etckeeper
+  register: etckeeper_create
+
+# Specifically preserve original configs.
+# (Apart from this commit, I don't need any integration with ansible).
+- name: Initial commit
+  command: etckeeper commit
+  when: etckeeper_create.changed

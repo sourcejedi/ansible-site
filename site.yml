@@ -1,13 +1,15 @@
----
-- hosts: all
+- hosts: invalid #volcano
   roles:
     - ansible-target
   # bootstrap using raw module, do not run setup module first
   gather_facts: no
 
 - hosts: volcano
-  roles: 
-    - fedora-repos
+  roles:
+#    - repos-fedora
+    - etckeeper
 
-- hosts:
+- hosts: brick
+  roles:
+    - etckeeper
     - openssh-server

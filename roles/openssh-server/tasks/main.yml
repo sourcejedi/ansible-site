@@ -48,4 +48,3 @@
     name: "{{ service_ssh_server }}"
     enabled: yes
     state: started
-
