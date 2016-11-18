@@ -1,5 +1,5 @@
-# Do not edit.  This file is managed by an ansible playbook.
-# Any changes will be overwritten.
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
 
 [updates-testing]
 name=Fedora $releasever - $basearch - Test Updates
