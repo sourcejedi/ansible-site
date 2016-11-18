@@ -1,0 +1,12 @@
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
+
+deb http://ftp.uk.debian.org/debian/ jessie main non-free
+deb http://security.debian.org/ jessie/updates main non-free
+deb http://ftp.uk.debian.org/debian/ jessie-updates main non-free
+
+# (so if you want to enable other repos, add them in sources.lists.d/)
+
+# deb-src http://ftp.uk.debian.org/debian/ jessie main
+# deb-src http://security.debian.org/ jessie/updates main
+# deb-src http://ftp.uk.debian.org/debian/ jessie-updates main
