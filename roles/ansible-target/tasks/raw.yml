@@ -2,13 +2,23 @@
 # use the raw module to install it.
 # Then we shouldn't need to use the raw module any more.
 
-- name: Test use of ansible raw module
+- name: Test connection with ansible raw module
   raw: "true"
-  changed_when: False  # no change (this is default for raw)
+  changed_when: False  # no change
   always_run: yes  # run this non-check module even in --check mode
 
+# For science :).
+# May also detect if the command interpreter is not a unix shell.
+- name: Test that command interpreter can return failure
+  raw: "false"
+  always_run: yes
+  register: raw_false
+  failed_when: raw_false.rc != 1
+  changed_when: False
+
+# Run the raw install task conditionally, for accurate "changed" status
 - name: Query requirement for non-raw ansible modules (python2)
-  raw: "[ -x /usr/bin/python2 ]"
+  raw: "/usr/bin/python2"
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
@@ -21,10 +31,12 @@
         (echo Failed to install required package python2; exit 1)"
   changed_when: True  # always changes (unless failed)
 
-### now non-raw modules should work ###
+# Now non-raw modules should work.
+# Test that it worked.  This is particularly informative in check mode:
+# the install task is skipped, but we report if python2 is already installed.
 
 - name: Test python2
-  raw: "python2 -c \"import sys; print sys.version\" "
+  raw: "/usr/bin/python2 -c \"import sys; print (sys.version)\" "
   changed_when: False
   always_run: yes
 
@@ -35,4 +47,4 @@
 - name: Gather ansible facts
   setup:
 
-### now we should have ansible facts ###
+# Now we should have ansible facts

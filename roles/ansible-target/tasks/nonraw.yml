@@ -13,6 +13,14 @@
   args:
     warn: no  # can't use dnf module, we're installing its requirements
 
+# support ansible check mode
+- name: Test for python dnf module
+  when: ansible_pkg_mgr == "dnf"
+  command: python2 -c "import dnf"
+  changed_when: False
+  always_run: yes
+
+
 - name: Query whether selinux is enabled
   shell: CMD=/usr/sbin/selinuxenabled; test -x $CMD && $CMD
   register: selinuxenabled
@@ -21,7 +29,7 @@
   always_run: yes
 
 # Package task below is run conditionally as a micro-optimization,
-# we're already using the exact same pattern as above.
+# we're already using the exact same pattern above.
 - name: Query for python selinux module
   when: selinuxenabled.rc == 0
   command: python2 -c "import selinux"
@@ -38,6 +46,12 @@
     state: present
     name: libselinux-python
   register: selinux_install
+
+- name: Test for python selinux module
+  when: selinuxenabled.rc == 0
+  command: python2 -c "import selinux"
+  changed_when: False
+  always_run: yes
 
 # NOTE new selinux facts are not read here
 # however setup module is re-run before each playbook
