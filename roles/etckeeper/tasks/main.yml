@@ -3,7 +3,7 @@
 # (see etckeeper README "This choice [git] has been carefully made").
 - name: Supported OS - Debian or Fedora
   assert:
-    that: ansible_lsb.id in ["Debian", "Fedora"]
+    that: ansible_distribution in ["Debian", "Fedora"]
 
 - name: Install etckeeper
   package: name=etckeeper state=present
