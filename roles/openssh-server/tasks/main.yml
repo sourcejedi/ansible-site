@@ -2,23 +2,30 @@
 # use dpkg-divert to install a secure config first (doesn't need to be usable)
 
 - name: Query - expect Debian-compatible openssh-server package?
-  set_fact: service_ssh_server="ssh"
   when: ansible_os_family == "Debian"
+  set_fact: service_ssh_server="ssh"
+  #
+  # Later investigation shows Debian provides an alias for `sshd`,
+  # providing compatibility with Fedora.  However I still want the OS tests,
+  # and I like the pattern to handle any variations in names.
+  #
+  # So I ignore the alias, considering it a convenience for users.
+  # It's not really part of some systematic convergence.
 
 - name: Query - expect RedHat-compatible openssh-server package?
-  set_fact: service_ssh_server="sshd"
   when: ansible_os_family == "RedHat"
+  set_fact: service_ssh_server="sshd"
 
 - name: Test operating system is supported
   assert:
     that: service_ssh_server is defined
+    
 
 - name: install openssh-server
-  package:
-    name: openssh-server
-    state: latest
-    # "present" is normally good enough, and can avoid some time-wasting.
-    # Reason for extra caution here, is to avoid enabling an out-of-date ssh server.
+  package: name=openssh-server state=latest
+  #
+  # `state=present` is normally good enough, and can avoid some time-wasting.
+  # Reason for extra caution here, is to avoid enabling an out-of-date ssh server.
 
 - name: create sshlogin group
   group: name=sshlogin state=present
