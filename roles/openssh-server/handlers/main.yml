@@ -1,0 +1,10 @@
+---
+
+- name: Test sshd configuration and restart
+  command: sshd -t
+  notify: [ 'Restart sshd' ]
+
+- name: Restart sshd
+  service:
+    name: "{{ service_ssh_server }}"
+    state: restarted
