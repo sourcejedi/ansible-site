@@ -18,7 +18,7 @@
 
 # Run the raw install task conditionally, for accurate "changed" status
 - name: Query requirement for non-raw ansible modules (python2)
-  raw: "/usr/bin/python2"
+  raw: "test -x /usr/bin/python2"
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
