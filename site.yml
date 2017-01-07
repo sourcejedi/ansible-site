@@ -1,15 +1,25 @@
-- hosts: invalid #volcano
+- hosts: all
   roles:
     - ansible-target
   # bootstrap using raw module, do not run setup module first
   gather_facts: no
 
-- hosts: volcano
+- hosts: alan-laptop
   roles:
-#    - repos-fedora
+    - repos-fedora
     - etckeeper
+
+- hosts: alan-nuc
+  roles:
+    - repos-fedora
+    - etckeeper
+    - openssh-server
+
+# FIXME: debian backport install of ansible,
+# to version which supports package module?
 
 - hosts: brick
   roles:
+    - repos-debian-jessie
     - etckeeper
     - openssh-server

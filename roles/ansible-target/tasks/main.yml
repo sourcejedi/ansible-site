@@ -1,2 +1,3 @@
-- include: raw.yml
-- include: nonraw.yml
+---
+- include: main-tasks.yml
+  tags: ansible-target

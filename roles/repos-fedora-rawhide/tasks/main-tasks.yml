@@ -1,0 +1,23 @@
+- name: Check OS is Fedora
+  assert:
+    that: "ansible_distribution == 'Fedora'"
+
+- name: Configure Fedora repos using local cache
+  copy: src=yum.repos.d/ dest=/etc/yum.repos.d/
+  register: fedora_repos
+
+
+# This test is slow, only bother when changed.
+# Ansible will consider this a change by default;
+# I don't really have a strong feeling either way.
+- name: Test "dnf check-update"
+  when: fedora_repos.changed
+  command: dnf \
+           --disablerepo="*" --enablerepo=rawhide
+           --refresh check-update
+  register: dnf_check_update
+  # exit status is 1 on failure, 100 if updates available (otherwise 0)
+  failed_when: dnf_check_update.rc == 1
+  args:
+    warn: no  # can't use ansible dnf module, it does not implement this
+

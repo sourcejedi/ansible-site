@@ -1,0 +1,36 @@
+# Ubuntu changed the default to bzr instead of git, sigh.
+# Before running this on Ubuntu, I would want to revert that default
+# (see etckeeper README "This choice [git] has been carefully made").
+- name: Supported OS - Debian or Fedora
+  assert:
+    that: ansible_distribution in ["Debian", "Fedora"]
+
+- name: Install etckeeper
+  package: name=etckeeper state=present
+
+- name: Create etckeeper repo
+  command: etckeeper init
+           creates=/etc/.etckeeper
+  register: etckeeper_create
+
+# Specifically preserve original configs.
+# Same idea that justifies etckeeper automatic commits after package install.
+#
+# Beyond the first commit, I don't need any integration with ansible.
+# There's no way to run after the play is complete, even if we wanted to.
+# Don't force a pre-commit either.  User can always untangle changes, but
+# once it's committed, it could be a bad idea to try moving back
+# in the history in /etc.
+- name: Query etckeeper has initial commit
+  command: git rev-parse HEAD
+  args:
+    chdir: /etc
+    warn: no  # can't use git module, it doesn't do anything like this
+  register: etckeeper_has_commit
+  failed_when: False
+  changed_when: False
+  always_run: yes
+
+- name: Create initial commit
+  command: etckeeper commit 'Initial commit (by ansible role)'
+  when: etckeeper_has_commit.rc != 0
