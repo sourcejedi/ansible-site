@@ -1,25 +1,27 @@
+# Bootstrap using raw module
 - hosts: all
+  gather_facts: no  # do not try to run setup module first
   roles:
     - ansible-target
-  # bootstrap using raw module, do not run setup module first
-  gather_facts: no
 
-- hosts: alan-laptop
+# fedora
+- hosts: alan-laptop, alan-nuc
   roles:
     - repos-fedora
     - etckeeper
 
-- hosts: alan-nuc
-  roles:
-    - repos-fedora
-    - etckeeper
-    - openssh-server
-
+# debian
 # FIXME: debian backport install of ansible,
 # to version which supports package module?
-
 - hosts: brick
   roles:
     - repos-debian-jessie
     - etckeeper
+
+- hosts: alan-nuc
+  roles:
+    - openssh-server
+
+- hosts: brick
+  roles:
     - openssh-server
