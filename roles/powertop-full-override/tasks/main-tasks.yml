@@ -1,0 +1,14 @@
+- name: Install powertop
+  package: name=powertop state=installed
+
+# powertop --auto-tune overrides the normal kernel defaults, to save power.
+# It BREAKS your system.  You must test that you are happy with this
+# and be prepared to debug any problems that show up later as a result.
+# "powertop usb mouse" shows one example.
+
+- name: Enable all powertop overrides at boot time
+  service: name=powertop enabled=yes
+
+# We only enable it for the next boot and don't start it now,
+# because ansible is buggy and doesn't support service units
+# which exit immediately.
