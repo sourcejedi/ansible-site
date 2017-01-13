@@ -16,8 +16,6 @@
     - powertop-full-override
 
 # all debian
-# FIXME: debian backport install of ansible,
-# to version which supports package module?
 - hosts: brick
   roles:
     - repos-debian-jessie
