@@ -23,7 +23,6 @@ metadata_expire=6h
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 skip_if_unavailable=False
 
-# Source is not provided by all mirrors, so we use the metalink for this section.
 [updates-testing-source]
 name=Fedora $releasever - Test Updates Source
 failovermethod=priority

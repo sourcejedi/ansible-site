@@ -12,8 +12,8 @@ metadata_expire=6h
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 skip_if_unavailable=False
 
-# We want to cache to full package, for the benefit of fresh installs.
-# Note we're not bothered about this for the other fedora repos.
+# We want to cache the full packages, for the benefit of fresh installs.
+# (We're not worried about this for the other fedora repos though).
 deltarpm=0
 
 [updates-debuginfo]
