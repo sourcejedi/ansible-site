@@ -3,23 +3,25 @@ set -e
 
 cd "$(dirname "$0")"/..
 
-echo "Backing up /etc/apt to /etc/orig.apt, if it does not already exist"
+echo 'Backing up /etc/apt to /etc/orig.apt, if it does not already exist'
 if [ ! -e /etc/orig.apt ]; then
 	cp -av /etc/apt /etc/orig.apt
 fi
 
 echo
-echo "Configure Debian repos using local cache"
+echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-debian-jessie/files/apt /etc
 
 echo
-echo "Add jessie-backports repo (UK mirror)"
+echo 'Add jessie-backports repo (UK mirror)'
 cp -rv roles/repos-debian-jessie-backports/files/apt /etc
 
 echo
-echo "Install ansible from jessie-backports"
+echo 'Install ansible from jessie-backports'
 apt-get update
 apt-get install -y ansible/jessie-backports
 
 echo
-echo "Bootstrap complete!  Now run ansible-playbook"
+echo 'Bootstrap complete!'
+echo 'Now run ansible.  Try starting with `ansible-playbook --check`.'
+echo 'You might also want to run `apt-get upgrade` afterwards.'
