@@ -16,6 +16,5 @@
   register: dnf_check_update
   # exit status is 0 on success, 100 if updates available (otherwise 100)
   failed_when: dnf_check_update.rc not in [0, 100]
-  changed_when: False
   args:
     warn: no  # can't use ansible dnf module, it does not implement this
