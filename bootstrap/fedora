@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+cd "$(dirname "$0")"/..
+
+echo 'Backing up /etc/yum.repos.d to /etc/orig-apt, if it does not already exist'
+if [ ! -e /etc/orig-yum.repos.d ]; then
+	cp -av /etc/yum.repos.d /etc/orig-yum.repos.d
+fi
+
+echo
+echo 'Configure Fedora repos using local cache'
+cp -rv roles/repos-fedora/files/yum.repos.d /etc
+
+echo
+echo 'Install ansible from Fedora repos'
+dnf install -y ansible
+
+echo
+echo 'Bootstrap complete!'
+echo 'Now run ansible.  Try starting with `ansible-playbook --check`.'
+echo 'You might also want to run `apt-get upgrade` afterwards.'	

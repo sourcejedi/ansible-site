@@ -3,9 +3,9 @@ set -e
 
 cd "$(dirname "$0")"/..
 
-echo 'Backing up /etc/apt to /etc/orig.apt, if it does not already exist'
+echo 'Backing up /etc/apt to /etc/orig-apt, if it does not already exist'
 if [ ! -e /etc/orig.apt ]; then
-	cp -av /etc/apt /etc/orig.apt
+	cp -av /etc/apt /etc/orig-apt
 fi
 
 echo
