@@ -25,9 +25,5 @@ if [ "$HOST" != "$LOCALHOST" ]; then
 	fatal_usage
 fi
 
-# We haven't found any use for multiple playbooks yet
-# ("Best Practices" in the docs).
-PLAYBOOK=site.yml
-
 # Run this script with sudo, it remembers password unlike ansible --become.
-ansible-playbook "$@" -c local -i "$HOST", "$PLAYBOOK"
+ansible-playbook "$@" -c local -i "$HOST",
