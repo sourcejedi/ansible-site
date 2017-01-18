@@ -1,6 +1,6 @@
 # Bootstrap using raw module
 - hosts: all
-  gather_facts: no  # do not try to run setup module first
+  gather_facts: no  # do not try to run setup module to start with
   roles:
     - ansible-target
 
@@ -10,11 +10,6 @@
     - repos-fedora
     - etckeeper
 
-# My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
-- hosts: alan-laptop
-  roles:
-    - powertop-full-override
-
 # all debian
 - hosts: brick
   roles:
@@ -22,10 +17,22 @@
     - repos-debian-jessie-backports
     - etckeeper
 
-- hosts: alan-nuc
+# My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
+- hosts: alan-laptop
   roles:
-    - openssh-server
+    - powertop-full-override
 
-- hosts: brick
+- hosts: alan-laptop
+  tasks:
+    - name: Install packages for GUI users
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - firefox
+        - thunderbird
+      tags: [ "packages-gui" ]
+
+- hosts: alan-nuc brick
   roles:
     - openssh-server
