@@ -1,0 +1,6 @@
+- hosts: brick
+    - repos-debian-jessie
+    - repos-debian-jessie-backports
+    - etckeeper
+
+    - openssh-server

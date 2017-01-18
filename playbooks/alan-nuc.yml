@@ -1,0 +1,5 @@
+- hosts: alan-nuc
+    - repos-fedora
+    - etckeeper
+
+    - openssh-server

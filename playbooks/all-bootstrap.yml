@@ -1,0 +1,5 @@
+# Bootstrap using raw module
+- hosts: all
+  gather_facts: no  # do not try to run setup module to start with
+  roles:
+    - ansible-target
