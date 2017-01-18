@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+
+function fatal_usage() {
+	echo "Usage: $0 HOSTNAME [OPTIONS]"
+	exit 1
+}
+
+HOST="$1"
+[ -n "$HOST" ] || fatal_usage
+shift  # Hack: any options come after hostname
+
+# Check the hostname to reduce accidents.
+# User must still type hostname, to encourage awareness.
+#
+# Assumption: Hosts with the same short name are out of scope.
+# This is a script for human use, and no-one wants to type in FQDNs.
+#
+# System hostnames seem not to be set to FQDNs by default.
+# If this is wrong, simply replace `hostname` with `hostname -s` below.
+
+LOCALHOST="$(hostname)"
+if [ "$HOST" != "$LOCALHOST" ]; then
+	echo "Error: local hostname is actually '$LOCALHOST'"
+	fatal_usage
+fi
+
+# We haven't found any use for multiple playbooks yet
+# ("Best Practices" in the docs).
+PLAYBOOK=site.yml
+
+# Run this script with sudo, it remembers password unlike ansible --become.
+ansible-playbook "$@" -c local -i "$HOST", "$PLAYBOOK"
