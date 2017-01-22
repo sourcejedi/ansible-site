@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "$(dirname "$0")"/..
+cd "$(dirname "$0")"/../playbooks/
 
-echo 'Backing up /etc/yum.repos.d to /etc/orig-apt, if it does not already exist'
-if [ ! -e /etc/orig-yum.repos.d ]; then
-	cp -av /etc/yum.repos.d /etc/orig-yum.repos.d
+SRC=/etc/yum.repos.d
+DST=/etc/orig-yum.repos.d
+echo "Backing up $SRC to $DST, if it does not already exist"
+if [ ! -e "DST" ]; then
+	cp -av "$SRC" "$DST"
 fi
 
 echo
@@ -22,4 +24,4 @@ dnf install -y $PKG_LIST
 echo
 echo 'Bootstrap complete!'
 echo 'Now run ansible.  Try starting with `ansible-playbook --list-tasks`.'
-echo 'You might also want to run `apt-get upgrade` afterwards.'
+echo 'You might also want to run `pkcon update` afterwards.'

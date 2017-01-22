@@ -1,4 +1,5 @@
 - hosts: alan-nuc
+  roles:
     - repos-fedora
     - etckeeper
 
