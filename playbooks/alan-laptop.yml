@@ -6,13 +6,4 @@
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
     - powertop-full-override
 
-  tasks:
-    - name: Install packages for GUI users
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - firefox
-        - thunderbird
-      tags: [ "packages-gui" ]
-
+    - packages-gui

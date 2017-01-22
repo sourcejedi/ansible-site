@@ -1,0 +1,14 @@
+- hosts: alan-x201
+  roles:
+    - repos-fedora
+    - etckeeper
+
+    # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
+    - powertop-full-override
+
+    - packages-gui
+
+    # X201 is retired from being primary workstation
+    # due to failing hardware
+    - openssh-server
+
