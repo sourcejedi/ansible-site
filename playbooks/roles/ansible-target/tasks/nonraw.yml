@@ -1,3 +1,26 @@
+# Command task below is run conditionally, for accurate "changed" status
+- name: Query for python dnf module
+  when: ansible_pkg_mgr == "dnf"
+  command: python2 -c "import dnf"
+  register: python_dnf
+  failed_when: False
+  changed_when: False
+  always_run: yes
+
+- name: Install package required for ansible dnf module
+  when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
+  command: dnf install -y python2-dnf
+  args:
+    warn: no  # can't use dnf module, we're installing its requirements
+
+# support ansible check mode
+- name: Test for python dnf module
+  when: ansible_pkg_mgr == "dnf"
+  command: python2 -c "import dnf"
+  changed_when: False
+  always_run: yes
+
+
 - name: Query whether selinux is enabled
   shell: CMD=/usr/sbin/selinuxenabled; test -x $CMD && $CMD
   register: selinuxenabled
