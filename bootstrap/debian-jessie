@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "$(dirname "$0")"/..
+cd "$(dirname "$0")"/../playbooks/
 
-echo 'Backing up /etc/apt to /etc/orig-apt, if it does not already exist'
-if [ ! -e /etc/orig.apt ]; then
-	cp -av /etc/apt /etc/orig-apt
+SRC=/etc/apt
+DST=/etc/orig.apt
+echo "Backing up $SRC to $DST, if it does not already exist'
+if [ ! -e $DST ]; then
+	cp -av "$SRC" "$DST"
 fi
 
 echo

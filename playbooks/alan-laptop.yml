@@ -1,4 +1,5 @@
 - hosts: alan-laptop
+  roles:
     - repos-fedora
     - etckeeper
 
