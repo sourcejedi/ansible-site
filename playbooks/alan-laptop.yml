@@ -4,6 +4,9 @@
     - etckeeper
 
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
-    - powertop-full-override
+    #
+    # except I am now debugging occasional hangs soon after resume, starting some time before 2017-01-09
+    #
+    #- powertop-full-override
 
     - packages-gui
