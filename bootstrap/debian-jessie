@@ -5,8 +5,8 @@ cd "$(dirname "$0")"/../playbooks/
 
 SRC=/etc/apt
 DST=/etc/orig.apt
-echo "Backing up $SRC to $DST, if it does not already exist'
-if [ ! -e $DST ]; then
+echo "Backing up $SRC to $DST, if it does not already exist"
+if [ ! -e "$DST" ]; then
 	cp -av "$SRC" "$DST"
 fi
 

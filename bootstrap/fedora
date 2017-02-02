@@ -6,7 +6,7 @@ cd "$(dirname "$0")"/../playbooks/
 SRC=/etc/yum.repos.d
 DST=/etc/orig-yum.repos.d
 echo "Backing up $SRC to $DST, if it does not already exist"
-if [ ! -e "DST" ]; then
+if [ ! -e "$DST" ]; then
 	cp -av "$SRC" "$DST"
 fi
 
@@ -17,8 +17,9 @@ cp -rv roles/repos-fedora/files/yum.repos.d /etc
 echo
 echo 'Install ansible, and requirements for ansible target, from Fedora repos'
 
+# python-dnf - seems to be required on dnf systems
 # libselinux-python - required to run ansible file tasks, when selinux is enabled
-PKG_LIST="ansible libselinux-python"
+PKG_LIST="ansible python2-dnf libselinux-python"
 dnf install -y $PKG_LIST
 
 echo

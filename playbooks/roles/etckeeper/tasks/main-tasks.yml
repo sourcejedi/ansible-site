@@ -13,6 +13,22 @@
            creates=/etc/.etckeeper
   register: etckeeper_create
 
+- name: Check for user.email in git - required for scripted commits
+  # I think it's required specifically when stdin is not a tty
+  command: git config --get user.email
+  args:
+    chdir: /etc
+  register: git_user_email
+  failed_when: False
+  changed_when: False
+
+- name: Set user.email in git
+  command: "git config --local user.email root@{{ ansible_hostname }}"
+  args:
+    chdir: /etc
+  when: git_user_email.rc != 0
+
+
 # Specifically preserve original configs.
 # Same idea that justifies etckeeper automatic commits after package install.
 #
