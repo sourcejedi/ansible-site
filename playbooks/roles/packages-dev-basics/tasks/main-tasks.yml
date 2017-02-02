@@ -1,0 +1,11 @@
+- name: Install a small set of development packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - git-gui
+    - gitk
+    - git-email
+    - meld
+    - python3
