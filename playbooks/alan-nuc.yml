@@ -4,3 +4,6 @@
     - etckeeper
 
     - openssh-server
+
+    - packages-gui
+    - google-chrome

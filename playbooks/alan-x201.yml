@@ -3,12 +3,13 @@
     - repos-fedora
     - etckeeper
 
+    # X201 is retired from being primary workstation
+    # due to failing hardware
+    - openssh-server
+
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
 
     - packages-gui
-
-    # X201 is retired from being primary workstation
-    # due to failing hardware
-    - openssh-server
+    - google-chrome
 

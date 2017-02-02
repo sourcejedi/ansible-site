@@ -1,0 +1,6 @@
+[local-google-chrome]
+name=local-google-chrome
+baseurl=http://fedora-mirror.carrier.duckdns.org/proxy/dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=file:///ansible-managed/google-chrome/linux_signing_key.pub

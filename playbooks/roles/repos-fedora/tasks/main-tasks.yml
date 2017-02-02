@@ -1,6 +1,6 @@
 - name: Check OS is Fedora
   assert:
-    that: "ansible_distribution == 'Fedora'"
+    that: ansible_distribution == 'Fedora'
 
 - name: Configure Fedora repos using local cache
   copy: src=yum.repos.d/ dest=/etc/yum.repos.d/

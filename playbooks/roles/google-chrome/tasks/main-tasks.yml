@@ -1,0 +1,62 @@
+# I wanted to use changed_when to highlight this, when the repo is installed.
+# Unfortunately it does not work correctly.  Ansible is buggy (2.2.1.0).
+- name: Terms of Service apply
+  debug:
+    msg: https://www.google.com/chrome/ or read
+         https://www.google.com/intl/en/chrome/browser/privacy/eula_text.html
+
+- name: Supported OS - Fedora Linux
+  assert:
+    that: ansible_distribution == 'Fedora'
+
+- name: This role requires that you delete any previous google-chrome.repo
+  command: test ! -e /etc/yum.repos.d/google-chrome.repo
+  changed_when: False
+  always_run: True  
+
+- name: Copy Google signing keys for Linux packages
+  #
+  # See https://www.google.com/linuxrepositories/
+  copy:
+    src: "{{ item }}"
+    dest: /ansible-managed/google-chrome/
+  with_items:
+    - linux_signing_key.pub
+    - key_fingerprints.txt
+
+- name: Copy script for checking key fingerprints
+  # Ansible copy module does not preserve executable bit, unlike `cp`.
+  copy:
+    src: "{{ item }}"
+    dest: /ansible-managed/google-chrome/
+    mode: a+x
+  with_items:
+    - keyfile_to_fingerprints.sh
+
+# This role adds keys with specific fingerprints.
+# We will not get key updates over HTTPS, like google-chrome.repo does.
+- name: Our key file matches our list of fingerprints
+  shell: ./keyfile_to_fingerprints.sh linux_signing_key.pub |
+         diff -u key_fingerprints.txt /dev/stdin
+  args:
+    chdir: /ansible-managed/google-chrome/
+  changed_when: False
+  always_run: True
+
+- name: Disable creation of google-chrome.repo when package is installed
+  #
+  # otherwise it will set baseurl, which we want to point to a local cache.
+  # "If you don’t want Google's repository, do
+  # `sudo touch /etc/default/google-chrome` before installing the package."
+  copy:
+    dest: /etc/default/google-chrome
+    content: ''
+
+- name: Add Google Chrome repository (using local cache)
+  copy: src=local-google-chrome.repo dest=/etc/yum.repos.d/
+
+- name: Install Google Chrome
+  package:
+    name: google-chrome-stable
+    state: present
+

@@ -10,3 +10,4 @@
     #- powertop-full-override
 
     - packages-gui
+    - google-chrome
