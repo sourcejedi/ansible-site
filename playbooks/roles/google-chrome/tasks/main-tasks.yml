@@ -33,6 +33,9 @@
   with_items:
     - keyfile_to_fingerprints.sh
 
+- name: Install gpg
+  package: name=gpg state=present
+
 # This role adds keys with specific fingerprints.
 # We will not get key updates over HTTPS, like google-chrome.repo does.
 - name: Our key file matches our list of fingerprints
@@ -52,6 +55,11 @@
     dest: /etc/default/google-chrome
     content: ''
 
+# If we create google-chrome.repo ourself, the package wants to reset baseurl.
+# Whereas if google-chrome.repo does not exist, it is considered to be deleted
+# or otherwise disabled by user action.  It will not be recreated.  So we can
+# set up our own local-google-chrome.repo.
+#
 - name: Add Google Chrome repository (using local cache)
   copy: src=local-google-chrome.repo dest=/etc/yum.repos.d/
 

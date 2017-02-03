@@ -21,6 +21,7 @@
   register: git_user_email
   failed_when: False
   changed_when: False
+  always_run: True
 
 - name: Set user.email in git
   command: "git config --local user.email root@{{ ansible_hostname }}"
@@ -45,7 +46,7 @@
   register: etckeeper_has_commit
   failed_when: False
   changed_when: False
-  always_run: yes
+  always_run: True
 
 - name: Create initial commit
   command: etckeeper commit 'Initial commit (by ansible role)'
