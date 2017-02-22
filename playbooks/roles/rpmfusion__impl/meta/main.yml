@@ -1,0 +1,2 @@
+# Allow multiple runs, to enable multiple "repo"s.
+allow_duplicates: yes
