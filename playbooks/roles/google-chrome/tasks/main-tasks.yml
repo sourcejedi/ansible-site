@@ -5,15 +5,6 @@
     msg: https://www.google.com/chrome/ or read
          https://www.google.com/intl/en/chrome/browser/privacy/eula_text.html
 
-- name: Supported OS - Fedora Linux
-  assert:
-    that: ansible_distribution == 'Fedora'
-
-- name: This role requires that you delete any previous google-chrome.repo
-  command: test ! -e /etc/yum.repos.d/google-chrome.repo
-  changed_when: False
-  always_run: True  
-
 - name: Copy Google signing keys for Linux packages
   #
   # See https://www.google.com/linuxrepositories/
@@ -33,8 +24,8 @@
   with_items:
     - keyfile_to_fingerprints.sh
 
-- name: Install gpg
-  package: name=gpg state=present
+- name: Install GPG for checking key fingerprints
+  package: name=gnupg state=present
 
 # This role adds keys with specific fingerprints.
 # We will not get key updates over HTTPS, like google-chrome.repo does.
@@ -46,22 +37,17 @@
   changed_when: False
   always_run: True
 
-- name: Disable creation of google-chrome.repo when package is installed
-  #
-  # otherwise it will set baseurl, which we want to point to a local cache.
-  # "If you don’t want Google's repository, do
-  # `sudo touch /etc/default/google-chrome` before installing the package."
-  copy:
-    dest: /etc/default/google-chrome
-    content: ''
+- name: Supported OS - must use apt or dnf (or possibly yum)
+  assert:
+    that: ansible_pkg_mgr in ['apt', 'dnf', 'yum']
+    msg: This role only supports OS'es based directly on "Debian" or "RedHat".
+         See also `ansible -m setup ... | grep ansible_os_family`.
 
-# If we create google-chrome.repo ourself, the package wants to reset baseurl.
-# Whereas if google-chrome.repo does not exist, it is considered to be deleted
-# or otherwise disabled by user action.  It will not be recreated.  So we can
-# set up our own local-google-chrome.repo.
-#
-- name: Add Google Chrome repository (using local cache)
-  copy: src=local-google-chrome.repo dest=/etc/yum.repos.d/
+- include: setup-apt-source.yml
+  when: ansible_pkg_mgr == 'apt'
+
+- include: setup-yum-repo.yml
+  when: ansible_pkg_mgr in ['yum', 'dnf']
 
 - name: Install Google Chrome
   package:

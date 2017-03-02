@@ -1,0 +1,13 @@
+- hosts: drystone
+  roles:
+    - repos-debian-jessie
+    - repos-debian-jessie-backports
+    - etckeeper
+
+    # Note - remote administration is not permitted.
+    # We run ssh server but use AllowGroups.
+    - openssh-server
+
+    #- packages-gui says thunderbird, but debian currently needs "icedove"
+    - google-chrome
+

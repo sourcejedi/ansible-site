@@ -23,7 +23,7 @@
   changed_when: False
   always_run: True
 
-- name: Set user.email in git
+- name: Set user.email in git repo
   command: "git config --local user.email root@{{ ansible_hostname }}"
   args:
     chdir: /etc

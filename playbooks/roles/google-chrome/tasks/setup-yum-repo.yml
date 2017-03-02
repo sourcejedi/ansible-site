@@ -1,0 +1,22 @@
+- name: RedHat - You need to delete any previous google-chrome.repo
+  command: test ! -e /etc/yum.repos.d/google-chrome.repo
+  changed_when: False
+  always_run: True
+
+- name: RedHat - Disable creation of google-chrome.repo when package is installed
+  #
+  # otherwise it will set baseurl, which we want to point to a local cache.
+  # "If you don’t want Google's repository, do
+  # `sudo touch /etc/default/google-chrome` before installing the package."
+  copy:
+    dest: /etc/default/google-chrome
+    content: ''
+
+# If we create google-chrome.repo ourself, the package wants to reset baseurl.
+# Whereas if google-chrome.repo does not exist, it is considered to be deleted
+# or otherwise disabled by user action.  It will not be recreated.  So we can
+# set up our own local-google-chrome.repo.
+#
+- name: RedHat - Add Google Chrome repository (using local cache)
+  copy: src=local-google-chrome.repo dest=/etc/yum.repos.d/
+

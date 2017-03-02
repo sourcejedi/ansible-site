@@ -1,0 +1,16 @@
+- name: Debian - Import signing key
+  apt_key:
+    file: /ansible-managed/google-chrome/linux_signing_key.pub
+    id: "{{ item }}"
+    keyring: /etc/apt/trusted.gpg.d/google.gpg
+  with_items: 
+    # "Including this allows check mode to correctly report the changed state"
+    - 4CCA1EAF950CEE4AB83976DCA040830F7FAC5991
+    - EB4C1BFD4F042F6DDDCCEC917721F63BD38B4796
+
+# Use the standard google-chrome.list.  It points to a fixed url (CDN).
+# If a local cache is desired, a proxy can be set in apt.conf.
+#
+- name: Debian - Add Google Chrome package source
+  copy: src=google-chrome.list dest=/etc/apt/sources.list.d/
+

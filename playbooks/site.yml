@@ -2,3 +2,4 @@
 - include: alan-laptop.yml
 - include: alan-nuc.yml
 - include: brick.yml
+- include: jenkins-desktop.yml
