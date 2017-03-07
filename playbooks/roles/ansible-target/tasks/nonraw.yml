@@ -1,5 +1,5 @@
-# Command task below is run conditionally, for accurate "changed" status
-- name: Query for python dnf module
+# 1/3) Query condition
+- name: query  | python dnf module installed, required by ansible dnf module
   when: ansible_pkg_mgr == "dnf"
   command: python2 -c "import dnf"
   register: python_dnf
@@ -7,14 +7,15 @@
   changed_when: False
   always_run: yes
 
-- name: Install package required for ansible dnf module
+# 2/3) Run command task conditionally, to provide accurate "changed" status
+- name: ensure | python dnf module installed, required by ansible dnf module
   when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
   command: dnf install -y python2-dnf
   args:
     warn: no  # can't use dnf module, we're installing its requirements
 
-# support ansible check mode
-- name: Test for python dnf module
+# 3/3) The condition must now hold.  This "fixes" ansible check mode.
+- name: check  | python dnf module installed, required by ansible dnf module
   when: ansible_pkg_mgr == "dnf"
   command: python2 -c "import dnf"
   changed_when: False
@@ -28,30 +29,15 @@
   changed_when: False
   always_run: yes
 
-# Package task below is run conditionally as a micro-optimization,
-# we're already using the exact same pattern above.
-- name: Query for python selinux module
-  when: selinuxenabled.rc == 0
-  command: python2 -c "import selinux"
-  register: python_selinux
-  failed_when: False
-  changed_when: False
-  always_run: yes
-
 # Reminder: package installation is *not* portable, because names vary between distros
 # Debian package would be python-selinux
 - name: Install package required under selinux (e.g. for copy module)
-  when: selinuxenabled.rc == 0 and python_selinux.rc != 0
+  when: selinuxenabled.rc == 0
   package:
     state: present
     name: libselinux-python
   register: selinux_install
 
-- name: Test for python selinux module
-  when: selinuxenabled.rc == 0
-  command: python2 -c "import selinux"
-  changed_when: False
-  always_run: yes
 
 # NOTE new selinux facts are not read here
 # however setup module is re-run before each playbook

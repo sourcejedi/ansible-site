@@ -16,33 +16,35 @@
   failed_when: raw_false.rc != 1
   changed_when: False
 
-# Run the raw install task conditionally, for accurate "changed" status
-- name: Query requirement for non-raw ansible modules (python2)
+
+# 1/3) Query condition
+- name: query  | python2 installed, required by non-raw ansible modules
   raw: "test -x /usr/bin/python2"
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
   always_run: yes
 
-- name: Install python2 using raw module
+# 2/3) Run raw task conditionally, to provide accurate "changed" status
+- name: ensure | python2 installed, required by non-raw ansible modules
   when: python2_executable.rc != 0
   # Try candidate install methods in sequence
   raw: "/usr/bin/dnf install -y python2 ||
         (echo Failed to install required package python2; exit 1)"
   changed_when: True  # always changes (unless failed)
 
-# Now non-raw modules should work.
-# Test that it worked.  This is particularly informative in check mode:
-# the install task is skipped, but we report if python2 is already installed.
-
-- name: Test python2
+# 3/3) The condition must now hold.  This "fixes" ansible check mode.
+- name: check  | python2 installed, required by non-raw ansible modules
   raw: "/usr/bin/python2 -c \"import sys; print (sys.version)\" "
   changed_when: False
   always_run: yes
 
-- name: Test ansible ping module
+
+# Now non-raw modules should work.  Cross-check.
+- name: ansible ping module works ok
   ping:
   always_run: yes
+
 
 - name: Gather ansible facts
   setup:
