@@ -1,0 +1,4 @@
+- name: ssh authorized keys
+  authorized_key:
+    user: alan-sysop
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUtajqpe2F369UGBRMqAxlc57CcFuG1LMq8I3vsGf3HmPzNL2yRmHNnH9+GmX0Sk5zwOOJh7mr1slH9AHdYgdiHdVTlCfHU6OG+KQc0O8lGKy8rsfLoT99GpH1x46xA/McMY2lkcPeqdgwUxAPP5onrp+BMGKHoJdKry638JXPZNtgn1UrpzFZi8sxg9v7xJrLz9Kc0sqjp1cFAnL744KfKsUa2LB6iEcpZw+t1K3+M7MeJQPcVRutrDSMB2QXQVka6iETlrk/yqIi5tmWOWezWyDe/zJUG4hVwPzJixXIttR2W3qRtF6kSg5Rs+ksc6ce309iuwgyhxyCsDKPy29h
