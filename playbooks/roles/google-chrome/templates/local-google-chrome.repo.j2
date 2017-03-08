@@ -1,9 +1,0 @@
-[local-google-chrome]
-name=local-google-chrome
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
-{% if google_chrome__yum_proxy is defined %}
-proxy={{ google_chrome__yum_proxy }}
-{% endif %}
-enabled=1
-gpgcheck=1
-gpgkey=file:///ansible-managed/google-chrome/linux_signing_key.pub
