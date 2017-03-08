@@ -12,5 +12,7 @@
 # If a local cache is desired, a proxy can be set in apt.conf.
 #
 - name: Debian - Add Google Chrome package source
-  copy: src=google-chrome.list dest=/etc/apt/sources.list.d/
+  copy:
+    src: google-chrome.list
+    dest: /etc/apt/sources.list.d/
 

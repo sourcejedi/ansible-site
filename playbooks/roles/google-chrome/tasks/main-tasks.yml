@@ -1,6 +1,6 @@
-# I wanted to use changed_when to highlight this, when the repo is installed.
-# Unfortunately it does not work correctly.  Ansible is buggy (2.2.1.0).
-- name: Terms of Service apply
+# By automating installs with an ansible role,
+# you don't see the normal click-through from the website.
+- name: GOOGLE CHROME AND THIRD PARTY TERMS OF SERVICE APPLY
   debug:
     msg: https://www.google.com/chrome/ or read
          https://www.google.com/intl/en/chrome/browser/privacy/eula_text.html
