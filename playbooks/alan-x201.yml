@@ -6,6 +6,7 @@
     # X201 is retired from being primary workstation
     # due to failing hardware
     - openssh-server
+    - sshkey-alan-sysop
 
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
@@ -13,4 +14,4 @@
     - packages-gui
     - google-chrome
     - packages-dev-basics
-
+    - rpmfusion-free  # e.g. `lame`

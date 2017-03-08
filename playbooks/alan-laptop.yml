@@ -12,3 +12,4 @@
     - packages-gui
     - google-chrome
     - packages-dev-basics
+    - rpmfusion-free  # e.g. `lame`
