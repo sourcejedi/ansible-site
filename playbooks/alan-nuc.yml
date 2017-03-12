@@ -6,5 +6,5 @@
     - openssh-server
 
     - packages-gui
-    - google-chrome
+    - sourcejedi.google-chrome
     - packages-dev-basics

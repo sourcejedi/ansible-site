@@ -9,5 +9,5 @@
     - openssh-server
 
     #- packages-gui says thunderbird, but debian currently needs "icedove"
-    - google-chrome
+    - sourcejedi.google-chrome
 
