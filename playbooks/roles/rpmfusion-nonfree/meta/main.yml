@@ -1,7 +1,0 @@
-# "First enable access to the free repository ...
-# Once that succeeds, you can enable access to the nonfree repositories"
-# https://rpmfusion.org/Configuration
-#
-dependencies:
- - rpmfusion-free
- - { role: rpmfusion__impl, repo: nonfree }

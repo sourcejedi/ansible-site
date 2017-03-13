@@ -1,2 +1,0 @@
-dependencies:
- - { role: rpmfusion__impl, repo: free }
