@@ -8,6 +8,5 @@
     # We run ssh server but use AllowGroups.
     - openssh-server
 
-    #- packages-gui says thunderbird, but debian currently needs "icedove"
+    #- packages-gui  # says thunderbird, but debian currently needs "icedove"
     - sourcejedi.google-chrome
-

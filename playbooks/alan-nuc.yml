@@ -4,6 +4,7 @@
     - etckeeper
 
     - openssh-server
+    - sshkey-alan-sysop
 
     - packages-gui
     - sourcejedi.google-chrome
