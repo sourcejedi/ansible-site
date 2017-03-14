@@ -6,3 +6,5 @@
 
     - openssh-server
     - sshkey-alan-sysop
+
+    - polipo

@@ -1,10 +1,11 @@
+# X201 is retired from being primary workstation
+# due to failing hardware
+#
 - hosts: alan-x201
   roles:
     - repos-fedora
     - etckeeper
 
-    # X201 is retired from being primary workstation
-    # due to failing hardware
     - openssh-server
     - sshkey-alan-sysop
 

@@ -1,0 +1,10 @@
+---
+
+- name: Test polipo and restart
+  command: polipo -v -c /etc/polipo/config
+  notify: [ 'Restart polipo' ]
+
+- name: Restart polipo
+  service:
+    name: polipo
+    state: restarted

@@ -1,0 +1,16 @@
+# This file only contains some of the configuration variables; see the
+# list given by ``polipo -v'' and the manual for more.
+
+logSyslog = true
+logFile = /var/log/polipo/polipo.log
+
+# Uncomment one of these if you want to allow remote clients to
+# connect:
+
+proxyAddress = "::0"        # both IPv4 and IPv6
+
+# Always revalidate cached objects, if they don't have an Expires header.
+# See https://bugzilla.redhat.com/show_bug.cgi?id=1297762
+# "dnf failed to update through HTTP/1.1-compliant proxy".
+
+maxAge = 0
