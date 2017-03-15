@@ -8,3 +8,4 @@
     - sshkey-alan-sysop
 
     - polipo
+    - apt-cacher-ng
