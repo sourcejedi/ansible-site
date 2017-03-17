@@ -7,7 +7,7 @@
     - etckeeper
 
     - openssh-server
-    - sshkey-alan-sysop
+    - ssh-authkeys
 
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override

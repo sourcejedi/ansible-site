@@ -1,0 +1,7 @@
+ssh_key_path: "files/ssh-authkeys/"
+ssh_keys:
+ - user: alan-sysop
+   key: "{{ lookup('file', ssh_key_path + 'alan-sysop') }}"
+# - user: alan
+#   key: "{{ lookup('file', ssh_key_path + 'alan' }}"
+

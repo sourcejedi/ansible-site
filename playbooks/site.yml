@@ -1,7 +1,7 @@
 - include: all-bootstrap.yml
 
 - include: alan-laptop.yml
-- include: alan-x201.yml
 - include: brick.yml
+- include: alan-x201.yml
 - include: jenkins-desktop.yml
 - include: alan-nuc.yml

@@ -1,5 +1,0 @@
-- name: ssh authorized keys
-  authorized_key:
-    exclusive: yes  # replace existing key, when it is changed
-    user: alan-sysop
-    key: "{{ lookup('file', role_path + '/id_rsa.pub') }}"

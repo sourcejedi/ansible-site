@@ -5,7 +5,7 @@
     - etckeeper
 
     - openssh-server
-    - sshkey-alan-sysop
+    - ssh-authkeys
 
     - polipo
     - apt-cacher-ng
