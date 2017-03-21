@@ -26,4 +26,4 @@ if [ "$HOST" != "$LOCALHOST" ]; then
 fi
 
 # Run this script with sudo, it remembers password unlike ansible --become.
-ansible-playbook "$@" -c local -i "$HOST",
+ansible-playbook "$@" -c local --limit "$HOST"
