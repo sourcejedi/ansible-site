@@ -1,7 +1,7 @@
 - hosts: alan-laptop
   roles:
     - repos-fedora
-    - etckeeper
+    - sourcejedi.etckeeper
 
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
     #

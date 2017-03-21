@@ -4,7 +4,7 @@
 - hosts: alan-x201
   roles:
     - repos-fedora
-    - etckeeper
+    - sourcejedi.etckeeper
 
     - openssh-server
     - ssh-authkeys

@@ -2,7 +2,7 @@
   roles:
     - repos-debian-jessie
     - repos-debian-jessie-backports
-    - etckeeper
+    - sourcejedi.etckeeper
 
     # Note - remote administration is not permitted.
     # We run ssh server but use AllowGroups.

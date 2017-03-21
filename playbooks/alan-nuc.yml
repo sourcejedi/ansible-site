@@ -1,7 +1,7 @@
 - hosts: alan-nuc
   roles:
     - repos-fedora
-    - etckeeper
+    - sourcejedi.etckeeper
 
     - openssh-server
     - ssh-authkeys
