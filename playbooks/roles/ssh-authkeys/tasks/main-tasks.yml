@@ -3,7 +3,7 @@
     exclusive: yes  # replace existing key, when it is changed
     user: "{{ item.user }}"
     key: "{{ item.key }}"
-  with_items: "{{ ssh_keys }}"
+  with_items: "{{ ssh_authkeys }}"
   loop_control:
     label: "{{ item.user }}"
 
