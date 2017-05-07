@@ -1,0 +1,64 @@
+# 1. systemd_machined_t is just broken.
+#    I can't get audit2allow to work.
+#    Just unconfine it.
+#    (https://bugzilla.redhat.com/show_bug.cgi?id=1416540)
+- name: DISABLE SELINUX ON SYSTEMD MACHINED (NSPAWN DAEMON)
+  sefcontext:
+    target: /usr/lib/systemd/systemd-machined
+    setype: bin_t
+    state: present
+  register: nspawn_on_fedora__unconfined
+
+# sefcontext reload does nothing
+# https://groups.google.com/forum/?_escaped_fragment_=msg/ansible-project/IcgnAekwsbA/xyK_keXDEgAJ#!msg/ansible-project/IcgnAekwsbA/xyK_keXDEgAJ
+- name: Apply selinux disable
+  command: restorecon /usr/lib/systemd/systemd-machined
+  when: nspawn_on_fedora__unconfined|changed
+
+- name: Restart systemd-machined with selinux disabled
+  service:
+    name: systemd-machined
+    state: restarted
+  when: nspawn_on_fedora__unconfined|changed
+
+# 2. machinectl login fails with a SELinux denial in dbus
+- name: Copy SELinux policy source
+  copy:
+    src: my-nspawn.te
+    dest: /ansible-managed/nspawn-on-fedora/
+  register: nspawn_on_fedora__policy
+
+# `when: X|changed` does not support resumption.
+# https://unix.stackexchange.com/questions/327594/ansible-resumable-plays-e-g-with-site-retry/
+#
+# We can avoid it on tasks which might fail
+# e.g. due to compile error.
+# We assume installing the compiled policy never fails
+# because we don't know any better.
+- name: Compile SELinux policy module
+  command: checkmodule -M -m -o my-nspawn.mod my-nspawn.te
+  args:
+    chdir: /ansible-managed/nspawn-on-fedora/
+  always_run: True
+  changed_when: False
+
+- name: Build SELinux policy module package
+  command: semodule_package -m my-nspawn.mod -o my-nspawn.pp
+  args:
+    chdir: /ansible-managed/nspawn-on-fedora/
+  always_run: True
+  changed_when: False
+
+- name: Install SELinux policy module (my-nspawn)
+  command: semodule -X 300 -i my-nspawn.pp
+  args:
+    chdir: /ansible-managed/nspawn-on-fedora/
+  when: nspawn_on_fedora__policy|changed
+
+# 3. systemd-nspawn.service to use /var/local/lib/machines
+#    so it can be symlinked wherever you want.
+- name: Customize systemd-nspawn@.service
+  copy:
+    src: systemd-nspawn@.service.d
+    dest: /etc/systemd/system
+
