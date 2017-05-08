@@ -1,0 +1,34 @@
+- include: all-bootstrap.yml
+
+# Usage:
+#
+# 1. `systemd-nspawn <image>`
+# 2. install ansible (see bootstrap/)
+# 3. `ansible-playbook playbooks/test-nspawn-bootstrap.yml --limit `
+
+- hosts: test-nspawn
+  tasks:
+    # DHCP client
+    - name: RedHat-compatible - NetworkManager package?
+      when: ansible_os_family == "RedHat"
+      set_fact: pkg_nm="NetworkManager"
+
+    - name: Debian-compatible - network-manager package?
+      when: ansible_os_family == "Debian"
+      set_fact: pkg_nm="network-manager"
+
+    - name: Test operating system is supported
+      assert:
+        that: pkg_nm is defined
+
+    - name: Install NetworkManager
+      package: name={{ pkg_nm }} state=present
+
+
+    # dbus-daemon is required for `machinectl shell` etc,
+    # but may be omitted e.g. by debootstrap.
+    - name: Install dbus daemon
+      package: name=dbus state=present
+
+  roles:
+    - users

@@ -1,0 +1,9 @@
+- hosts: test-nspawn-fedora
+  roles:
+    - repos-fedora
+    - sourcejedi.etckeeper
+
+    - users
+    - openssh-server
+
+    - sourcejedi.rpmfusion-free

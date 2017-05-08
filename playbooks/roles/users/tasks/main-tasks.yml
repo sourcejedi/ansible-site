@@ -1,0 +1,40 @@
+- name: RedHat-compatible sudo package?
+  when: ansible_os_family == "RedHat"
+  set_fact: sudo_group="wheel"
+
+- name: Debian-compatible sudo package?
+  when: ansible_os_family == "Debian"
+  set_fact: sudo_group="sudo"
+
+- name: Test operating system is supported
+  assert:
+    that: sudo_group is defined
+
+- package: name=sudo state=present
+
+# TODO debian sudo configuration?
+
+- user:
+    state: present
+    name:      '{{ item.name }}'
+#    password:  '{{ item.password }}'
+    comment:   '{{ item.comment | d(omit) }}'
+
+    # Not quite sure how I would want to extend this :)
+    append: true
+    groups: '{{ "".join([sudo_group] if item.sudo | d(false) else []) }}'
+  with_items: '{{ users }}'
+  loop_control:
+    label: "{{ item.name }}"
+
+# FIXME sshlogin group
+
+- name: ssh authorized keys
+  authorized_key:
+    exclusive: yes  # replace existing key, when it is changed
+    user: "{{ item.name }}"
+    key: "{{ item.sshkey }}"
+  with_items: "{{ users }}"
+  loop_control:
+    label: "{{ item.name }}"
+

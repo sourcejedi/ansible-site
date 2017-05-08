@@ -3,8 +3,9 @@
     - repos-fedora
     - sourcejedi.etckeeper
 
+    - users
     - openssh-server
-    - ssh-authkeys
+
 
     - packages-gui
     - sourcejedi.google-chrome

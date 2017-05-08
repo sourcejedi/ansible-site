@@ -4,8 +4,8 @@
     - repos-debian-jessie-backports
     - sourcejedi.etckeeper
 
+    - users
     - openssh-server
-    - ssh-authkeys
 
     - polipo
     - apt-cacher-ng
