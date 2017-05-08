@@ -1,0 +1,10 @@
+- hosts: debian8-vm.local
+  roles:
+    - repos-debian-jessie
+    - repos-debian-jessie-backports
+    - sourcejedi.etckeeper
+
+    - users
+    - openssh-server
+
+    - packages-dev-basics
