@@ -10,24 +10,27 @@
   assert:
     that: sudo_group is defined
 
-- package: name=sudo state=present
+#- name: Install sudo
+#  package: name=sudo state=present
 
-# TODO debian sudo configuration?
+# TODO debian sudo configuration
 
 - user:
     state: present
     name:      '{{ item.name }}'
-#    password:  '{{ item.password }}'
     comment:   '{{ item.comment | d(omit) }}'
 
-    # Not quite sure how I would want to extend this :)
+    # sudo group
+    # sshlogin group - see roles/openssh-server
     append: true
-    groups: '{{ "".join([sudo_group] if item.sudo | d(false) else []) }}'
+    groups: '{{
+              ([sudo_group]  if item.sudo    | d(false) else []) +
+              (["sshlogin"]  if item.sshkey  | d(false) else []) +
+              []
+            }}'
   with_items: '{{ users }}'
   loop_control:
     label: "{{ item.name }}"
-
-# FIXME sshlogin group
 
 - name: ssh authorized keys
   authorized_key:
