@@ -1,0 +1,16 @@
+# Small nspawn for service which I need newer version
+
+- hosts: unstable
+  roles:
+    - repos-debian-unstable
+    - sourcejedi.etckeeper
+
+    - debian-unattended-upgrades
+
+    - apt-cacher-ng
+
+  tasks:
+    # dbus-daemon is required for `machinectl shell` etc,
+    # but may be omitted e.g. by debootstrap.
+    - name: Install dbus daemon
+      package: name=dbus state=present
