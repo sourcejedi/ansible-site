@@ -1,0 +1,26 @@
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
+#
+# If you want to enable other package repositories, or individual components,
+# they can still be added in sources.lists.d/
+#
+# Here's a standardized sources.list for Debian Stretch,
+# (hopefully) configured to use a nearby server.
+
+deb http://ftp.uk.debian.org/debian/ stretch main
+
+# Security updates
+#
+deb http://security.debian.org/ stretch/updates main
+
+# "Stable updates" e.g. timezone data.  https://wiki.debian.org/StableUpdates
+#
+deb http://ftp.uk.debian.org/debian/ stretch-updates main
+
+
+# Source code repositories.
+# Can be uncommented for temporary use, or copied to sources.lists.d/
+
+# deb-src http://ftp.uk.debian.org/debian/ stretch main
+# deb-src http://security.debian.org/ stretch/updates main
+# deb-src http://ftp.uk.debian.org/debian/ stretch-updates main
