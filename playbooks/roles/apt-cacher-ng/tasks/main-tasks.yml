@@ -15,14 +15,14 @@
     dest: /etc/apt-cacher-ng/acng.conf
     regexp: '^(#?)ReportPage:'
     line: '#ReportPage: # non-essential, disabled for security'
-  notify: [ 'Test apt-cacher-ng and restart' ]
+  notify: [ 'Restart apt-cacher-ng' ]
 
 - name: Disable web server (localhost:3142/acng-doc)
   lineinfile:
     dest: /etc/apt-cacher-ng/acng.conf
     regexp: '^(#?)LocalDirs:'
     line: '#LocalDirs: # not required, disabled as security precaution'
-  notify: [ 'Test apt-cacher-ng and restart' ]
+  notify: [ 'Restart apt-cacher-ng' ]
 
 
 # backends_ configuration files
@@ -32,14 +32,14 @@
     content: |
       http://ftp.uk.debian.org/debian/
     dest: /etc/apt-cacher-ng/backends_debian
-  notify: [ 'Test apt-cacher-ng and restart' ]
+  notify: [ 'Restart apt-cacher-ng' ]
 
 - name: Set Ubuntu repo to UK mirrorservice.org
   copy:
     content: |
       http://www.mirrorservice.org/sites/archive.ubuntu.com/ubuntu/
     dest: /etc/apt-cacher-ng/backends_ubuntu
-  notify: [ 'Test apt-cacher-ng and restart' ]
+  notify: [ 'Restart apt-cacher-ng' ]
 
 
 - name: ensure apt-cacher-ng is enabled

@@ -1,9 +1,5 @@
 ---
 
-- name: Test apt-cacher-ng and restart
-  command: apt-cacher-ng -p -c /etc/apt-cacher-ng
-  notify: [ 'Restart apt-cacher-ng' ]
-
 - name: Restart apt-cacher-ng
   service:
     name: apt-cacher-ng
