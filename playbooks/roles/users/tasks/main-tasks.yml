@@ -38,6 +38,7 @@
     user: "{{ item.name }}"
     key: "{{ item.sshkey }}"
   with_items: "{{ users }}"
+  when: item.sshkey is defined
   loop_control:
     label: "{{ item.name }}"
 
