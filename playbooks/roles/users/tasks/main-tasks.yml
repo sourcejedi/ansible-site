@@ -20,6 +20,12 @@
     name:      '{{ item.name }}'
     comment:   '{{ item.comment | d(omit) }}'
 
+    # Debian /etc/default/useradd: 'we use "sh" here because
+    # useradd is a low level utility and should be as general
+    # as possible'.
+    # So we're also missing out on /etc/skel?
+    shell: /bin/bash
+
     # sudo group
     # sshlogin group - see roles/openssh-server
     append: true
