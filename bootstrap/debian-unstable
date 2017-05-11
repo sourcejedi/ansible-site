@@ -14,6 +14,12 @@ echo
 echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-debian-unstable/files/apt /etc
 
+# Debian's etckeeper package sets itself up without any fuss
+# (and they haven't messed up the defaults).
+echo
+echo 'Install etckeeper'
+apt-get install etckeeper
+
 echo
 echo 'Install ansible'
 apt-get update
