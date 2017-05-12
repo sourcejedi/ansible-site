@@ -14,6 +14,8 @@ echo
 echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-debian-stretch/files/apt /etc
 
+apt-get update
+
 # Debian's etckeeper package sets itself up without any fuss
 # (and they haven't messed up the defaults).
 echo
@@ -22,7 +24,6 @@ apt-get install etckeeper
 
 echo
 echo 'Install ansible'
-apt-get update
 apt-get install -y ansible
 
 echo

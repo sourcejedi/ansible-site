@@ -18,6 +18,8 @@ echo
 echo 'Add jessie-backports repo (UK mirror)'
 cp -rv roles/repos-debian-jessie-backports/files/apt /etc
 
+apt-get update
+
 # Debian's etckeeper package sets itself up without any fuss
 # (and they haven't messed up the defaults).
 echo
@@ -26,7 +28,6 @@ apt-get install etckeeper
 
 echo
 echo 'Install ansible from jessie-backports'
-apt-get update
 apt-get install -y ansible/jessie-backports
 
 echo
