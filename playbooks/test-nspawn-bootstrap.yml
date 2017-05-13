@@ -23,12 +23,5 @@
 
     - name: Install NetworkManager
       package: name={{ pkg_nm }} state=present
-
-
-    # dbus-daemon is required for `machinectl shell` etc,
-    # but may be omitted e.g. by debootstrap.
-    - name: Install dbus daemon
-      package: name=dbus state=present
-
   roles:
     - users

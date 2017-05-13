@@ -10,7 +10,3 @@
     - apt-cacher-ng
 
   tasks:
-    # dbus-daemon is required for `machinectl shell` etc,
-    # but may be omitted e.g. by debootstrap.
-    - name: Install dbus daemon
-      package: name=dbus state=present

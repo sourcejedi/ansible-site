@@ -16,6 +16,3 @@ When you create a Fedora install using dnf, it will try to label the files.
 This cannot possibly work.
 You must run `restorecon -R` on the install before you can run it.
 
-And for Debian images, dbus is required to support `machinectl login`
-but it may not be installed by default.
-See test-nspawn-bootstrap.yml.
