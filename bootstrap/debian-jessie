@@ -20,8 +20,10 @@ cp -rv roles/repos-debian-jessie-backports/files/apt /etc
 
 apt-get update
 
-# Debian's etckeeper package sets itself up without fuss
-# (and they haven't messed up the defaults).
+# Debian's etckeeper package sets itself up.
+# They haven't messed up the defaults either.
+# That said, roles/sourcejedi.etckeeper is useful
+# to stop messages about setting user.email.
 echo
 echo 'Install etckeeper'
 apt-mark hold rsync # rec by git, should be dropped in buster
