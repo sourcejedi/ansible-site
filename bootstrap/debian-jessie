@@ -20,11 +20,17 @@ cp -rv roles/repos-debian-jessie-backports/files/apt /etc
 
 apt-get update
 
-# Debian's etckeeper package sets itself up without any fuss
+# Debian's etckeeper package sets itself up without fuss
 # (and they haven't messed up the defaults).
 echo
 echo 'Install etckeeper'
-apt-get install etckeeper
+apt-mark hold rsync # rec by git, should be dropped in buster
+apt-mark hold rename # rec by perl, should be dropped in buster
+
+apt-get install -y etckeeper
+
+apt-mark unhold rsync
+apt-mark unhold rename
 
 echo
 echo 'Install ansible from jessie-backports'
