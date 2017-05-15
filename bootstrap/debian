@@ -1,0 +1,67 @@
+#!/bin/sh
+set -e
+
+DIST="$1"
+if [ -z "$DIST" ]; then
+	echo "usage: $0 { jessie | stretch | unstable }"
+	echo "(Debian stretch is the testing distribution)"
+	exit 1
+fi
+
+cd "$(dirname "$0")"/../playbooks/
+
+SRC=/etc/apt
+DST=/etc/orig.apt
+echo "Backup of $SRC to $DST, if it does not already exist"
+if [ ! -e "$DST" ]; then
+	cp -av "$SRC" "$DST"
+fi
+
+echo
+echo "Configure Debian repos using local cache"
+cp -rv roles/repos-debian/files/apt.conf.d /etc/apt
+cp -rv roles/repos-debian/files/"$DIST"-sources.list /etc/apt/sources.list
+
+case "$DIST" in
+jessie)
+	echo
+	echo "Add jessie-backports repo (UK mirror)"
+	cp -rv roles/repos-debian-jessie-backports/files/apt /etc
+esac
+
+echo
+apt-get update
+
+# Debian's etckeeper package sets itself up.
+# They haven't messed up the defaults either.
+# That said, roles/sourcejedi.etckeeper is useful
+# to stop messages about setting user.email.
+echo
+echo "Install etckeeper"
+apt-mark hold rsync # rec by git, should be dropped in buster
+apt-mark hold rename # rec by perl, should be dropped in buster
+
+apt-get -y install etckeeper
+
+apt-mark unhold rsync
+apt-mark unhold rename
+
+echo
+echo "Update installed packages"
+apt-get -y dist-upgrade
+
+case "$DIST" in
+jessie)
+	echo
+	echo "Install ansible from jessie-backports"
+	apt-get -y install ansible/jessie-backports
+	;;
+*)	
+	echo
+	echo "Install ansible"
+	apt-get -y install ansible
+esac
+
+echo
+echo "Bootstrap complete!"
+echo "Now run ansible.  Try starting with `ansible-playbook --check`."
