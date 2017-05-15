@@ -1,7 +1,9 @@
-- hosts: debian8-vm.local
+- hosts: test-vm-debian
   roles:
-    - repos-debian-jessie
-    - repos-debian-jessie-backports
+    - repos-debian
+    - role: repos-debian-jessie-backports
+      when: repos_debian__dist == 'jessie'
+
     - sourcejedi.etckeeper
 
     - users

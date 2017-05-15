@@ -2,7 +2,9 @@
 
 - hosts: unstable
   roles:
-    - repos-debian-unstable
+    - role: repos-debian
+      repos_debian__dist: unstable
+
     - sourcejedi.etckeeper
 
     - debian-unattended-upgrades

@@ -1,7 +1,9 @@
 - hosts: drystone
   roles:
-    - repos-debian-jessie
+    - role: repos-debian
+      repos_debian__dist: jessie
     - repos-debian-jessie-backports
+
     - sourcejedi.etckeeper
 
     # Note - remote administration is not permitted.

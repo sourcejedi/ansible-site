@@ -1,3 +1,0 @@
-// See https://www.unix-ag.uni-kl.de/~bloch/acng/html/config-servquick.html#config-client
-
-Acquire::http::Proxy "http://brick.carrier.duckdns.org:3142/";
