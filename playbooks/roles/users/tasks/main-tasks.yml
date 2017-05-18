@@ -23,28 +23,16 @@
     # Debian /etc/default/useradd: 'we use "sh" here because
     # useradd is a low level utility and should be as general
     # as possible'.
-    # So we're also missing out on /etc/skel?
     shell: /bin/bash
 
-    # sudo group
-    # sshlogin group - see roles/openssh-server
+    # Don't remove groups.
+    # We allow other roles to add them (openssh-server).
     append: true
     groups: '{{
               ([sudo_group]  if item.sudo    | d(false) else []) +
-              (["sshlogin"]  if item.sshkey  | d(false) else []) +
               []
             }}'
   with_items: '{{ users }}'
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: ssh authorized keys
-  authorized_key:
-    exclusive: yes  # replace existing key, when it is changed
-    user: "{{ item.name }}"
-    key: "{{ item.sshkey }}"
-  with_items: "{{ users }}"
-  when: item.sshkey is defined
   loop_control:
     label: "{{ item.name }}"
 

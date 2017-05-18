@@ -127,3 +127,23 @@
     enabled: yes
     state: started
 
+- name: ssh authorized keys
+  authorized_key:
+    exclusive: yes  # replace existing key, when it is changed
+    user: "{{ item.name }}"
+    key: "{{ item.sshkey }}"
+  with_items: "{{ openssh_server__authkeys }}"
+  when: item.sshkey is defined
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Add users to sshlogin group
+  user:
+    name: "{{ item.name }}"
+    state: present
+
+    append: true
+    groups: ["sshlogin"]
+  with_items: '{{ openssh_server__authkeys }}'
+  loop_control:
+    label: "{{ item.name }}"
