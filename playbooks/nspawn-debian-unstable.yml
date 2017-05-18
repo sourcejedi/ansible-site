@@ -1,4 +1,7 @@
 # Small nspawn for service which I need newer version
+#
+# This playbook is INCOMPLETE
+# (/home/sysnote/log/*/nspawn-on-server)
 
 - hosts: unstable
   roles:
@@ -6,15 +9,9 @@
       repos_debian__dist: unstable
 
     - sourcejedi.etckeeper
+    - debian-on-nspawn
 
     - debian-unattended-upgrades
 
     - apt-cacher-ng
 
-  tasks:
-    # obsolete securetty breaks machinectl login
-    # https://unix.stackexchange.com/questions/364667/what-is-the-purpose-of-the-default-etc-securetty-settings-on-debian
-    - name: Remove obsolete pam securetty (breaks `machinectl login`)
-      file:
-        name: /etc/securetty
-        state: absent

@@ -1,0 +1,38 @@
+- name: Remove cdebootstrap "helper" package
+  package:
+    name: cdebootstrap-helper-rc.d  # prevents "rc.d" operations
+    state: absent
+
+- name: Fix some missing packages
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - dialog     # apt complains (debconf)
+    - apt-utils  # rec. of debconf, causes one-line complaint in apt
+    - locales    # boot complains
+
+- name: Install systemd
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - systemd-sysv  # set /sbin/init to systemd
+    - dbus          # minimal debootstrap of jessie misses dbus, recommended
+                    # by systemd and required for `machinectl login`.
+    - procps        # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=862292
+
+# https://unix.stackexchange.com/questions/364667/what-is-the-purpose-of-the-default-etc-securetty-settings-on-debian
+# Note - this workaround causes a notice in the log at login time
+- name: Unconfigure obsolete pam securetty (breaks `machinectl login`)
+  file:
+    name: /etc/securetty
+    state: absent
+
+  # Squelch issues with random software that tries to look up the hostname,
+  # when we haven't edited /etc/hosts.
+  # E.g. unhandled errors in the cron job installed by exim4.
+- name: Install nss-myhostname
+  package:
+    name: libnss-myhostname
+    state: present
