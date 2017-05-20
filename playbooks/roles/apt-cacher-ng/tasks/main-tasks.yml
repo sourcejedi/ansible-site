@@ -6,6 +6,8 @@
 # But, we just want to disable a couple features.
 # Avoid writing the whole file for now.
 
+# ... of course this has the problem of not taking effect
+# before apt-cacher-ng has already been started... 
 # "The management web interface which allows execution of certain operations
 #  can be protected by HTTP credentials" except no-one knows how.
 # Anyway, I just don't want it.
