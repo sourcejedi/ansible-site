@@ -3,27 +3,38 @@
 
 
 # `lineinfile` is a hack.
-# But, we just want to disable a couple features.
+# But, we only want to change a couple features.
 # Avoid writing the whole file for now.
+#
+# Upstream examples are commented as e.g. "# ReportPage:".
+# We can toggle between "ReportPage: " and "#ReportPage:" without collisions.
 
 # ... of course this has the problem of not taking effect
 # before apt-cacher-ng has already been started... 
-# "The management web interface which allows execution of certain operations
-#  can be protected by HTTP credentials" except no-one knows how.
-# Anyway, I just don't want it.
 #
-- name: Disable control page
-  lineinfile:
-    dest: /etc/apt-cacher-ng/acng.conf
-    regexp: '^(#?)ReportPage:'
-    line: '#ReportPage: # non-essential, disabled for security'
-  notify: [ 'Restart apt-cacher-ng' ]
+#- name: Disable control page
+#  lineinfile:
+#    dest: /etc/apt-cacher-ng/acng.conf
+#    regexp: '^(#?)ReportPage:'
+#    line: '#ReportPage: # non-essential, disabled for security'
+#  notify: [ 'Restart apt-cacher-ng' ]
+
+- name: SENSITIVE AREAS ARE NOT RESTRICTED BY DEFAULT
+  debug:
+    msg: "Quote: The AdminAuth option can be used to restrict access to sensitive areas"
 
 - name: Disable web server (localhost:3142/acng-doc)
   lineinfile:
     dest: /etc/apt-cacher-ng/acng.conf
     regexp: '^(#?)LocalDirs:'
     line: '#LocalDirs: # not required, disabled as security precaution'
+  notify: [ 'Restart apt-cacher-ng' ]
+
+- name: Temporary upstream proxy
+  lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: '^(#?)Proxy:'
+    line: 'Proxy: http://localhost:8123'
   notify: [ 'Restart apt-cacher-ng' ]
 
 
@@ -41,6 +52,25 @@
     content: |
       http://www.mirrorservice.org/sites/archive.ubuntu.com/ubuntu/
     dest: /etc/apt-cacher-ng/backends_ubuntu
+  notify: [ 'Restart apt-cacher-ng' ]
+
+# Fedora
+#
+# In previous experience, trying to use fedora_mirrors was very frustrating.
+# New mirrors would pop up frequently.
+
+- name: Configure Fedora mapping
+  lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: '^Remap-fedora:'
+    line: 'Remap-fedora: /pub/fedora/linux ; file:backends_fedora # Fedora Linux'
+  notify: [ 'Restart apt-cacher-ng' ]
+
+- name: Set Fedora repo to UK mirrorservice.org
+  copy:
+    content: |
+      http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux/
+    dest: /etc/apt-cacher-ng/backends_fedora
   notify: [ 'Restart apt-cacher-ng' ]
 
 
