@@ -29,8 +29,8 @@
     # We allow other roles to add them (openssh-server).
     append: true
     groups: '{{
-              ([sudo_group]  if item.sudo    | d(false) else []) +
-              []
+              (([sudo_group]  if item.sudo    | d(false) else []) +
+               []) | join(",")
             }}'
   with_items: '{{ users }}'
   loop_control:
