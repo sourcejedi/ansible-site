@@ -41,13 +41,7 @@ apt-get -y install dialog
 # to stop messages about setting user.email.
 echo
 echo 'Install etckeeper'
-apt-mark hold rsync # rec by git, should be dropped in buster
-apt-mark hold rename # rec by perl, should be dropped in buster
-
 apt-get -y install etckeeper
-
-apt-mark unhold rsync
-apt-mark unhold rename
 
 echo
 echo 'Update installed packages'
