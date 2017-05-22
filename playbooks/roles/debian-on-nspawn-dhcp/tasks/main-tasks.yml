@@ -1,0 +1,22 @@
+# Note - happens to be pulled in by perl as well (and in turn, etckeeper).
+- name: Install ifupdown
+  package:
+    name: ifupdown
+    state: present
+
+# Debian jessie has interfaces.d/, but implemented using `source-directory`,
+# which network-manager does not gain support for until stretch.
+# Let's use network/interfaces directly.
+- name: Configure host0 in ifupdown
+  blockinfile:
+    dest: /etc/network/interfaces
+    block: |
+      # Currently machinectl doesn't do hotplug (`machinectl bind` equivalent),
+      # and I don't know if ifupdown's hotplug will work in a container or not.
+      auto host0
+
+      iface host0 inet dhcp
+
+      # I use libvirt networking, see roles/nspawn-on-fedora.
+      # I do not see any IPv6 support by default.
+
