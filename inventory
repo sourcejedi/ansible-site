@@ -1,0 +1,31 @@
+# Ansible 2.2.1 bug: chokes on ungrouped hosts
+[not-servers]
+alan-laptop
+jenkins-desktop
+unstable
+
+[servers]
+brick
+alan-x201
+alan-nuc
+
+
+[test-servers:children]
+test-nspawn-fedora
+test-nspawn-debian
+test-vm-fedora
+test-vm-debian
+
+[test-nspawn-fedora]
+fedora-25  # nss-mymachines (FIXME nspawn-on-fedora)
+
+[test-nspawn-debian]
+jessie    repos_debian__dist=jessie
+unstable  repos_debian__dist=unstable
+
+[test-vm-fedora]
+fedora-25.local  # avahi
+
+[test-vm-debian]
+debian8-vm.local repos_debian__dist=jessie 
+debian9-vm.local repos_debian__dist=stretch
