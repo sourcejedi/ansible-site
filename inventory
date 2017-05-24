@@ -24,8 +24,8 @@ jessie    repos_debian__dist=jessie
 unstable  repos_debian__dist=unstable
 
 [test-vm-fedora]
-fedora-25.local  # avahi
+fedora-25 ansible_host=fedora-25.local  # avahi
 
 [test-vm-debian]
-debian8-vm.local repos_debian__dist=jessie 
-debian9-vm.local repos_debian__dist=stretch
+debian8-vm ansible_host=debian8-vm.local  repos_debian__dist=jessie
+debian9-vm ansible_host=debian9-vm.local  repos_debian__dist=stretch
