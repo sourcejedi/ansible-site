@@ -10,3 +10,4 @@
     - openssh-server
 
     - packages-dev-basics
+    - sourcejedi.google-chrome
