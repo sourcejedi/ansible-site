@@ -10,10 +10,8 @@
   assert:
     that: sudo_group is defined
 
-#- name: Install sudo
-#  package: name=sudo state=present
-
-# TODO debian sudo configuration
+- name: Install sudo
+  package: name=sudo state=present
 
 - user:
     state: present

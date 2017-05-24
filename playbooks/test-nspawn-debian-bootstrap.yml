@@ -1,0 +1,20 @@
+# See test-nspawn-debian
+
+- hosts: test-nspawn-debian
+  roles:
+    # ansible works.
+    # ensure subsequent software installs on stable use security repos.
+    - repos-debian
+    - role: repos-debian-jessie-backports
+      when: repos_debian__dist == 'jessie'
+
+    # ensure subsequent changes to /etc are tracked
+    # (including software installs)
+    - sourcejedi.etckeeper
+
+    # make a bootable nspawn container, even from minimal debootstrap
+    - debian-on-nspawn
+    - debian-on-nspawn-dhcp
+
+    - users
+

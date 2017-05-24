@@ -1,0 +1,38 @@
+# Usage looks like this:
+#
+# cp -av ansible/ jessie/root/
+#
+# # Enter container with default settings - use host network
+# systemd-nspawn -D jessie --settings=no
+#
+# cd /root/ansible
+# bootstrap/debian jessie  # install ansible
+#
+# # Double-check ansible dependencies
+# ./localhost jessie playbooks/all-bootstrap.yml
+#
+# # Install DHCP client
+# ./localhost jessie playbooks/test-nspawn-debian-bootstrap.yml
+#
+# # debian will set hostname from /etc when booted, even if non-existent.
+# hostname > /etc/hostname
+#
+# passwd alan-sysop
+# exit
+#
+# # Boot in separate network namespace
+# systemd-nspawn -D jessie -b --network-veth
+# ...
+# # Run this playbook
+# cd /root/ansible
+# ./localhost jessie playbooks/test-nspawn-debian.yml
+#
+
+- include: test-nspawn-debian-bootstrap.yml
+
+# Tasks to run in booted container
+# (e.g. which start services).
+- hosts: test-nspawn-debian
+  roles:
+    - openssh-server
+

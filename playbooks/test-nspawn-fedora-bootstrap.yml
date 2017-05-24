@@ -7,3 +7,7 @@
     - openssh-server
 
     - sourcejedi.rpmfusion-free
+  tasks:
+    # DHCP client
+    - name: Install NetworkManager
+      package: name={{ pkg_nm }} state=present
