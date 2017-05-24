@@ -3,7 +3,13 @@ users:
    comment: Alan Jenkins (system admin)
    sudo: True
 
+ - name: alan
+   comment: Alan Jenkins
+
 servers__sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
 openssh_server__authkeys:
  - name: alan-sysop
    sshkey: "{{ lookup('file', servers__sshkeys + 'alan-sysop') }}"
+
+ - name: alan
+   sshkey: "{{ lookup('file', servers__sshkeys + 'alan') }}"

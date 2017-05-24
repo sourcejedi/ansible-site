@@ -3,14 +3,12 @@
 # This playbook is INCOMPLETE
 # (/home/sysnote/log/*/nspawn-on-server)
 
-- hosts: unstable
+- include: test-nspawn-debian-bootstrap.yml
+
+# Tasks to run in booted container
+# (e.g. which start services).
+- hosts: unstable-srv
   roles:
-    - role: repos-debian
-      repos_debian__dist: unstable
-
-    - sourcejedi.etckeeper
-    - debian-on-nspawn
-
     - debian-unattended-upgrades
 
     - apt-cacher-ng

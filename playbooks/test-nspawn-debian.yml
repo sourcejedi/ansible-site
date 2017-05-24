@@ -11,10 +11,10 @@
 # # Double-check ansible dependencies
 # ./localhost jessie playbooks/all-bootstrap.yml
 #
-# # Install DHCP client
+# # Prepare system for boot & login, including a DHCP client
 # ./localhost jessie playbooks/test-nspawn-debian-bootstrap.yml
 #
-# # debian will set hostname from /etc when booted, even if non-existent.
+# # I think jessie sets hostname from /etc when booted, even if non-existent.
 # hostname > /etc/hostname
 #
 # passwd alan-sysop

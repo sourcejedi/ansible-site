@@ -2,12 +2,14 @@
 [not-servers]
 alan-laptop
 jenkins-desktop
-unstable
 
-[servers]
+[alan-servers]
 brick
 alan-x201
 alan-nuc
+
+[servers]
+unstable-srv
 
 
 [test-servers:children]
