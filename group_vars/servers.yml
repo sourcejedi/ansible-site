@@ -1,7 +1,7 @@
 users:
  - name: alan-sysop
    comment: Alan Jenkins (system admin)
-   sudo: True
+   admin: True
 
 servers__sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
 openssh_server__authkeys:

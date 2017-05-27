@@ -13,7 +13,8 @@
 - name: Install sudo
   package: name=sudo state=present
 
-- user:
+- name: Create users
+  user:
     state: present
     name:      '{{ item.name }}'
     comment:   '{{ item.comment | d(omit) }}'
@@ -23,11 +24,13 @@
     # as possible'.
     shell: /bin/bash
 
+    # admin users get sudo and log access.
+    #
     # Don't remove groups.
-    # We allow other roles to add them (openssh-server).
+    # We allow other roles to add them (openssh-server). 
     append: true
     groups: '{{
-              (([sudo_group]  if item.sudo    | d(false) else []) +
+              (([sudo_group, "adm", "systemd-journal"] if item.admin | d(false) else []) +
                []) | join(",")
             }}'
   with_items: '{{ users }}'

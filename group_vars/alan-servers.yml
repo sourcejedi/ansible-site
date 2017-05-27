@@ -1,7 +1,7 @@
 users:
  - name: alan-sysop
    comment: Alan Jenkins (system admin)
-   sudo: True
+   admin: True
 
  - name: alan
    comment: Alan Jenkins
