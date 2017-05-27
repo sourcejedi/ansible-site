@@ -14,6 +14,6 @@
 
     - polipo
 
-    # handled by nspawn-debian-unstable,
+    # now handled by nspawn-debian-unstable,
     # because Debian stretch requires ACNG from stretch.
     #- apt-cacher-ng
