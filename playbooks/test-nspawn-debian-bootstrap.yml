@@ -15,6 +15,7 @@
     # make a bootable nspawn container, even from minimal debootstrap
     - debian-on-nspawn
     - debian-on-nspawn-dhcp
+    - systemd-journal
 
     - users
 

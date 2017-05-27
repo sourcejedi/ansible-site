@@ -1,0 +1,18 @@
+- name: Create directory for persistent journal
+  file:
+    path: /var/log/journal
+    state: directory
+  register: log_journal
+
+- name: Setup journal directory
+  command: systemd-tmpfiles --create --prefix /var/log/journal
+  when: log_journal.changed
+
+# If the distro didn't set up the journal by default,
+# that could be because it set up a traditional syslog daemon instead.
+#
+- name: Remove syslog daemon rsyslog
+  package:
+    name: rsyslog
+    state: absent
+  when: systemd_journal__remove_syslog_daemon
