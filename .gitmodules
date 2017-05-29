@@ -1,0 +1,23 @@
+[submodule.sourcejedi-etckeeper]
+	path = roles/sourcejedi.etckeeper
+	url = git@github.com:sourcejedi/ansible-etckeeper.git
+
+[submodule.sourcejedi-google-chrome]
+	path = roles/sourcejedi.google-chrome
+	url = git@github.com:sourcejedi/ansible-google-chrome.git
+
+[submodule.sourcejedi-rpmfusion-free]
+	path = roles/sourcejedi.rpmfusion-free
+	url = git@github.com:sourcejedi/ansible-rpmfusion-free.git
+
+[submodule.sourcejedi-rpmfusion-nonfree]
+	path = roles/sourcejedi.rpmfusion-nonfree
+	url = git@github.com:sourcejedi/ansible-rpmfusion-nonfree.git
+
+[submodule.sourcejedi-rpmfusion-impl]
+	path = roles/sourcejedi.rpmfusion__impl
+	url = git@github.com:sourcejedi/ansible-rpmfusion__impl.git
+
+[submodule.sourcejedi-systemd-journal]
+	path = roles/sourcejedi.systemd-journal
+	url = git@github.com:sourcejedi/ansible-systemd-journal.git

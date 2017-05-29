@@ -6,8 +6,8 @@
 
     - sourcejedi.etckeeper
 
-    - { role: systemd-journal,
-              systemd_journal__remove_syslog_daemon: False }
+    - { role: sourcejedi.systemd-journal,
+                         systemd_journal__remove_syslog_daemon: False }
 
     - users
     - openssh-server
