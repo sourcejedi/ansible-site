@@ -3,7 +3,7 @@
 # This playbook is INCOMPLETE
 # (/home/sysnote/log/*/nspawn-on-server)
 
-- include: test-nspawn-debian-bootstrap.yml
+- include: nspawn-debian-unstable-bootstrap.yml
 
 # Tasks to run in booted container
 # (e.g. which start services).
