@@ -19,5 +19,9 @@
 - name: Test "apt-get update"
   when: proxy.changed or sources.changed
   command: apt-get update
+  register: update
+  failed_when: |
+    "\nErr " in ("\n" + update.stdout) or
+    "\nW: "  in ("\n" + update.stderr)
   args:
     warn: no  # don't use apt module, it has to update cache in check mode
