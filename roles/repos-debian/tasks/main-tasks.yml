@@ -15,13 +15,14 @@
   register: sources
 
 # This test is slow, only bother when changed.
-# (In which case, the next use of apt-get would probably have had to do this anyway).
+# (In which case, the next use of apt would have had to do it anyway).
 - name: Test "apt-get update"
   when: proxy.changed or sources.changed
   command: apt-get update
   register: update
   failed_when: |
     "\nErr " in ("\n" + update.stdout) or
+    "\nE: "  in ("\n" + update.stderr) or
     "\nW: "  in ("\n" + update.stderr)
   args:
     warn: no  # don't use apt module, it has to update cache in check mode
