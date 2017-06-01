@@ -24,13 +24,13 @@
     # as possible'.
     shell: /bin/bash
 
-    # admin users get sudo and log access.
+    # admin users get sudo and read access to system logfiles.
     #
-    # Don't remove groups.
-    # We allow other roles to add them (openssh-server). 
+    # Don't remove groups!  Other modular roles want to add them
+    # e.g. openssh-server, systemd-journal.
     append: true
     groups: '{{
-              (([sudo_group, "adm", "systemd-journal"] if item.admin | d(false) else []) +
+              (([sudo_group, "adm"] if item.admin | d(false) else []) +
                []) | join(",")
             }}'
   with_items: '{{ users }}'
