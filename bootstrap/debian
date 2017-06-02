@@ -8,7 +8,7 @@ if [ -z "$DIST" ]; then
 	exit 1
 fi
 
-cd "$(dirname "$0")"/../playbooks/
+cd "$(dirname "$0")"/../
 
 SRC=/etc/apt
 DST=/etc/orig.apt
