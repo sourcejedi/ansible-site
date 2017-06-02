@@ -5,7 +5,7 @@
   register: python_dnf
   failed_when: False
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 # 2/3) Run command task conditionally, to provide accurate "changed" status
 - name: ensure | python dnf module installed, required by ansible dnf module
@@ -19,7 +19,7 @@
   when: ansible_pkg_mgr == "dnf"
   command: python2 -c "import dnf"
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 
 - name: Query whether selinux is enabled
@@ -27,7 +27,7 @@
   register: selinuxenabled
   failed_when: selinuxenabled.rc not in [0, 1]
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 # Reminder: package installation is *not* portable, because names vary between distros
 # Debian package would be python-selinux

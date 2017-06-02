@@ -41,7 +41,7 @@
                      ["not-installed", "config-files",
                       "unpacked", "half-installed", "half-configured",
                       "triggers-pending", "triggers-awaited", "installed"]
-      check_mode: True
+      check_mode: False
 
     - name: Make sure OpenSSH configuration directory exists
       file:

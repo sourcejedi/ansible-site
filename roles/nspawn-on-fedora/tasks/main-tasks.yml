@@ -39,14 +39,14 @@
   command: checkmodule -M -m -o my-nspawn.mod my-nspawn.te
   args:
     chdir: /ansible-managed/nspawn-on-fedora/
-  check_mode: True
+  check_mode: False
   changed_when: False
 
 - name: Build SELinux policy module package
   command: semodule_package -m my-nspawn.mod -o my-nspawn.pp
   args:
     chdir: /ansible-managed/nspawn-on-fedora/
-  check_mode: True
+  check_mode: False
   changed_when: False
 
 - name: Install SELinux policy module (my-nspawn)

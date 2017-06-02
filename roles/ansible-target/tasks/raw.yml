@@ -5,7 +5,7 @@
 - name: Test connection with ansible raw module
   raw: "true"
   changed_when: False  # no change
-  check_mode: yes  # run this non-check module even in --check mode
+  check_mode: no  # run this non-check module even in --check mode
 
 # For science :).
 # May also detect if the command interpreter is not a unix shell.
@@ -14,7 +14,7 @@
   register: raw_false
   failed_when: raw_false.rc != 1
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 # 1/3) Query condition
 - name: query  | python2 installed, required by non-raw ansible modules
@@ -22,7 +22,7 @@
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 # 2/3) Run raw task conditionally, to provide accurate "changed" status
 - name: ensure | python2 installed, required by non-raw ansible modules
@@ -36,13 +36,13 @@
 - name: check  | python2 installed, required by non-raw ansible modules
   raw: "/usr/bin/python2 -c \"import sys; print (sys.version)\" "
   changed_when: False
-  check_mode: yes
+  check_mode: no
 
 
 # Now non-raw modules should work.  Cross-check.
 - name: ansible ping module works ok
   ping:
-  check_mode: yes
+  check_mode: no
 
 
 - name: Gather ansible facts
