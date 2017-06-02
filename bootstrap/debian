@@ -33,7 +33,7 @@ echo
 apt-get update
 
 # apt installs (debconf) complains
-apt-get -y install dialog
+apt-get -y install whiptail
 
 # Debian's etckeeper package sets itself up.
 # They haven't messed up the defaults either.
