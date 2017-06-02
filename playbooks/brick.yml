@@ -1,7 +1,7 @@
 - hosts: brick
   roles:
-    - { role: repos-debian,
-              repos_debian__dist: jessie }
+    - role: repos-apt,
+      repos_apt: debian-jessie
     - repos-debian-jessie-backports
 
     - sourcejedi.etckeeper

@@ -1,8 +1,8 @@
 - hosts: test-vm-debian
   roles:
-    - repos-debian
+    - repos-apt
     - role: repos-debian-jessie-backports
-      when: repos_debian__dist == 'jessie'
+      when: repos_apt == 'debian-jessie'
 
     - sourcejedi.etckeeper
 

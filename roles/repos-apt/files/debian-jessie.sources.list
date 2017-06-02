@@ -22,7 +22,7 @@ deb http://ftp.uk.debian.org/debian/ jessie-updates main
 
 
 # Source code repositories.
-# Can be uncommented for temporary use, or copied to sources.lists.d/
+# Can be uncommented for temporary use (or copied to sources.lists.d/)
 
 # deb-src http://ftp.uk.debian.org/debian/ jessie main
 # deb-src http://security.debian.org/ jessie/updates main

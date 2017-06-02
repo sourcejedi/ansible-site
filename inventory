@@ -14,20 +14,21 @@ unstable-srv
 
 [test-servers:children]
 test-nspawn-fedora
-test-nspawn-debian
+test-nspawn-deb
 test-vm-fedora
 test-vm-debian
 
 [test-nspawn-fedora]
 fedora-25  # nss-mymachines (FIXME nspawn-on-fedora)
 
-[test-nspawn-debian]
-jessie    repos_debian__dist=jessie
-unstable  repos_debian__dist=unstable
+[test-nspawn-deb]
+jessie    repos_apt=debian-jessie
+unstable  repos_apt=debian-unstable
+xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
 fedora25-vm ansible_host=fedora25-vm.local  # avahi
 
 [test-vm-debian]
-debian8-vm ansible_host=debian8-vm.local  repos_debian__dist=jessie
-debian9-vm ansible_host=debian9-vm.local  repos_debian__dist=stretch
+debian8-vm ansible_host=debian8-vm.local  repos_apt=debian-jessie
+debian9-vm ansible_host=debian9-vm.local  repos_apt=debian-stretch

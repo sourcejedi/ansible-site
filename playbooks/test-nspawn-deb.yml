@@ -3,6 +3,8 @@
 # cp -av ansible/ jessie/root/
 #
 # # Enter container with default settings - use host network
+# # (NOTE this also requires DNS setup in etc/resolv.conf,
+# #  and I'm not sure what is setting that up when I do this)
 # systemd-nspawn -D jessie --settings=no
 #
 # cd /root/ansible
@@ -14,7 +16,7 @@
 # # Prepare system for boot & login, including a DHCP client
 # ./localhost jessie playbooks/test-nspawn-debian-bootstrap.yml
 #
-# # I think jessie sets hostname from /etc when booted, even if non-existent.
+# # hostname doesn't seem to get set when using --boot on Debian or Ubuntu.
 # hostname > /etc/hostname
 #
 # passwd alan-sysop
@@ -25,14 +27,14 @@
 # ...
 # # Run this playbook
 # cd /root/ansible
-# ./localhost jessie playbooks/test-nspawn-debian.yml
+# ./localhost jessie playbooks/test-nspawn-deb.yml
 #
 
-- include: test-nspawn-debian-bootstrap.yml
+- include: test-nspawn-deb-bootstrap.yml
 
 # Tasks to run in booted container
 # (e.g. which start services).
-- hosts: test-nspawn-debian
+- hosts: test-nspawn-deb
   roles:
     - openssh-server
 

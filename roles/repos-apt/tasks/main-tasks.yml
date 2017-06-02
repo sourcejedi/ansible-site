@@ -1,6 +1,6 @@
-- name: Check OS is Debian
+- name: Check OS family is Debian
   assert:
-    that: "ansible_distribution == 'Debian'"
+    that: "ansible_os_family == 'Debian'"
 
 - name: Configure apt to use local caching proxy
   copy:
@@ -10,7 +10,7 @@
 
 - name: Configure apt to use UK mirror
   copy:
-    src: '{{ repos_debian__dist }}-sources.list'
+    src: '{{ repos_apt }}.sources.list'
     dest: /etc/apt/sources.list
   register: sources
 

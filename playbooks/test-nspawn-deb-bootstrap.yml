@@ -1,12 +1,12 @@
 # See also test-nspawn-debian
 
-- hosts: test-nspawn-debian
+- hosts: test-nspawn-deb
   roles:
     # ansible works.
     # ensure subsequent software installs on stable use security repos.
-    - repos-debian
+    - repos-apt
     - role: repos-debian-jessie-backports
-      when: repos_debian__dist == 'jessie'
+      when: repos_apt == 'debian-jessie'
 
     # ensure subsequent changes to /etc are tracked
     # (including software installs)

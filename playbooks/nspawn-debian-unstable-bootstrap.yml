@@ -2,8 +2,8 @@
 
 - hosts: unstable-srv
   roles:
-    - role: repos-debian
-      repos_debian__dist: unstable
+    - role: repos-apt
+      repos_apt: debian-unstable
 
     - sourcejedi.etckeeper
     - debian-on-nspawn

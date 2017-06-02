@@ -1,13 +1,6 @@
 #!/bin/sh
 set -e
 
-VER="$1"
-if [ -z "$VER" ]; then
-	echo "usage: $0 { jessie | stretch | unstable }"
-	echo "(Debian stretch is the testing distribution)"
-	exit 1
-fi
-
 cd "$(dirname "$0")"/../
 
 SRC=/etc/apt
@@ -20,14 +13,7 @@ fi
 echo
 echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-apt/files/apt.conf.d /etc/apt
-cp -rv roles/repos-apt/files/debian-"$VER".sources.list /etc/apt/sources.list
-
-case "$DIST" in
-jessie)
-	echo
-	echo 'Add jessie-backports repo (UK mirror)'
-	cp -rv roles/repos-debian-jessie-backports/files/apt /etc
-esac
+cp -rv roles/repos-apt/files/ubuntu-xenial.sources.list /etc/apt/sources.list
 
 echo
 apt-get update
@@ -43,19 +29,20 @@ echo
 echo 'Install etckeeper'
 apt-get -y install etckeeper
 
-case "$DIST" in
-jessie)
-	echo
-	echo 'Install ansible from jessie-backports'
-	apt-get -y install ansible/jessie-backports
-	;;
-*)	
-	echo
-	echo 'Install ansible'
-	apt-get -y install ansible
-esac
+# Recommended by ansible, for the latest release version.
+# Ubuntu's ansible package is in universe,
+# and there was no obvious sign of security updates.
+echo
+echo 'Add ansible PPA'
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:ansible/ansible
+apt-get update
+
+echo
+echo 'Install ansible'
+apt-get -y install ansible
 
 echo
 echo 'Bootstrap complete!'
 echo 'Remember to check for security updates at some point.'
-echo 'You can run ansible.  Try starting with `ansible-playbook --check`.'
+echo 'Now run ansible.  Try starting with `ansible-playbook --check`.'
