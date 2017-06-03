@@ -9,7 +9,8 @@
 - name: Install needrestart
   package: name=needrestart state=present
 
-- name: Configure needrestart
+- name: Configure needrestart to restart services automatically
   copy:
-    src: needrestart.conf
-    dest: /etc/needrestart/
+    src: needrestart/conf.d/needrestart.conf
+    dest: /etc/needrestart/conf.d/needrestart.conf
+
