@@ -1,3 +1,4 @@
-// See https://www.unix-ag.uni-kl.de/~bloch/acng/html/config-servquick.html#config-client
+// This file is managed by a scripted process.
+// Manual changes will be destroyed if the script is re-applied.
 
 Acquire::http::Proxy "http://brick.carrier.duckdns.org:3142/";
