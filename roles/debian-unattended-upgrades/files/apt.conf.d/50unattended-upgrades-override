@@ -101,7 +101,7 @@ Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 //Acquire::http::Dl-Limit "70";
 
 // Enable logging to syslog. Default is False
-// Unattended-Upgrade::SyslogEnable "false";
+Unattended-Upgrade::SyslogEnable "true";
 
 // Specify syslog facility. Default is daemon
 // Unattended-Upgrade::SyslogFacility "daemon";
