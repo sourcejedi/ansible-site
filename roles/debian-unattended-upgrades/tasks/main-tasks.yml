@@ -4,7 +4,7 @@
 - name: Configure unattended-upgrades
   copy:
     src: apt.conf.d
-    dest: /etc/apt
+    dest: /etc/apt/
 
 - name: Install needrestart
   package: name=needrestart state=present
