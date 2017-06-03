@@ -1,3 +1,6 @@
+// This file is managed by a scripted process.
+// Manual changes will be destroyed if the script is re-applied.
+
 // Unattended-Upgrade::Origins-Pattern controls which packages are
 // upgraded.
 //
