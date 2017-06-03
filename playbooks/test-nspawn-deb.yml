@@ -38,3 +38,7 @@
   roles:
     - openssh-server
 
+    - debian-unattended-upgrades
+    - polipo
+    - apt-cacher-ng
+
