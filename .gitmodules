@@ -6,6 +6,10 @@
 	path = roles/sourcejedi.google-chrome
 	url = git@github.com:sourcejedi/ansible-google-chrome.git
 
+[submodule.sourcejedi-nspawn-on-fedora]
+	path = roles/sourcejedi.systemd-journal
+	url = git@github.com:sourcejedi/ansible-systemd-journal.git
+
 [submodule.sourcejedi-rpmfusion-free]
 	path = roles/sourcejedi.rpmfusion-free
 	url = git@github.com:sourcejedi/ansible-rpmfusion-free.git
@@ -21,3 +25,4 @@
 [submodule.sourcejedi-systemd-journal]
 	path = roles/sourcejedi.systemd-journal
 	url = git@github.com:sourcejedi/ansible-systemd-journal.git
+
