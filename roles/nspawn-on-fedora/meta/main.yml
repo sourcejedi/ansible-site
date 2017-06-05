@@ -1,0 +1,13 @@
+galaxy_info:
+  author: Alan Jenkins
+  description: Work around issues with systemd-nspawn that happen on Fedora Linux
+
+  license: GPLv3
+
+  # Ansible version without known vulnerabilities, according to debops project
+  min_ansible_version: 2.1.4.0
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 25

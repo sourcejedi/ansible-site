@@ -1,6 +1,7 @@
 # nspawn-on-fedora #
 
-systemd-nspawn does not work on Fedora Linux.
+systemd-nspawn does not work as advertised on Fedora Linux 25.
+We may hope this improves in the future.
 
 This project contains everything I use to work around it.
 
@@ -10,10 +11,10 @@ systemd-nspawn@.service, which actually runs the containers, has no confinement 
 
 ## Settings used on individual nspawns
 
-Please see `example.nspawn`.
+Please also see `example.nspawn`.  This is a configuration file that I copy for each nspawn I create.
 
 * Work around lack of integration with Fedora's firewalld.
-* Guests such as Fedora 25 fail when run in a user namespace.
+* Don't run unmodified guests in a user namespace; they will probably fail (including Fedora 25).
 
 ## Creating nspawns
 
