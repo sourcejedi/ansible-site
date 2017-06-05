@@ -1,6 +1,6 @@
 - hosts: brick
   roles:
-    - role: repos-apt,
+    - role: repos-apt
       repos_apt: debian-jessie
     - repos-debian-jessie-backports
 
