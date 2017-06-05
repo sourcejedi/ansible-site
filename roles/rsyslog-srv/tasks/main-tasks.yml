@@ -1,0 +1,19 @@
+- name: Install rsyslog and logrotate
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+   - rsyslog
+   - logrotate
+
+- name: Create configuration for rsyslog server
+  copy:
+    src: local-rsyslog-srv.conf
+    dest: /etc/rsyslog.d/
+  notify: [ 'Test rsyslog and restart' ]
+
+- name: Configure logrotate for rsyslog server
+  copy:
+    src: logrotate.d/local-rsyslog-srv
+    dest: /etc/logrotate.d/
+  notify: [ 'Test logrotate' ]

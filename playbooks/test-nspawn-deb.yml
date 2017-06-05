@@ -42,3 +42,6 @@
     - polipo
     - apt-cacher-ng
 
+    #conflict with systemd-journal role
+    #- rsyslog-srv
+

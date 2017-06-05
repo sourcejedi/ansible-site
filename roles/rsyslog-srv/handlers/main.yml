@@ -1,0 +1,16 @@
+- name: Test rsyslog and restart
+  command: rsyslogd -N 1
+  notify: [ 'Restart rsyslog' ]
+
+- name: Restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+
+- name: Test logrotate
+  command: logrotate -d /etc/logrotate.conf
+  register: logrotate_debug
+  failed_when:
+    logrotate_debug.rc != 0 or 
+    '\nerror' in ("\n" + logrotate_debug.stdout + logrotate_debug.stderr)
+

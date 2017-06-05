@@ -1,0 +1,16 @@
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
+
+/var/log/mortar.log
+{
+	rotate 4
+	weekly
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		invoke-rc.d rsyslog rotate > /dev/null
+	endscript
+}
