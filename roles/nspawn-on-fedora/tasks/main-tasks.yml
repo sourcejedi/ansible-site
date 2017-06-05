@@ -1,7 +1,9 @@
 # 1. systemd_machined_t is just broken.
-#    I can't get audit2allow to work.
-#    Just unconfine it.
-#    (https://bugzilla.redhat.com/show_bug.cgi?id=1416540)
+#    audit2allow didn't work for me, presumably due to some dontaudit rule.
+#    Comments about how the policy should be written are tentative
+#    (https://bugzilla.redhat.com/show_bug.cgi?id=1416540).
+#    For the moment, all I know is how to unconfine it.
+#
 - name: DISABLE SELINUX ON SYSTEMD MACHINED (NSPAWN DAEMON)
   sefcontext:
     target: /usr/lib/systemd/systemd-machined
@@ -58,7 +60,7 @@
 # 3. systemd-nspawn.service to use /var/local/lib/machines
 #    so it can be symlinked wherever you want.
 - name: Customize systemd-nspawn@.service
-  copy:
-    src: systemd-nspawn@.service.d
+  template:
+    src: systemd-nspawn@.service.d/override
     dest: /etc/systemd/system
 

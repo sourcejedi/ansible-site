@@ -1,18 +1,22 @@
+# nspawn-on-fedora #
 
-nspawn doesn't work on Fedora.
+systemd-nspawn does not work on Fedora Linux.
 
-This contains everything I use to work around it.
+This project contains everything I use to work around it.
 
-Be aware that nspawn does not benefit from SELinux confinement.
-https://bugzilla.redhat.com/show_bug.cgi?id=1416540
+Be aware that this ansible role removes SELinux confinement from systemd-machined.service.
+There are alternative suggestions about fixing the policy in bug [1416540](https://bugzilla.redhat.com/show_bug.cgi?id=1416540).
+systemd-nspawn@.service, which actually runs the containers, has no confinement in the first place.
 
-## Per-nspawn settings
+## Settings used on individual nspawns
 
-See `example.nspawn`, this shows how to work around firewalld.
+Please see `example.nspawn`.
+
+* Work around lack of integration with Fedora's firewalld.
+* Guests such as Fedora 25 fail when run in a user namespace.
 
 ## Creating nspawns
 
-When you create a Fedora install using dnf, it will try to label the files.
+When you create a Fedora guest using dnf, it will try to label the files.
 This cannot possibly work.
 You must run `restorecon -R` on the install before you can run it.
-

@@ -7,4 +7,6 @@ require {
 }
 
 #============= system_dbusd_t ==============
+# This is required for `machinectl login`. (Why?)
+
 allow system_dbusd_t devpts_t:chr_file { read write };
