@@ -57,10 +57,9 @@
     chdir: /ansible-managed/nspawn-on-fedora/
   when: nspawn_on_fedora__policy|changed
 
-# 3. systemd-nspawn.service to use /var/local/lib/machines
-#    so it can be symlinked wherever you want.
+# 3. Load machine images from a different directory.
 - name: Customize systemd-nspawn@.service
   template:
-    src: systemd-nspawn@.service.d/override
-    dest: /etc/systemd/system
-
+    src: systemd-nspawn@.service.d/override.conf.j2
+    dest: /etc/systemd/system/systemd-nspawn@.service.d/override.conf
+  when: nspawn_on_fedora__machines_directory | d('') != ''

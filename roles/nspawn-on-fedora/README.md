@@ -20,3 +20,28 @@ Please see `example.nspawn`.
 When you create a Fedora guest using dnf, it will try to label the files.
 This cannot possibly work.
 You must run `restorecon -R` on the install before you can run it.
+
+
+## Requirements
+
+systemd, SELinux.
+
+## Role variables
+
+`nspawn_on_fedora__machines_directory` overrides systemd-nspawn@.service, to load machine images from a different directory.
+This could be useful if your root filesystem is small, and you have more space on your /home filesystem.
+
+Documentation suggests you can symlink individual machine images.
+Unfortunately this fails in v231 (Fedora 25).  The bug is fixed in v233.
+
+## Example playbook
+
+- hosts: all
+  vars:
+    nspawn_on_fedora__machines_directory: "/home/nspawn"
+  roles:
+    - { role: sourcejedi.nspawn-on-fedora
+
+## License
+
+This role is licensed GPLv3, please open an issue if this creates any problem.
