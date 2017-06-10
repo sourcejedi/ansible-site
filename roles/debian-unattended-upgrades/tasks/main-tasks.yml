@@ -6,11 +6,6 @@
     src: apt.conf.d
     dest: /etc/apt/
 
-- name: Install needrestart
+- name: Install needrestart to restart services automatically
   package: name=needrestart state=present
-
-- name: Configure needrestart to restart services automatically
-  copy:
-    src: needrestart/conf.d/needrestart.conf
-    dest: /etc/needrestart/conf.d/needrestart.conf
 
