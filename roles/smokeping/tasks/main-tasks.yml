@@ -1,0 +1,47 @@
+- name: install smokeping, apache2, apache2 fastcgi
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libapache2-mod-fcgid
+    - smokeping
+    - apache2
+
+# smokeping in jessie does not provide a new-style apache conf drop-in
+- name: create configuration in apache2
+  copy:
+    src: apache2.conf
+    dest: /etc/apache2/conf-available/smokeping.conf
+  notify: Restart apache2
+
+- name: enable configuration in apache2
+  file:
+    state: link
+    path: /etc/apache2/conf-enabled/smokeping.conf
+    src: /etc/apache2/conf-available/smokeping.conf
+  notify: Restart apache2
+
+- name: enable fastcgi module in apache2
+  apache2_module:
+    name: fcgid
+    state: present
+  notify: Restart apache2
+
+- name: configure smokeping targets
+  copy:
+    src: smokeping/config.d/Targets
+    dest: /etc/smokeping/config.d/
+  notify:
+   - Restart smokeping
+   - Restart apache2  # restart smokeping.cgi (fcgid)
+
+# This happens at install time for Debian packages, but we also allow
+# for the possibility that the admin disabled a service temporarily.
+- name: enable and start smokeping, apache2
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+   - apache2
+   - smokeping

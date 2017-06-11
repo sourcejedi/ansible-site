@@ -45,3 +45,5 @@
     #conflict with systemd-journal role
     #- rsyslog-srv
 
+    #puts load on external servers
+    #- smokeping
