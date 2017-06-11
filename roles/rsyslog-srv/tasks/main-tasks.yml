@@ -17,3 +17,9 @@
     src: logrotate.d/local-rsyslog-srv
     dest: /etc/logrotate.d/
   notify: [ 'Test logrotate' ]
+
+- name: Enable rsyslog
+  service:
+    name: rsyslog
+    enabled: yes
+    state: started
