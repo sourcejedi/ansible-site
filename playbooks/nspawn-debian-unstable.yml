@@ -9,6 +9,8 @@
 # (e.g. which start services).
 - hosts: unstable-srv
   roles:
+    - sourcejedi.systemd-journal
+
     - debian-unattended-upgrades
 
     - apt-cacher-ng

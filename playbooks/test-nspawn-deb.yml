@@ -36,6 +36,7 @@
 # (e.g. which start services).
 - hosts: test-nspawn-deb
   roles:
+    - sourcejedi.systemd-journal
     - openssh-server
 
     - debian-unattended-upgrades

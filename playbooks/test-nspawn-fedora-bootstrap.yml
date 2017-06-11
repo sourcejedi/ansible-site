@@ -3,7 +3,6 @@
     - repos-fedora
     - sourcejedi.etckeeper
 
-    - sourcejedi.systemd-journal
     - users
   tasks:
     # DHCP client

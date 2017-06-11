@@ -8,5 +8,4 @@
     - sourcejedi.etckeeper
     - debian-on-nspawn
 
-    - sourcejedi.systemd-journal
     - users

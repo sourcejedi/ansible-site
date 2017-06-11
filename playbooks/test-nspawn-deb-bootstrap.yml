@@ -16,7 +16,6 @@
     - debian-on-nspawn
     - debian-on-nspawn-dhcp
  
-    - sourcejedi.systemd-journal
     - users
 
 # TODO: apt-get in ssh session:
