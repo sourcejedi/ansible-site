@@ -41,8 +41,18 @@ Unattended-Upgrade::Origins-Pattern {
 //      "o=Debian,a=proposed-updates";
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
 
-        // If we have unstable repo: all updates in it are security updates.
+        // If we have unstable repo: any updates in it could be security updates.
         "o=Debian,a=unstable";
+
+        // This config was written for unstable.
+        // But it's getting installed on other test nspawns.
+        // Below is a best effort, to avoid me wondering why they're not working.
+
+        // If we have backport packages installed: any update could be a security update.
+        "origin=Debian,codename=${distro_codename}-backports";
+
+        // If we have PPA packages installed: any update could be a security update.
+        "site=ppa.launchpad.net";
 };
 
 // List of packages to not update (regexp are supported)
