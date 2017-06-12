@@ -21,8 +21,8 @@
   command: apt-get update
   register: update
   failed_when: |
-    "\nErr " in ("\n" + update.stdout) or
+    "\nW: "  in ("\n" + update.stderr) or
     "\nE: "  in ("\n" + update.stderr) or
-    "\nW: "  in ("\n" + update.stderr)
+    update.rc != 0
   args:
-    warn: no  # don't use apt module, it has to update cache in check mode
+    warn: no  # don't use apt module, it doesn't detect download errors (W:)
