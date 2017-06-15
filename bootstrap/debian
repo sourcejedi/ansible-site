@@ -1,12 +1,12 @@
 #!/bin/sh
-set -e
+set -e -o nounset
 
-VER="$1"
-if [ -z "$VER" ]; then
+if [ $# -lt 1 ]; then
 	echo "usage: $0 { jessie | stretch | unstable }"
 	echo "(Debian stretch is the testing distribution)"
 	exit 1
 fi
+VER="$1"
 
 cd "$(dirname "$0")"/../
 
@@ -22,7 +22,7 @@ echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-apt/files/apt.conf.d /etc/apt
 cp -rv roles/repos-apt/files/debian-"$VER".sources.list /etc/apt/sources.list
 
-case "$DIST" in
+case "$VER" in
 jessie)
 	echo
 	echo 'Add jessie-backports repo (UK mirror)'
@@ -35,7 +35,7 @@ apt-get update
 # apt installs (debconf) complains
 apt-get -y install whiptail
 
-case "$DIST" in
+case "$VER" in
 jessie)
 	echo
 	echo 'Install ansible from jessie-backports'
