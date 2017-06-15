@@ -147,3 +147,8 @@
   with_items: '{{ openssh_server__authkeys }}'
   loop_control:
     label: "{{ item.name }}"
+
+# In case of SSH config fail on a running server, we want to know NOW.
+# Don't wait for the tasks from X other roles in the same play.
+- name: Flush handlers (ssh server restart)
+  meta: flush_handlers
