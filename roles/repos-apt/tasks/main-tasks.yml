@@ -21,8 +21,7 @@
   command: apt-get update
   register: update
   failed_when: |
-    "\nW: "  in ("\n" + update.stderr) or
-    "\nE: "  in ("\n" + update.stderr) or
-    update.rc != 0
+    update.rc != 0 or
+    update.stderr != ""
   args:
-    warn: no  # don't use apt module, it doesn't detect download errors (W:)
+    warn: no  # Don't use apt module.  It doesn't detect unreachable repos.
