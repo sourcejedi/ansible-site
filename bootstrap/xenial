@@ -21,14 +21,6 @@ apt-get update
 # apt installs (debconf) complains
 apt-get -y install whiptail
 
-# Debian's etckeeper package sets itself up.
-# They haven't messed up the defaults either.
-# That said, roles/sourcejedi.etckeeper is useful
-# to stop messages about setting user.email.
-echo
-echo 'Install etckeeper'
-apt-get -y install etckeeper
-
 # Recommended by ansible, for the latest release version.
 # Ubuntu's ansible package is in universe,
 # and there was no obvious sign of security updates.
