@@ -1,20 +1,22 @@
 # Usage looks like this:
 #
-# cp -av ansible/ jessie/root/
+# cp -av ansible/ jessie/
 #
 # # Enter container with default settings - use host network
 # # (NOTE this also requires DNS setup in etc/resolv.conf,
 # #  and I'm not sure what is setting that up when I do this)
 # systemd-nspawn -D jessie --settings=no
+# cd /ansible
 #
-# cd /root/ansible
-# bootstrap/debian jessie  # install ansible
+# # install ansible
+# bootstrap/debian jessie &&
 #
 # # Double-check ansible dependencies
-# ./localhost jessie playbooks/all-bootstrap.yml
+# ./localhost jessie playbooks/all-bootstrap.yml &&
 #
 # # Prepare system for boot & login, including a DHCP client
-# ./localhost jessie playbooks/test-nspawn-debian-bootstrap.yml
+# ./localhost jessie playbooks/test-nspawn-deb-bootstrap.yml
+#
 #
 # # hostname doesn't seem to get set when using --boot on Debian or Ubuntu.
 # hostname > /etc/hostname
@@ -26,7 +28,7 @@
 # systemd-nspawn -D jessie -b --network-veth
 # ...
 # # Run this playbook
-# cd /root/ansible
+# cd /ansible
 # ./localhost jessie playbooks/test-nspawn-deb.yml
 #
 
