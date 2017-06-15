@@ -12,21 +12,10 @@
     # (including software installs)
     - sourcejedi.etckeeper
 
-    # make a bootable nspawn container, even from minimal debootstrap
+    # make an nspawn container you can boot and log in to,
+    # even from minimal debootstrap
     - debian-on-nspawn
     - debian-on-nspawn-dhcp
  
     - users
 
-# TODO: apt-get in ssh session:
-#
-#perl: warning: Setting locale failed.
-#perl: warning: Please check that your locale settings:
-#	LANGUAGE = (unset),
-#	LC_ALL = (unset),
-#	LANG = "en_GB.UTF-8"
-#    are supported and installed on your system.
-#perl: warning: Falling back to the standard locale ("C").
-#locale: Cannot set LC_CTYPE to default locale: No such file or directory
-#locale: Cannot set LC_MESSAGES to default locale: No such file or directory
-#locale: Cannot set LC_ALL to default locale: No such file or directory

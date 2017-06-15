@@ -1,7 +1,18 @@
-- name: Remove cdebootstrap "helper" package
+# * install locale-gen
+# * boot complains without this package
+- name: Install locales package
   package:
-    name: cdebootstrap-helper-rc.d  # prevents "rc.d" operations
-    state: absent
+    name: locales
+    state: present
+
+# E.g. ssh passes locale vars, so you need your locale inside the container.
+# (Even if you're perfectly happy reading messages from the POSIX locale).
+# Note I haven't bothered to set a system locale here (/etc/default/locale).
+- name: Create your locales
+  locale_gen:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ locale_gen }}'
 
 - name: Fix some missing packages
   package:
@@ -10,7 +21,11 @@
   with_items:
     - whiptail   # apt complains (debconf)
     - apt-utils  # rec. of debconf, causes one-line complaint in apt
-    - locales    # boot complains
+
+- name: Remove cdebootstrap "helper" package
+  package:
+    name: cdebootstrap-helper-rc.d  # prevents "rc.d" operations
+    state: absent
 
 - name: Install systemd
   package:
