@@ -41,9 +41,11 @@
     - sourcejedi.systemd-journal
     - openssh-server
 
-    - debian-unattended-upgrades
-    - polipo
-    - apt-cacher-ng
+    # needs fixing
+    #- debian-unattended-upgrades
+
+    #- polipo
+    #- apt-cacher-ng
 
     #conflict with systemd-journal role
     #- rsyslog-srv
