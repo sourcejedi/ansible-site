@@ -23,7 +23,9 @@ fedora-25  # nss-mymachines (FIXME nspawn-on-fedora)
 
 [test-nspawn-deb]
 jessie    repos_apt=debian-jessie
-unstable  repos_apt=debian-unstable
+jessie1   repos_apt=debian-jessie
+
+stretch   repos_apt=debian-stretch
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
