@@ -8,7 +8,7 @@
 # (hopefully) configured to use a nearby server.
 
 
-# Current Debian stable, point release 8.x
+# Debian release 8.x
 #
 deb http://ftp.uk.debian.org/debian/ jessie main
 

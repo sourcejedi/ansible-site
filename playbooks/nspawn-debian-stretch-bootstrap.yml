@@ -1,9 +1,9 @@
-# See nspawn-debian-unstable
+# See nspawn-debian-stretch
 
-- hosts: unstable-srv
+- hosts: stretch-srv
   roles:
     - role: repos-apt
-      repos_apt: debian-unstable
+      repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
     - debian-on-nspawn

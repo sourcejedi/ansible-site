@@ -7,6 +7,9 @@
 # Here's a standardized sources.list for Debian Stretch,
 # (hopefully) configured to use a nearby server.
 
+
+# Debian release 9.x
+#
 deb http://ftp.uk.debian.org/debian/ stretch main
 
 # Security updates

@@ -9,7 +9,7 @@ alan-x201
 alan-nuc
 
 [servers]
-unstable-srv
+stretch-srv
 
 
 [test-servers:children]

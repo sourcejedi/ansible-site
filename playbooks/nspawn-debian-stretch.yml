@@ -3,11 +3,11 @@
 # This playbook is INCOMPLETE
 # (/home/sysnote/log/*/nspawn-on-server)
 
-- include: nspawn-debian-unstable-bootstrap.yml
+- include: nspawn-debian-stretch-bootstrap.yml
 
 # Tasks to run in booted container
 # (e.g. which start services).
-- hosts: unstable-srv
+- hosts: stretch-srv
   roles:
     - sourcejedi.systemd-journal
 
