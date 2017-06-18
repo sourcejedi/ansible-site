@@ -1,0 +1,60 @@
+- name: Install icinga2
+  package:
+    name: icinga2
+    state: installed
+
+# Note this role does not enable any "features", including the checker (?).
+# The output features you want differ completely, between
+# icinga2-classicui and the "modern" Icinga Web frontends.
+# (Even the logs of old states are different plugins).
+
+# avoid dpkg prompts on upgrade
+- name: Disable example configuration
+  lineinfile:
+    path: /etc/icinga2/icinga2.conf
+    state: present
+    regexp: '^include_recursive "conf'
+    line: 'include_recursive "conf-actual.d"'
+  notify: 'Test icinga2 and restart'
+
+# urgh synchronize module
+- name: create object config dir
+  file:
+    state: directory
+    path: /etc/icinga2/conf-actual.d
+
+- name: 1/4 object config - create temp dir
+  file:
+    state: directory
+    path: .ansible/role/icinga2/conf.d
+  become: no
+
+- name: 2/4 object config - sync to temp dir
+  synchronize:
+    delete: yes
+    src: conf.d/
+    dest: .ansible/role/icinga2/conf.d/
+  check_mode: no  # run this command in --check mode; see 4/4
+  become: no
+
+- name: 3/4 object config - sync to icinga2
+  command: rsync -a --delete
+             .ansible/role/icinga2/conf.d/ 
+              /etc/icinga2/conf-actual.d
+  notify: 'Test icinga2 and restart'
+
+# "fix" check mode
+- name: 4/4 object config - verify icinga2
+  command: diff -r -q
+             .ansible/role/icinga2/conf.d/ 
+             /etc/icinga2/conf-actual.d/
+  check_mode: no
+  become: no
+
+
+- name: ensure icinga2 is enabled
+  service:
+    name: icinga2
+    enabled: yes
+    state: started
+

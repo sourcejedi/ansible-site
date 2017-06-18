@@ -1,0 +1,14 @@
+/*
+ * The CheckCommand object `http` is provided by
+ * the plugin check command templates.
+ * Check the documentation for details.
+ */
+object Service "http" {
+  import "generic-service"
+
+  host_name = "localhost"
+  check_command = "http"
+  vars.sla = "24x7"
+
+  vars.http_ssl = true
+}

@@ -52,3 +52,4 @@
 
     #puts load on external servers
     #- smokeping
+    #- icinga2

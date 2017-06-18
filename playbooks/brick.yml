@@ -22,3 +22,5 @@
     - rsyslog-srv
 
     - smokeping
+
+    - icinga2

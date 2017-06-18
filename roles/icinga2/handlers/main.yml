@@ -1,0 +1,10 @@
+---
+
+- name: Test icinga2 and restart
+  command: icinga2 daemon -C
+  notify: 'Restart icinga2'
+
+- name: Restart icinga2
+  service:
+    name: icinga2
+    state: restarted
