@@ -16,4 +16,4 @@
     - packages-dev-basics
     - sourcejedi.rpmfusion-free  # e.g. `lame`
 
-    - nspawn-on-fedora
+    - sourcejedi.nspawn-on-fedora
