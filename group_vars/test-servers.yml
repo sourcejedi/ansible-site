@@ -1,7 +1,7 @@
 users:
  - name: alan-sysop
-   admin: True
    comment: Alan Jenkins (system admin)
+   admin: True
 
  - name: alan-test
    comment: Alan Jenkins
