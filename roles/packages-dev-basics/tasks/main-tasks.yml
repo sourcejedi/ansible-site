@@ -8,4 +8,4 @@
     - gitk
     - git-email
     - meld
-    - python3
+    - strace
