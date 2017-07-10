@@ -1,33 +1,43 @@
-# Usage looks like this:
+# Test nspawns.  Used for network services, so make sure you run them
+# in a network namespace.  Example:
 #
 # cp -av ansible/ jessie/
+#
+# # Set a network config to be applied to the container whenever it runs.
+# # This one works for Fedora.
+# #
+# cp ansible/roles/sourcejedi.nspawn-on-fedora/example.nspawn \
+#    /etc/systemd/nspawn/jessie.nspawn
 #
 # # Enter container with default settings - use host network
 # # (NOTE this also requires DNS setup in etc/resolv.conf,
 # #  and I'm not sure what is setting that up when I do this)
 # systemd-nspawn -D jessie --settings=no
 # cd /ansible
+# DIST=jessie
+# HOSTNAME=$DIST
 #
 # # install ansible
-# bootstrap/debian jessie &&
+# bootstrap/debian $DIST &&
 #
 # # Double-check ansible dependencies
-# ./localhost jessie playbooks/all-bootstrap.yml &&
+# ./localhost $HOSTNAME playbooks/all-bootstrap.yml &&
 #
 # # Prepare system for boot & login, including a DHCP client
-# ./localhost jessie playbooks/test-nspawn-deb-bootstrap.yml
+# ./localhost $HOSTNAME playbooks/test-nspawn-deb-bootstrap.yml
 #
 # passwd alan-sysop
 # exit
 #
 # # Boot in separate network namespace
+# # DHCP might take 10 seconds or so :(
 # systemd-nspawn -D jessie -b --network-veth
 # ...
 #
-# # sometimes I've had to set hostname manually, I don't know why
+# # AFAICT, booted nspawns need to set the hostname for themselves.
 # hostnamectl set-hostname jessie
 #
-# # Run this playbook
+# # Now run this playbook
 # cd /ansible
 # ./localhost jessie playbooks/test-nspawn-deb.yml
 #
