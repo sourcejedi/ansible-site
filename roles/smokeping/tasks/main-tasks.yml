@@ -18,7 +18,7 @@
   file:
     state: link
     path: /etc/apache2/conf-enabled/smokeping.conf
-    src: /etc/apache2/conf-available/smokeping.conf
+    src: ../conf-available/smokeping.conf
   notify: Restart apache2
 
 - name: enable fastcgi module in apache2
