@@ -3,6 +3,8 @@
     - repos-fedora
     - sourcejedi.etckeeper
 
+    - sourcejedi.hdparm-noapm
+
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
     #
     # except that it causes occasional hangs soon after resume

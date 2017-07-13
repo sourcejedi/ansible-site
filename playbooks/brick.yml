@@ -8,9 +8,10 @@
 
     - { role: sourcejedi.systemd-journal,
                          systemd_journal__remove_syslog_daemon: no }
-
     - users
     - openssh-server
+
+    - sourcejedi.hdparm-noapm
 
     - polipo
 
