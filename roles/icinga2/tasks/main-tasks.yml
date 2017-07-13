@@ -49,6 +49,7 @@
              .ansible/role/icinga2/conf.d/ 
              /etc/icinga2/conf-actual.d/
   check_mode: no
+  changed_when: False
   become: no
 
 
