@@ -34,7 +34,8 @@
 # systemd-nspawn -D jessie -b --network-veth
 # ...
 #
-# # AFAICT, booted nspawns need to set the hostname for themselves.
+# # booted nspawns need to set the hostname for themselves?
+# # But Fedora Linux nspawns don't?  I'm still not sure.
 # hostnamectl set-hostname jessie
 #
 # # Now run this playbook
