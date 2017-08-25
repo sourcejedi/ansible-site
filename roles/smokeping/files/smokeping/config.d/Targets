@@ -23,7 +23,7 @@ host = localhost
 ++ mortar
 
 menu = Router
-host = mortar.local
+host = mortar.carrier.duckdns.org
 
 ++ dns
 
