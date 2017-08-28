@@ -14,8 +14,8 @@
 
     # make an nspawn container you can boot and log in to,
     # even from minimal debootstrap
-    - debian-on-nspawn
-    - debian-on-nspawn-dhcp
+    - deb-on-nspawn
+    - deb-on-nspawn-dhcp
  
     - users
 

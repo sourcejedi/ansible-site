@@ -6,6 +6,6 @@
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-    - debian-on-nspawn
+    - deb-on-nspawn
 
     - users
