@@ -1,0 +1,54 @@
+- package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - ssl-cert  # (recommended, but not depended, by apache2)
+    - apache2
+
+# NOTE: ssl-cert uses `hostname --fqdn`.  This depends on the system resolver
+# being able to resolve the system hostname to an FQDN, e.g. by /etc/hosts.
+#
+# If you want to change the hostname _after_ installation, see 
+# https://wiki.debian.org/HowTo/ChangeHostname#Self-signed_SSL_certificate
+# It is not essential, however it could be useful to avoid confusion when you
+# accept the certificate in Firefox.
+
+- name: enable ssl module
+  apache2_module:
+    name: ssl
+    state: present
+  notify: Restart apache2
+
+# default-ssl should be 000-default-ssl (it must have pre-dated SNI).
+# It only sets a few options, so I just replace the whole file.
+- name: remove mis-named site default-ssl.conf
+  file:
+    state: absent
+    path: '{{ item }}'
+  with_items:
+    - /etc/apache2/sites-available/default-ssl.conf
+    - /etc/apache2/sites-enabled/default-ssl.conf
+
+- name: create site 000-default-ssl
+  copy:
+    src: sites-available/000-default-ssl.conf
+    dest: /etc/apache2/sites-available/000-default-ssl.conf
+  notify: Restart apache2
+    
+- name: enable site 000-default-ssl
+  file:
+    state: link
+    path: /etc/apache2/sites-enabled/000-default-ssl.conf
+    src: ../sites-available/000-default-ssl.conf
+  notify: Restart apache2
+
+# TODO: conf - mozilla
+# TODO: /etc/apache2/ports.conf remove 'Listen 80'
+
+# This happens at install time for Debian packages, but we also allow
+# for the possibility that the admin disabled a service temporarily.
+- name: enable and start apache2
+  service:
+    name: apache2
+    enabled: yes
+    state: started
