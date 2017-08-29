@@ -1,0 +1,12 @@
+- name: create acl.conf
+  copy:
+    src: acl.conf
+    dest: /etc/apache2/conf-available/acl.conf
+  notify: Restart apache2
+
+- name: enable acl.conf
+  file:
+    state: link
+    path: /etc/apache2/conf-enabled/acl.conf
+    src: ../conf-available/acl.conf
+  notify: Restart apache2

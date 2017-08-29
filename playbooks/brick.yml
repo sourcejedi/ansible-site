@@ -22,6 +22,7 @@
     # catch syslogs from router
     - rsyslog-srv
 
+    - deb-apache
+    - deb-apache-acl  # kept separate for easier testing
     - debian-smokeping
-
     - icinga2
