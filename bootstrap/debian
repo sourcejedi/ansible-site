@@ -3,7 +3,7 @@ set -e -o nounset
 
 if [ $# -lt 1 ]; then
 	echo "usage: $0 { jessie | stretch | unstable }"
-	echo "(Debian stretch is the testing distribution)"
+	echo "(Debian jessie is the oldstable distribution)"
 	exit 1
 fi
 VER="$1"

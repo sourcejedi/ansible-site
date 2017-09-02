@@ -1,7 +1,7 @@
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
 [not-servers]
 alan-laptop
-jenkins-desktop
+drystone  # jenkins-desktop
 
 [alan-servers]
 brick
