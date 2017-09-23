@@ -1,8 +1,7 @@
 - hosts: drystone
   roles:
     - role: repos-apt
-      repos_apt: debian-jessie
-    - repos-debian-jessie-backports
+      repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
 
