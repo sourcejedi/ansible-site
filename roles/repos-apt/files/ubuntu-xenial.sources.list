@@ -7,44 +7,44 @@
 # Here's a standardized sources.list for Ubuntu 16.04 LTS,
 # (hopefully) configured to use a nearby server.
 
-# Main repository.
-# When used on physical hardware, it may be required to enable "restricted" also.
+## Main repository.
+## When used on physical hardware, it may be required to enable "restricted" also.
 
 deb http://uk.archive.ubuntu.com/ubuntu xenial main
 deb http://uk.archive.ubuntu.com/ubuntu/ xenial-updates main
 deb http://security.ubuntu.com/ubuntu xenial-security main
 
 
-# Source code repositories.
-# Can be uncommented for temporary use (or copied to sources.lists.d/)
+## Source code repositories.
+## Can be uncommented for temporary use (or copied to sources.lists.d/)
 
-#deb-src http://uk.archive.ubuntu.com/ubuntu xenial main
-#deb-src http://uk.archive.ubuntu.com/ubuntu/ xenial-updates main
-#deb-src http://security.ubuntu.com/ubuntu xenial-security main
+# deb-src http://uk.archive.ubuntu.com/ubuntu xenial main
+# deb-src http://uk.archive.ubuntu.com/ubuntu/ xenial-updates main
+# deb-src http://security.ubuntu.com/ubuntu xenial-security main
 
 
-# https://help.ubuntu.com/lts/serverguide/configuration.html
-#
-# > Packages in the Multiverse repository often have licensing issues that prevent them from being distributed with a free operating system, and they may be illegal in your locality.
-# >
-# > Be advised that neither the Universe or Multiverse repositories contain officially supported packages. In particular, there may not be security updates for these packages.
-# >
-# > By default, the Universe and Multiverse repositories are enabled but if you would like to disable them edit /etc/apt/sources.list and comment the following lines.
+## https://help.ubuntu.com/lts/serverguide/configuration.html
+##
+## > Packages in the Multiverse repository often have licensing issues that prevent them from being distributed with a free operating system, and they may be illegal in your locality.
+## >
+## > Be advised that neither the Universe or Multiverse repositories contain officially supported packages. In particular, there may not be security updates for these packages.
+## >
+## > By default, the Universe and Multiverse repositories are enabled but if you would like to disable them edit /etc/apt/sources.list and comment the following lines.
 
-# Ansible (from PPA) requires sshpass (only) from universe
+## Ansible (from PPA) requires sshpass (only) from universe
 
 deb http://us.archive.ubuntu.com/ubuntu/ xenial universe
-#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial universe
+# deb-src http://us.archive.ubuntu.com/ubuntu/ xenial universe
 deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
-#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
+# deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
 
-#deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
-#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
-#deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
-#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
+# deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
+# deb-src http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
+# deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
+# deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
 
 deb http://security.ubuntu.com/ubuntu xenial-security universe
-#deb-src http://security.ubuntu.com/ubuntu xenial-security universe
+# deb-src http://security.ubuntu.com/ubuntu xenial-security universe
 
-#deb http://security.ubuntu.com/ubuntu xenial-security multiverse
-#deb-src http://security.ubuntu.com/ubuntu xenial-security multiverse
+# deb http://security.ubuntu.com/ubuntu xenial-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu xenial-security multiverse
