@@ -48,6 +48,10 @@ jessie)
 esac
 
 echo
+echo 'Install requirements for ansible target'
+apt-get -y install python-apt
+
+echo
 echo 'Bootstrap complete!'
 echo 'Remember to check for security updates at some point.'
 echo 'You can run ansible.  Try starting with `ansible-playbook --check`.'

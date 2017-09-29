@@ -1,4 +1,4 @@
-# Bootstrap using raw module
+# Bootstrap starting with the raw module
 - hosts: all
   gather_facts: no  # do not try to run setup module to start with
   roles:

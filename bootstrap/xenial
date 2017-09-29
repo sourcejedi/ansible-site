@@ -35,6 +35,10 @@ echo 'Install ansible'
 apt-get -y install ansible
 
 echo
+echo 'Install requirements for ansible target'
+apt-get -y install python-apt
+
+echo
 echo 'Bootstrap complete!'
 echo 'Remember to check for security updates at some point.'
 echo 'Now run ansible.  Try starting with `ansible-playbook --check`.'

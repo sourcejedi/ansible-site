@@ -15,7 +15,7 @@ echo 'Configure Fedora repos using local cache'
 cp -rv roles/repos-fedora/files/yum.repos.d /etc
 
 echo
-echo 'Install ansible, and requirements for ansible target, from Fedora repos'
+echo 'Install ansible and requirements for ansible target'
 
 # python-dnf - seems to be required on dnf systems
 # libselinux-python - required to run ansible file tasks, when selinux is enabled

@@ -1,3 +1,10 @@
+- assert:
+    that:
+      ansible_pkg_mgr in ["dnf", "apt"]
+    msg: "This role does not support '{{ ansible_pkg_mgr }}' package manager, only 'dnf' or 'apt'."
+
+# Linux distribution based on DNF package manager:
+#
 # 1/3) Query condition
 - name: query  | python dnf module installed, required by ansible dnf module
   when: ansible_pkg_mgr == "dnf"
@@ -21,6 +28,31 @@
   changed_when: False
   check_mode: no
 
+# Linux distribution based on APT package manager:
+#
+# 1/3) Query condition
+- name: query  | python apt module installed, required by ansible apt module
+  when: ansible_pkg_mgr == "apt"
+  command: python2 -c "import apt"
+  register: python_apt
+  failed_when: False
+  changed_when: False
+  check_mode: no
+
+# 2/3) Run command task conditionally, to provide accurate "changed" status
+- name: ensure | python apt module installed, required by ansible apt module
+  when: ansible_pkg_mgr == "apt" and python_apt.rc != 0
+  command: apt-get install -y python-apt
+  args:
+    warn: no  # can't use dnf module, we're installing its requirements
+
+# 3/3) The condition must now hold.  This "fixes" ansible check mode.
+- name: check  | python apt module installed, required by ansible apt module
+  when: ansible_pkg_mgr == "apt"
+  command: python2 -c "import apt"
+  changed_when: False
+  check_mode: no
+
 
 - name: Query whether selinux is enabled
   shell: CMD=/usr/sbin/selinuxenabled; test -x $CMD && $CMD
@@ -38,7 +70,6 @@
     name: libselinux-python
   register: selinux_install
 
-
-# NOTE new selinux facts are not read here
-# however setup module is re-run before each playbook
-# so we have no reason to refresh it here, at the end of a playbook
+- name: Re-read selinux facts
+  setup: {}
+  when: selinux_install.changed
