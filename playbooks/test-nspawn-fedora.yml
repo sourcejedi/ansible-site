@@ -5,7 +5,15 @@
     - sourcejedi.systemd-journal
     - openssh-server
 
-    - sourcejedi.rpmfusion-free
+    # I have to add updated keys for these roles
+    # at some point after each Fedora release.
+    #
+    # Note -nonfree depends on -free.
+    # It looks like my -free role is incorrectly treated
+    # as `allow_duplicates` for some reason (Ansible 2.4.0)
+
+    #- sourcejedi.rpmfusion-free
+    - sourcejedi.rpmfusion-nonfree
   tasks:
     # DHCP client
     - name: Install NetworkManager
