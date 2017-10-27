@@ -16,6 +16,10 @@
     - sourcejedi.google-chrome
 
     - packages-dev-basics
-    - sourcejedi.rpmfusion-free  # e.g. `lame`
+
+    #- { role: sourcejedi.rpmfusion-remove, repo: nonfree }
+    #- { role: sourcejedi.rpmfusion-remove, repo: free }
+    #- sourcejedi.rpmfusion-free
+    #- sourcejedi.rpmfusion-nonfree
 
     - sourcejedi.nspawn-on-fedora

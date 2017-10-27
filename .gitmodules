@@ -26,6 +26,10 @@
 	path = roles/sourcejedi.rpmfusion__impl
 	url = git@github.com:sourcejedi/ansible-rpmfusion__impl.git
 
+[submodule.sourcejedi-rpmfusion-remove]
+	path = roles/sourcejedi.rpmfusion-remove
+	url = git@github.com:sourcejedi/ansible-rpmfusion-remove.git
+
 [submodule.sourcejedi-systemd-journal]
 	path = roles/sourcejedi.systemd-journal
 	url = git@github.com:sourcejedi/ansible-systemd-journal.git
