@@ -1,8 +1,9 @@
+# See also role dependencies in ../meta/main.yml
+# (role includes aren't available in Ansible 2.2)
+
 - name: Install packages for GUI users
   package:
     name: "{{ item }}"
     state: present
   with_items:
     - thunderbird
-    - firefox
-

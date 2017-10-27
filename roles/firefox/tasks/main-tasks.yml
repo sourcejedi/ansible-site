@@ -1,0 +1,25 @@
+# Install the version of Firefox available from the operating system packages.
+# Debian only provides the less-frequently updated ESR version.
+#
+# This is a touch gratuitious.  Firefox is about the only choice;
+# it will generally be installed by default anyway.  But I do
+# genuinely want it.
+
+- name: Operating system suggests firefox?
+  when: ansible_distribution in ["Ubuntu", "Fedora"]
+  set_fact:
+    firefox__package: firefox
+
+- name: Operating system suggests firefox-esr?
+  when: ansible_distribution in ["Debian"]
+  set_fact:
+    firefox__package: firefox-esr
+
+- name: Test operating system is supported
+  assert:
+    that: firefox__package is defined
+
+- name: Install Firefox
+  package:
+    name: "{{ firefox__package }}"
+    state: present
