@@ -6,4 +6,5 @@ galaxy_info:
   min_ansible_version: 2.2
 
 dependencies:
- - firefox
+ - firefox  # Firstly, bookmarks support.
+ - sourcejedi.google-chrome  # Alternative when needed for interop.

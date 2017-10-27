@@ -13,7 +13,6 @@
     #- powertop-full-override
 
     - packages-gui
-    - sourcejedi.google-chrome
 
     - packages-dev-basics
 
