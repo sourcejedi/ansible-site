@@ -1,6 +1,8 @@
 # ansible-target #
 
 This role performs the boostrapping that can only be done using the raw module.
+I thought this could be a useful exercise, but I haven't found any actual use for it.
+
 It supports Linux distributions based on the `apt` and `dnf` package managers.
 
 Specifically, it is used to install `python2` and `python2-dnf` on Fedora Linux.
@@ -16,9 +18,8 @@ I find this cleaner than the bootstrap which is built in to the Ansible apt modu
 Since this is an ansible role, you need to be able to connect to the target using Ansible.
 So you probably had to configure SSH first, huh.
 
-I thought this could be a useful exercise, but I haven't found any actual use for it.
 I prefer to start with a script that installs Ansible locally,
-and then configure SSH using Ansible.
+so I can use Ansible to configure SSH.
 
 
 ## Example playbook
