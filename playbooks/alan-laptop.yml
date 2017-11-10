@@ -13,6 +13,7 @@
     #- powertop-full-override
 
     - packages-gui
+    - packages-trash-cli
 
     - packages-dev-basics
 
@@ -23,4 +24,3 @@
 
     - sourcejedi.nspawn-on-fedora
 
-    - remove-mlocate-on-fedora
