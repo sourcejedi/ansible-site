@@ -33,7 +33,6 @@ stretch1  repos_apt=debian-stretch
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
-fedora25-vm ansible_host=fedora25-vm.local  # avahi
 fedora26-vm ansible_host=fedora26-vm.local  # avahi
 
 [test-vm-debian]
