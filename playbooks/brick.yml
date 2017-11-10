@@ -13,6 +13,8 @@
 
     - sourcejedi.hdparm-noapm
 
+    - packages-trash-cli
+
     - polipo
 
     # now handled by nspawn-debian-stretch,

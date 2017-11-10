@@ -1,0 +1,6 @@
+# `rm` is too unforgiving.  Make sure we have `trash`.
+# (Note it may not work as expected for root/sudo though).
+- name: Install trash command for CLI users
+  package:
+    name: trash-cli
+    state: present

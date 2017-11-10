@@ -13,6 +13,7 @@
     - powertop-full-override
 
     - packages-gui
+    - packages-trash-cli
 
     - packages-dev-basics
     - sourcejedi.rpmfusion-free  # e.g. `lame`

@@ -6,4 +6,5 @@
     - users
     - openssh-server
 
+    - packages-trash-cli
     - packages-dev-basics
