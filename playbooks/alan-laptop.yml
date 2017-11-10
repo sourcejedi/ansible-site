@@ -22,3 +22,5 @@
     #- sourcejedi.rpmfusion-nonfree
 
     - sourcejedi.nspawn-on-fedora
+
+    - remove-mlocate-on-fedora
