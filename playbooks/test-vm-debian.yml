@@ -9,5 +9,8 @@
     - users
     - openssh-server
 
+    - packages-trash-cli
     - packages-dev-basics
-    - sourcejedi.google-chrome
+    - remove-mlocate-on-deb
+
+    #- packages-gui
