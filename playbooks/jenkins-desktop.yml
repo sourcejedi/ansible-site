@@ -13,5 +13,6 @@
     # We run ssh server but use AllowGroups.
     - openssh-server
 
+    - remove-mlocate-on-deb
     - packages-gui
     - packages-trash-cli
