@@ -7,12 +7,12 @@
 	url = git@github.com:sourcejedi/ansible-google-chrome.git
 
 [submodule.sourcejedi-hdparm-noapm]
-	path = roles/sourcejedi-hdparm-noapm
+	path = roles/sourcejedi.hdparm-noapm
 	url = git@github.com:sourcejedi/sourcejedi-hdparm-noapm.git
 
 [submodule.sourcejedi-nspawn-on-fedora]
-	path = roles/sourcejedi.systemd-journal
-	url = git@github.com:sourcejedi/ansible-systemd-journal.git
+	path = roles/sourcejedi.nspawn-on-fedora
+	url = git@github.com:sourcejedi/sourcejedi-nspawn-on-fedora.git
 
 [submodule.sourcejedi-rpmfusion-free]
 	path = roles/sourcejedi.rpmfusion-free
@@ -33,4 +33,3 @@
 [submodule.sourcejedi-systemd-journal]
 	path = roles/sourcejedi.systemd-journal
 	url = git@github.com:sourcejedi/ansible-systemd-journal.git
-
