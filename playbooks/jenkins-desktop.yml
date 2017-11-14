@@ -13,5 +13,8 @@
     - openssh-server
 
     - remove-mlocate-on-deb
+    - { role: bup-daily,
+              bup_daily__cron_prefix: '50-' }
+
     - packages-gui
     - packages-trash-cli

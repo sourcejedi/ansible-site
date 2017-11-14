@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Note: bup generates progress messages when run in a tty,
+# but when run from cron it will be silent unless there are errors.
+#
+# We rely on error messages being printed (as is usual).
+# We don't try to set an exit status on errors
+#
+# Tested on Debian Stretch.
+# The version of `bup save` in Jessie returned errors
+# as it did not handle sockets or pipes.
+
+cd /data/bup
+for i in *; do
+	[ -d "$i" ] || continue
+
+	HOME_DIR=/home/"$i"
+	BUP_DIR="$PWD"/"$i"
+	export BUP_DIR
+
+	# bup index.  We don't check if there's an error logged here.
+	# Just keep going so we save anything we can.
+	bup index "$HOME_DIR" --exclude "$HOME_DIR"/.cache --exclude "$HOME_DIR"/.mozilla
+	[ -d "$HOME_DIR"/.mozilla ] && bup index "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+
+	bup save -q -n "$i" "$HOME_DIR"
+done
+
+cd /data/bup
+for i in *; do
+	BUP_DIR=/data/bup/"$i" bup fsck -g --quick
+done
