@@ -17,7 +17,11 @@ cp -rv roles/repos-fedora/files/yum.repos.d /etc
 echo
 echo 'Install ansible and requirements for ansible target'
 
-# python-dnf - seems to be required on dnf systems
+# python2-dnf - required on dnf systems (and ansible does not automatically install it)
+# When ansible package switches to python3, this will not be necessary
+# (but it probably will not cause an immediate problem).
+# python3-dnf is included in Fedora as a core requirement of its versison of dnf.
+#
 # libselinux-python - required to run ansible file tasks, when selinux is enabled
 PKG_LIST="ansible python2-dnf libselinux-python"
 dnf install -y $PKG_LIST
