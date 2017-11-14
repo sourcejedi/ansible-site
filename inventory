@@ -6,7 +6,6 @@ drystone  # jenkins-desktop
 [alan-servers]
 brick
 alan-x201
-alan-nuc
 
 [servers]
 stretch-srv
