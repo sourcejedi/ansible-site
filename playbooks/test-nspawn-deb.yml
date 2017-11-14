@@ -20,9 +20,6 @@
 # # install ansible
 # bootstrap/debian $DIST &&
 #
-# # Double-check ansible dependencies
-# ./localhost $HOSTNAME playbooks/all-bootstrap.yml &&
-#
 # # Prepare system for boot & login, including a DHCP client
 # ./localhost $HOSTNAME playbooks/test-nspawn-deb-bootstrap.yml
 #
