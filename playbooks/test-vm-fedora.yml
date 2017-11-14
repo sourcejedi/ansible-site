@@ -4,6 +4,7 @@
     - sourcejedi.etckeeper
 
     - users
+    - sourcejedi.systemd-journal
     - openssh-server
 
     - packages-trash-cli

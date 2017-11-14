@@ -4,6 +4,8 @@
     - sourcejedi.etckeeper
 
     - sourcejedi.hdparm-noapm
+    - users
+    - sourcejedi.systemd-journal
 
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
     #
@@ -23,4 +25,3 @@
     #- sourcejedi.rpmfusion-nonfree
 
     - sourcejedi.nspawn-on-fedora
-

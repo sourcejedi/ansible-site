@@ -1,14 +1,12 @@
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
-[not-servers]
+[ungrouped]
 alan-laptop
 drystone  # jenkins-desktop
+stretch-srv
 
 [alan-servers]
 brick
 alan-x201
-
-[servers]
-stretch-srv
 
 
 [test-servers:children]
