@@ -19,7 +19,7 @@
 
 
 - name: Query - is dpkg package manager used?
-  stat: path=/usr/bin/dpkg
+  stat: { path: /usr/bin/dpkg }
   register: stat_dpkg
 
   # Workaround Debian-based package
