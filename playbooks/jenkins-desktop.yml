@@ -6,9 +6,7 @@
     - sourcejedi.etckeeper
 
     - users
-    - sourcejedi.systemd-journal,
-                         systemd_journal__disable_syslog_daemon: no } # TODO
-
+    - sourcejedi.systemd-journal
     # Note - remote administration is not permitted on jenkins-destop.
     - openssh-server
 
