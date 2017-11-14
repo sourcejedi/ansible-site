@@ -16,3 +16,6 @@
     - packages-trash-cli
 
     - packages-dev-basics
+
+    - { role: sourcejedi.rpmfusion-remove, repo: nonfree }
+    - { role: sourcejedi.rpmfusion-remove, repo: free }
