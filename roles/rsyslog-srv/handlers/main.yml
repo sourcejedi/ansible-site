@@ -12,5 +12,5 @@
   register: logrotate_debug
   failed_when:
     logrotate_debug.rc != 0 or 
-    '\nerror' in ("\n" + logrotate_debug.stdout + logrotate_debug.stderr)
+    '\nerror' in ("\n" + logrotate_debug.stderr)
 
