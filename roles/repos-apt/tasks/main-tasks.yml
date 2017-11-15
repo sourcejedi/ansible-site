@@ -17,11 +17,9 @@
 # This test is slow, only bother when changed.
 # (In which case, the next use of apt would have had to do it anyway).
 - name: Test "apt-get update"
-  when: proxy.changed or sources.changed
   command: apt-get update
+  when: proxy.changed or sources.changed
   register: update
-  failed_when: |
-    update.rc != 0 or
-    update.stderr != ""
+  failed_when: update.rc != 0 or update.stderr
   args:
-    warn: no  # Don't use apt module.  It doesn't detect unreachable repos.
+    warn: no  # Can't use apt module.  It doesn't detect unreachable repos.
