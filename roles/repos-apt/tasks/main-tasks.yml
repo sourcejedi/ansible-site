@@ -16,6 +16,7 @@
 
 # This test is slow, only bother when changed.
 # (In which case, the next use of apt would have had to do it anyway).
+# Do not defer this, as other roles may add drop-in configs.
 - name: Test "apt-get update"
   command: apt-get update
   when: proxy.changed or sources.changed

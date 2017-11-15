@@ -56,7 +56,6 @@
     dest: /etc/apache2/ports.conf
   notify: Restart apache2
 
-
 # This happens at install time for Debian packages, but we also allow
 # for the possibility that the admin disabled a service temporarily.
 - name: enable and start apache2
@@ -64,3 +63,7 @@
     name: apache2
     enabled: yes
     state: started
+
+# because later roles may add drop-in configs
+- name: apply modified configs, if any
+  meta: flush_handlers

@@ -45,3 +45,7 @@
     name: smokeping
     enabled: yes
     state: started
+
+# because later roles may add more drop-in configs
+- name: apply modified configs, if any
+  meta: flush_handlers

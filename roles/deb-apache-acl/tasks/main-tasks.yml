@@ -10,3 +10,7 @@
     path: /etc/apache2/conf-enabled/acl.conf
     src: ../conf-available/acl.conf
   notify: Restart apache2
+
+# because later roles may add more drop-in configs
+- name: apply modified configs, if any
+  meta: flush_handlers

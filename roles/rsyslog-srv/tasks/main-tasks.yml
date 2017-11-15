@@ -23,3 +23,7 @@
     name: rsyslog
     enabled: yes
     state: started
+
+# because later roles may add drop-in configs
+- name: Test and apply modified configs, if any
+  meta: flush_handlers

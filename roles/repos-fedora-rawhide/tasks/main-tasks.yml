@@ -8,6 +8,8 @@
 
 
 # This test is slow, only bother when changed.
+# (In which case, the next use of dnf would probably have had to do this anyway).
+# Do not defer this, as other roles may add drop-in configs.
 - name: Test "dnf check-update"
   when: fedora_repos.changed
   command: dnf \
