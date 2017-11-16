@@ -39,6 +39,15 @@
   check_mode: False
   changed_when: False
 
-- name: Remove unused packages
-  dnf:
-    autoremove: True
+# On a Fedora 27 VM (upgraded from earlier version),
+# I noticed `dnf autoremove` take out grub, os-prober
+# and kernel-modules-extra, as well as sssd-nfs-idmap.
+# So maybe let's not do that for now.
+#
+# Interestingly packages installed by PackageKit are
+# correctly excluded from `dnf autoremove`.
+# So I'm not sure what _is_ causing that.
+#
+#- name: Remove unused packages
+#  dnf:
+#    autoremove: True
