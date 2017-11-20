@@ -2,6 +2,10 @@
 # It's maybe less likely to be a problem than it used to be
 # (mlocate optimization).  But I don't use it, so it's simplest to remove.
 
+# Remove the package carefully, aborting on dependents.
+# Wish this was cleaner, but it's not supported by Ansible apt module.
+# import_role would make this nicer, but it requires Ansible 2.4.0.
+
 # 1/3) Query condition
 - name: query  | is mlocate installed?
   script: scripts/dpkg-state mlocate
