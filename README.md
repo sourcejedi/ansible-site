@@ -30,7 +30,8 @@ Firstly to save time, but secondly it means I know I won't have to deal with res
 However I also tend to want assurance that all roles are in sync.
 In this case I run a full check first, so I can see what's going to be changed.
 
-This means "check mode" is quite important to me.  It requires some extra effort:
+This means "check mode" is quite important to me.
+It requires some extra effort, when a play resorts to running external scripts or commands.
 
 > If you run check mode when etckeeper is not fully installed, the play will fail.  This behaviour is expected, as a complex role where some tasks depend on earlier ones.  We take care to produce this behaviour, making sure that check mode doesn't skip certain types of task and then give a misleading report of "changed=0".[[2]][checkmode-idiom].
 
