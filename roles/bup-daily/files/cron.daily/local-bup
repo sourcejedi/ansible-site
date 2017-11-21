@@ -26,7 +26,14 @@ for i in *; do
 	bup save -q -n "$i" "$HOME_DIR"
 done
 
+# Generate par2 redundancy.
+# Although this is a `bup fsck` command, it only runs checks
+# on the newly created packs that want par2 files creating.
+#
+# It doesn't look like using the --quick option actually helps.
+# par2 is very cpu-intensive anyway
+# (and verify-pack doesn't look to be very intensive, even in it's IO).
 cd /data/bup
 for i in *; do
-	BUP_DIR=/data/bup/"$i" bup fsck -g --quick
+	BUP_DIR=/data/bup/"$i" bup fsck -g
 done
