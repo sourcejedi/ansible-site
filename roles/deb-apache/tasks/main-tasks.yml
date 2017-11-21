@@ -20,8 +20,9 @@
     state: present
   notify: Restart apache2
 
-# default-ssl should be 000-default-ssl.
-# It only sets a few options, so I just replace the whole file.
+# default-ssl should be 000-default-ssl, like the unencrypted default site.
+# I just replace the whole file (see below).
+# The original isn't doing very much anyway.
 - name: remove mis-named site default-ssl.conf
   file:
     state: absent
