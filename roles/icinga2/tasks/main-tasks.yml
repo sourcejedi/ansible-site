@@ -8,7 +8,7 @@
 # icinga2-classicui and the "modern" Icinga Web frontends.
 # (Even the logs of old states are different plugins).
 
-# avoid dpkg prompts on upgrade
+# attempt in vain to mitigate dpkg prompts on upgrade
 - name: Disable example configuration
   lineinfile:
     path: /etc/icinga2/icinga2.conf
@@ -37,13 +37,15 @@
   check_mode: no  # run this command even in --check mode; see 4/4
   become: no
 
+# This requires privilege.
+# However it also needs to know where the un-escalated user was.
+# This seems to work fine with ssh+sudo.
 - name: 3/5 object config - diff icinga2
   command: diff -r -q
              .ansible/role/icinga2/conf.d/ 
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
-  become: no
   register: diff
   
 - name: 4/5 object config - sync to icinga2
@@ -60,7 +62,6 @@
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
-  become: no
 
 
 - name: ensure icinga2 is enabled
