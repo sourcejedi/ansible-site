@@ -3,10 +3,14 @@
 # * config variables for backed up directories
 # * atomic creation of BUP_DIR, in mktemp -d
 
-- name: Ensure cron is installed
+- name: Install bup, par2, cron
   package:
-    name: cron
+    name: "{{ item }}"
     state: installed
+  with_items:
+    - bup
+    - par2
+    - cron
 
 - name: Install cron job for bup
   copy:
