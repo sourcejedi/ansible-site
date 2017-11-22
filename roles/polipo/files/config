@@ -14,3 +14,11 @@ proxyAddress = "::0"        # both IPv4 and IPv6
 # "dnf failed to update through HTTP/1.1-compliant proxy".
 
 maxAge = 0
+
+
+# Keep downloaded files for more than a year.
+# I use this cache for Linux package files.
+# It can be cleaned manually if necessary.
+
+diskCacheTruncateTime = 600d
+diskCacheUnlinkTime = 600d
