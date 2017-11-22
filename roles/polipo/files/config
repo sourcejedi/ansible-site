@@ -1,17 +1,32 @@
-# This file only contains some of the configuration variables; see the
-# list given by ``polipo -v'' and the manual for more.
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
 
+# This file only needs to list configuration variables that deviate
+# from the default values.  See /usr/share/doc/polipo/examples/config.sample
+# and "polipo -v" for variables you can tweak and further information.
+
+# There is also a HTML manual and an info doc.
+
+
+# This is the Debian default.  They send logs to two places (why?).
 logSyslog = true
 logFile = /var/log/polipo/polipo.log
 
-# Uncomment one of these if you want to allow remote clients to
-# connect:
 
-proxyAddress = "::0"        # both IPv4 and IPv6
+# Don't allow remote clients to connect.
+# polipo is unmaintained for several years now,
+# so it's not great to be running it even on localhost.
+#
+## Uncomment one of these if you want to allow remote clients to
+## connect:
+#
+## proxyAddress = "::0"        # both IPv4 and IPv6
+## proxyAddress = "0.0.0.0"    # IPv4 only
+
 
 # Always revalidate cached objects, if they don't have an Expires header.
-# See https://bugzilla.redhat.com/show_bug.cgi?id=1297762
-# "dnf failed to update through HTTP/1.1-compliant proxy".
+# See e.g. https://bugzilla.redhat.com/show_bug.cgi?id=1297762
+# "dnf failed to update through HTTP/1.1-compliant proxy" (now fixed).
 
 maxAge = 0
 

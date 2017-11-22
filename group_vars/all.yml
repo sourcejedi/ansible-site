@@ -1,4 +1,4 @@
-google_chrome__yum_proxy: "http://brick.carrier.duckdns.org:8123"
+google_chrome__yum_proxy: "http://brick.carrier.duckdns.org:3142"
 
 nspawn_on_fedora__machines_directory: "/home/nspawn"
 
