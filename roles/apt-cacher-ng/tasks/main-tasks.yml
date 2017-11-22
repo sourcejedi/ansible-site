@@ -9,6 +9,15 @@
 # Upstream examples are commented as e.g. "# ReportPage:".
 # We can toggle between "ReportPage: " and "#ReportPage:" without collisions.
 
+
+# I end up toggling the following choice manually
+# depending on whether I'm feeling paranoid
+# or wanting to check bandwidth or disk space.
+#
+# Note, if you disable the control page, then
+# `/etc/cron.daily/apt-cacher-ng` will fail, so
+# you probably want to `chmod a-x` that as well.
+
 # ... of course this has the problem of not taking effect
 # before apt-cacher-ng has already been started... 
 #
@@ -16,12 +25,13 @@
 #  lineinfile:
 #    dest: /etc/apt-cacher-ng/acng.conf
 #    regexp: '^(#?)ReportPage:'
-#    line: '#ReportPage: # non-essential, disabled for security'
+#    line: '#ReportPage: acng-report.html # non-essential, disabled for security'
 #  notify: [ 'Restart apt-cacher-ng' ]
 
 - name: SENSITIVE AREAS ARE NOT RESTRICTED BY DEFAULT
   debug:
     msg: "Quote: The AdminAuth option can be used to restrict access to sensitive areas"
+
 
 - name: Disable web server (localhost:3142/acng-doc)
   lineinfile:
