@@ -8,12 +8,10 @@
     # I have to add updated keys for the rpmfusion roles
     # at some point after each Fedora release.
     #
-    # Note -nonfree depends on -free.
-    # It looks like my -free role is incorrectly treated
-    # as `allow_duplicates` for some reason (Ansible 2.4.0)
-    - sourcejedi.rpmfusion-free
-
+    # Note -nonfree depends on -free, so you only need one
+    #- sourcejedi.rpmfusion-free
     #- sourcejedi.rpmfusion-nonfree
+
     #- { role: sourcejedi.rpmfusion-remove, repo: nonfree }
     #- { role: sourcejedi.rpmfusion-remove, repo: free }
 
