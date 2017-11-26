@@ -7,20 +7,22 @@
 
     - users
     - { role: sourcejedi.systemd-journal,
-                         systemd_journal__disable_syslog_daemon: no }
+                         # see rsyslog below
+                         systemd_journal__disable_syslog_daemon: no
+      }
     - openssh-server
 
     - sourcejedi.hdparm-noapm
 
-    - packages-trash-cli
-
     - polipo
     - apt-cacher-ng
 
+    - packages-trash-cli
+
     # catch syslogs from router
-    - rsyslog-srv
+    - rsyslog
 
     - deb-apache
     - deb-apache-acl  # kept separate for easier testing
-    - debian-smokeping
+    - smokeping
     - icinga2
