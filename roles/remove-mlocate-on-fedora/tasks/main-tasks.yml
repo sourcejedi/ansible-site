@@ -55,3 +55,4 @@
 #- name: Remove unused packages
 #  dnf:
 #    autoremove: True
+#  when: mlocate_installed.rc == 0

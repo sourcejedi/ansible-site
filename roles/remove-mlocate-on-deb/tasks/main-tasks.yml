@@ -37,3 +37,4 @@
   command: apt-get autoremove
   args:
     warn: no  # can't use apt module, because this task crashes (Ansible 2.2.1.0).
+  when: mlocate__prev_dpkg_state.stdout|trim != "not-installed"
