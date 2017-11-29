@@ -47,6 +47,7 @@
   check_mode: no
   changed_when: False
   register: diff
+  failed_when: diff.rc not in [0,1] or diff.stderr != ""
   
 - name: 4/5 object config - sync to icinga2
   command: rsync -a --delete
