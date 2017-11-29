@@ -8,21 +8,18 @@
 # icinga2-classicui and the "modern" Icinga Web frontends.
 # (Even the logs of old states are different plugins).
 
-# attempt in vain to mitigate dpkg prompts on upgrade
-- name: Disable example configuration
-  lineinfile:
-    path: /etc/icinga2/icinga2.conf
-    state: present
-    regexp: '^include_recursive "conf'
-    line: 'include_recursive "conf-actual.d"'
-  notify: 'Test icinga2 and restart'
 
-# urgh synchronize module doesn't support sudo
-- name: create object config dir
+# We attempt in vain to mitigate dpkg prompts on upgrade.
+# We leave the example conf.d/ alone and create our own.
+# See also "Enable our configuration" below
+- name: Create object config dir
   file:
     state: directory
     path: /etc/icinga2/conf-actual.d
 
+
+# Urgh synchronize module doesn't support sudo.
+# Use unprivileged user directory as staging area.
 - name: 1/5 object config - create temp dir
   file:
     state: directory
@@ -34,11 +31,11 @@
     delete: yes
     src: conf.d/
     dest: .ansible/role/icinga2/conf.d/
-  check_mode: no  # run this command even in --check mode; see 4/4
+  check_mode: no  # run this command even in --check mode.  See 5/5
   become: no
 
-# This requires privilege.
-# However it also needs to know where the un-escalated user was.
+# The following require privilege.
+# However they also need to know where the un-escalated user was.
 # This seems to work fine with ssh+sudo.
 - name: 3/5 object config - diff icinga2
   command: diff -r -q
@@ -65,7 +62,16 @@
   changed_when: False
 
 
-- name: ensure icinga2 is enabled
+- name: Enable our configuration (and disable the examples)
+  lineinfile:
+    path: /etc/icinga2/icinga2.conf
+    state: present
+    regexp: '^include_recursive "conf'
+    line: 'include_recursive "conf-actual.d"'
+  notify: 'Test icinga2 and restart'
+
+
+- name: Ensure icinga2 is enabled
   service:
     name: icinga2
     enabled: yes
