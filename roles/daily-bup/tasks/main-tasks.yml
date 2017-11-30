@@ -15,5 +15,5 @@
 - name: Install cron job for bup
   copy:
     src: cron.daily/local-bup
-    dest: /etc/cron.daily/{{ bup_daily__cron_prefix }}local-bup
+    dest: /etc/cron.daily/{{ daily_bup__cron_prefix }}local-bup
     mode: a+x

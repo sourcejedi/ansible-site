@@ -1,0 +1,15 @@
+# DRAFT ROLE see daily-bup
+
+- name: Install borgbackup, cron
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - borgbackup
+    - cron
+
+- name: Install cron job for borg
+  copy:
+    src: cron.daily/local-borgbackup
+    dest: /etc/cron.daily/{{ daily_borgbackup__cron_prefix }}local-borgbackup
+    mode: a+x

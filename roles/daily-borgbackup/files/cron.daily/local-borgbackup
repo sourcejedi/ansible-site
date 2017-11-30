@@ -1,0 +1,52 @@
+#!/bin/sh
+# Tested on Stretch i.e. borgbackup-1.0.9
+#
+# TODO: as part of init
+# To upgrade configs to borg 1.1 segment sizes:
+# 
+# sed -i "$BORG_REPO"/config -e 's/^max_segment_size = 5242880$/max_segment_size = 524288000/'
+
+# Show progress when run from a terminal (idea stolen from bup)
+BORG_PROGRESS=
+BORG_STATS=
+if tty>/dev/null; then
+        BORG_PROGRESS="--progress"
+        BORG_STATS="--stats --info"
+fi
+
+
+log() {
+        echo >> /var/log/local-borgbackup -- "$@"
+}
+log_date() {
+        log "$(date --rfc-3339=seconds)"
+}
+
+# Log start timestamp
+log_date
+
+log_cmd() {
+        "$@"
+        log "$*"
+        log_date  # log time of completion
+}
+
+cd /data/backup/borg || exit 1
+for i in *; do
+	[ -d "$i" ] || continue
+
+	HOME_DIR=/home/"$i"
+	export BORG_REPO="$PWD"/"$i"
+
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS ::{now} "$HOME_DIR" -x --exclude "$HOME_DIR"/.cache
+done
+
+for i in *; do
+	[ -d "$i" ] || continue
+	export BORG_REPO="$PWD"/"$i"
+
+	# These keep values were chosen to test performance.
+	# They can be re-tweaked later.
+	#
+	log_cmd borg prune $BORG_STATS --keep-daily 7 --keep-weekly -1
+done

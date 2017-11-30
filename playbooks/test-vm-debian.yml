@@ -11,6 +11,11 @@
 
     - packages-trash-cli
     - packages-dev-basics
-    - remove-mlocate-on-deb
 
     #- packages-gui
+
+    - remove-mlocate-on-deb
+    - { role: daily-bup,
+              daily_bup__cron_prefix: '50-' }
+    - { role: daily-borgbackup,
+              daily_borgbackup__cron_prefix: '70-' }
