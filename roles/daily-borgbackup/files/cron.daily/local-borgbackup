@@ -38,12 +38,16 @@ for i in *; do
 	HOME_DIR=/home/"$i"
 	export BORG_REPO="$PWD"/"$i"
 
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR" -x --exclude "$HOME_DIR"/.cache
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR" -x \
+		--exclude "$HOME_DIR"/.cache \
+		--exclude "$HOME_DIR"/.mozilla/firefox
 
 	# Add bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
 	# and I have a lot of bookmarks I want to keep.
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}-bookmarkbackups' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+	if [ -d "$HOME_DIR"/.mozilla ]; then
+		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}-bookmarkbackups' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+	fi
 done
 
 for i in *; do

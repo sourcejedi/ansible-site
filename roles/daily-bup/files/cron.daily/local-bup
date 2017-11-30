@@ -19,14 +19,18 @@ for i in *; do
 	HOME_DIR=/home/"$i"
 	export BUP_DIR="$PWD"/"$i"
 
-	bup index "$HOME_DIR" --exclude "$HOME_DIR"/.cache --exclude "$HOME_DIR"/.mozilla
+	bup index "$HOME_DIR" \
+		--exclude "$HOME_DIR"/.cache \
+		--exclude "$HOME_DIR"/.mozilla
 	bup save -q -n "$i" "$HOME_DIR"
 
 	# Add bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
 	# and I have a lot of bookmarks I want to keep.
-	bup index "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
-	bup save -q -n "$i-bookmarkbackups" "$HOME_DIR"
+	if [ -d "$HOME_DIR"/.mozilla ]; then
+		bup index "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+		bup save -q -n "$i-bookmarkbackups" "$HOME_DIR"
+	fi
 done
 
 # Disabled for parity - borgbackup test
