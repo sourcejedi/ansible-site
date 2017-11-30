@@ -45,8 +45,5 @@ for i in *; do
 	[ -d "$i" ] || continue
 	export BORG_REPO="$PWD"/"$i"
 
-	# These keep values were chosen to test performance.
-	# They can be re-tweaked later.
-	#
-	log_cmd borg prune $BORG_STATS --keep-daily 7 --keep-weekly -1
+	log_cmd borg prune $BORG_STATS --keep-daily 14 --keep-weekly 4 --keep-monthly 12 --keep-yearly -1
 done
