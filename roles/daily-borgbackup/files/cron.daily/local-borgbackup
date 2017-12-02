@@ -38,7 +38,7 @@ for i in *; do
 	HOME_DIR=/home/"$i"
 	export BORG_REPO="$PWD"/"$i"
 
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR" -x \
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' "$HOME_DIR" -x \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.mozilla/firefox
 
@@ -46,7 +46,7 @@ for i in *; do
 	# Firefox Sync doesn't e.g. protect against malice,
 	# and I have a lot of bookmarks I want to keep.
 	if [ -d "$HOME_DIR"/.mozilla ]; then
-		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}-bookmarkbackups' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::firefox-bookmarks {now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
 	fi
 done
 
@@ -54,5 +54,11 @@ for i in *; do
 	[ -d "$i" ] || continue
 	export BORG_REPO="$PWD"/"$i"
 
-	log_cmd borg prune $BORG_STATS --keep-daily 14 --keep-weekly 4 --keep-monthly 12 --keep-yearly -1
+	log_cmd borg prune $BORG_STATS --prefix "firefox-bookmarks " \
+		--keep-daily 14 --keep-weekly 4 \
+		--keep-monthly 12 --keep-yearly -1
+
+	log_cmd borg prune $BORG_STATS --prefix "home " \
+		--keep-daily 14 --keep-weekly 4 \
+		--keep-monthly 12 --keep-yearly -1
 done
