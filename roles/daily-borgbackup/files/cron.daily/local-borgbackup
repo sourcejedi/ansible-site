@@ -64,11 +64,11 @@ for i in *; do
 	[ -d "$i" ] || continue
 	export BORG_REPO="$PWD"/"$i"
 
-	log_cmd borg prune $BORG_STATS --prefix "firefox-bookmarks " \
+	log_cmd borg prune $BORG_STATS --prefix "home " \
 		--keep-daily 14 --keep-weekly 4 \
 		--keep-monthly 12 --keep-yearly -1
 
-	log_cmd borg prune $BORG_STATS --prefix "home " \
+	log_cmd borg prune $BORG_STATS --prefix "firefox-bookmarks " \
 		--keep-daily 14 --keep-weekly 4 \
 		--keep-monthly 12 --keep-yearly -1
 done
