@@ -43,14 +43,17 @@ for i in *; do
 	# Firefox profile tends to churn more than anything else (but see below).
 	#
 	# Now GNOME logs activity and indexes it, that also shows up.
-	# We can just drop the indexes, and they will be rebuilt.
 	# This is partly due to the size of the blocks borg uses (megabytes?).
+	# We're allowed to drop the indexes - they will be rebuilt.
+	#
+	# Similarly, Thunderbird has an index for searching messages.
 	#
 	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' "$HOME_DIR" -x \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.local/share/tracker \
 		--exclude "$HOME_DIR"/.local/share/zeitgeist/fts.index \
-		--exclude "$HOME_DIR"/.mozilla/firefox
+		--exclude "$HOME_DIR"/.mozilla/firefox \
+		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite
 
 	# Add bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
