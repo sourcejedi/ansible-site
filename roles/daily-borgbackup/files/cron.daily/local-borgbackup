@@ -43,8 +43,8 @@ for i in *; do
 	# Firefox profile tends to churn a whole lot (but see below).
 	#
 	# Thunderbird has an index for searching messages, which shows up.
-	# This is partly due to the size of the blocks borg uses (megabytes?),
-	# or that I tend not to enable compression.
+	# This is due to the size of the blocks borg uses (megabytes?),
+	# although enabling compression helps a bit.
 	# We're allowed to drop the index - it will be rebuilt.
 	#
 	# On Debian, there may be an icedove profile which is half-migrated
@@ -52,7 +52,8 @@ for i in *; do
 	#
 	# Nowadays GNOME logs activity and indexes it, that shows up as well.
 	#
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' "$HOME_DIR" -x \
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' -C lz4 \
+		-x "$HOME_DIR" \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.mozilla/firefox \
 		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite \
