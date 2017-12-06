@@ -40,20 +40,25 @@ for i in *; do
 
 	# Exclusions.
 	#
-	# Firefox profile tends to churn more than anything else (but see below).
+	# Firefox profile tends to churn a whole lot (but see below).
 	#
-	# Now GNOME logs activity and indexes it, that also shows up.
-	# This is partly due to the size of the blocks borg uses (megabytes?).
-	# We're allowed to drop the indexes - they will be rebuilt.
+	# Thunderbird has an index for searching messages, which shows up.
+	# This is partly due to the size of the blocks borg uses (megabytes?),
+	# or that I tend not to enable compression.
+	# We're allowed to drop the index - it will be rebuilt.
 	#
-	# Similarly, Thunderbird has an index for searching messages.
+	# On Debian, there may be an icedove profile which is half-migrated
+	# to thunderbird, but still uses the old location.
+	#
+	# Nowadays GNOME logs activity and indexes it, that shows up as well.
 	#
 	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' "$HOME_DIR" -x \
 		--exclude "$HOME_DIR"/.cache \
-		--exclude "$HOME_DIR"/.local/share/tracker \
-		--exclude "$HOME_DIR"/.local/share/zeitgeist/fts.index \
 		--exclude "$HOME_DIR"/.mozilla/firefox \
-		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite
+		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite \
+		--exclude "$HOME_DIR"/.icedove/*/global-messages-db.sqlite \
+		--exclude "$HOME_DIR"/.local/share/zeitgeist/fts.index \
+		--exclude "$HOME_DIR"/.local/share/tracker
 
 	# Add bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
