@@ -14,29 +14,27 @@ if tty>/dev/null; then
         BORG_STATS="--stats --info"
 fi
 
-
+# Write a log to show the time taken
 log() {
         echo >> /var/log/local-borgbackup -- "$@"
 }
 log_date() {
         log "$(date --rfc-3339=seconds)"
 }
-
-# Log start timestamp
-log_date
-
 log_cmd() {
         "$@"
         log "$*"
         log_date  # log time of completion
 }
+# Log the start timestamp
+log_date
 
-cd /data/backup/borg || exit 1
-for i in *; do
-	[ -d "$i" ] || continue
+BORG_REPOS_DIR=/data/backup/borg
 
-	HOME_DIR=/home/"$i"
-	export BORG_REPO="$PWD"/"$i"
+backup_home() {
+	HOME_DIR=/home/"$1"
+	BORG_REPO="$BORG_REPOS_DIR"/"$1"
+	export BORG_REPO
 
 	# Exclusions.
 	#
@@ -67,12 +65,8 @@ for i in *; do
 	if [ -d "$HOME_DIR"/.mozilla ]; then
 		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::firefox-bookmarks {now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
 	fi
-done
 
-for i in *; do
-	[ -d "$i" ] || continue
-	export BORG_REPO="$PWD"/"$i"
-
+	# Prune old backups to save space
 	log_cmd borg prune $BORG_STATS --prefix "home " \
 		--keep-daily 14 --keep-weekly 4 \
 		--keep-monthly 12 --keep-yearly -1
@@ -80,4 +74,8 @@ for i in *; do
 	log_cmd borg prune $BORG_STATS --prefix "firefox-bookmarks " \
 		--keep-daily 14 --keep-weekly 4 \
 		--keep-monthly 12 --keep-yearly -1
-done
+}
+
+backup_home mike
+backup_home sheena
+backup_home jenkins-photos
