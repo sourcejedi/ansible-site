@@ -1,12 +1,10 @@
 #!/bin/sh
 # Tested on Stretch i.e. borgbackup-1.0.9
-#
-# TODO: as part of init
-# To upgrade configs to borg 1.1 segment sizes:
-# 
-# sed -i "$BORG_REPO"/config -e 's/^max_segment_size = 5242880$/max_segment_size = 524288000/'
 
-# Show progress when run from a terminal (idea stolen from bup)
+BORG_REPOS_DIR=/data/backup/borg
+
+# Show details when run from a terminal (idea stolen from bup).
+# Otherwise, only show errors.
 BORG_PROGRESS=
 BORG_STATS=
 if tty>/dev/null; then
@@ -29,12 +27,40 @@ log_cmd() {
 # Log the start timestamp
 log_date
 
-BORG_REPOS_DIR=/data/backup/borg
+# If the borg repo does not exist, create it - atomically.
+# If interrupted, just leaves a small randomly-named directory lying around
+borg_init() {
+	if [ ! -e "$1" ]; then
+		T=$(mktemp --dry-run "$1".tmp.XXXXXX)
+		borg init --encryption=none "$T"
+
+		# ~5M segment size (borg 1.0 default) is too small IMO.
+		# Use ~500M (borg 1.1 default).
+		sed -i "$T"/config -e 's/^max_segment_size = .*$/max_segment_size = 524288000/'
+
+		mv "$T" "$1"
+	fi
+
+	# borg doesn't like renames.
+	# There's an easier fix in 1.1, which might even work before the rename
+	# (so we don't end up overriding borg *after* the initial creation).
+	# It would also avoid a warning which we have to suppress.
+	# https://github.com/borgbackup/borg/issues/1910#issuecomment-354780246
+	(
+		export BORG_REPO="$1"
+		export BORG_RELOCATED_REPO_ACCESS_IS_OK=yes
+		borg delete ::temp 2>/dev/null
+		borg create ::temp - </dev/null 2>/dev/null
+		borg delete ::temp
+	)
+}
 
 backup_home() {
 	HOME_DIR=/home/"$1"
 	BORG_REPO="$BORG_REPOS_DIR"/"$1"
 	export BORG_REPO
+
+	borg_init "$BORG_REPO"
 
 	# Exclusions.
 	#
