@@ -62,7 +62,7 @@ backup_home() {
 
 	borg_init "$BORG_REPO"
 
-	# Exclusions.
+	# Exclusions:
 	#
 	# Firefox profile tends to churn a whole lot (but see below).
 	#
@@ -76,7 +76,7 @@ backup_home() {
 	#
 	# Nowadays GNOME logs activity and indexes it, that shows up as well.
 	#
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::home {now}' -C lz4 \
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' -C lz4 \
 		-x "$HOME_DIR" \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.mozilla/firefox \
@@ -85,21 +85,27 @@ backup_home() {
 		--exclude "$HOME_DIR"/.local/share/zeitgeist/fts.index \
 		--exclude "$HOME_DIR"/.local/share/tracker
 
-	# Add bookmarkbackups from the firefox profile.
+	# Prune old backups to save space
+	log_cmd borg prune $BORG_STATS \
+		--keep-daily 14 --keep-weekly 4 \
+		--keep-monthly 12 --keep-yearly -1
+
+
+	# Also save bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
 	# and I have a lot of bookmarks I want to keep.
 	if [ -d "$HOME_DIR"/.mozilla ]; then
-		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::firefox-bookmarks {now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+		BORG_REPO="$BORG_REPOS_DIR"/"$1".firefox-bookmarks
+		export BORG_REPO
+
+		borg_init "$BORG_REPO"
+
+		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+
+		log_cmd borg prune $BORG_STATS \
+			--keep-daily 14 --keep-weekly 4 \
+			--keep-monthly 12 --keep-yearly -1
 	fi
-
-	# Prune old backups to save space
-	log_cmd borg prune $BORG_STATS --prefix "home " \
-		--keep-daily 14 --keep-weekly 4 \
-		--keep-monthly 12 --keep-yearly -1
-
-	log_cmd borg prune $BORG_STATS --prefix "firefox-bookmarks " \
-		--keep-daily 14 --keep-weekly 4 \
-		--keep-monthly 12 --keep-yearly -1
 }
 
 backup_home mike
