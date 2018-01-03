@@ -89,25 +89,35 @@ backup_home() {
 	log_cmd borg prune $BORG_STATS \
 		--keep-daily 14 --keep-weekly 4 \
 		--keep-monthly 12 --keep-yearly -1
-
-
-	# Also save bookmarkbackups from the firefox profile.
-	# Firefox Sync doesn't e.g. protect against malice,
-	# and I have a lot of bookmarks I want to keep.
-	if [ -d "$HOME_DIR"/.mozilla ]; then
-		BORG_REPO="$BORG_REPOS_DIR"/"$1".firefox-bookmarks
-		export BORG_REPO
-
-		borg_init "$BORG_REPO"
-
-		log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
-
-		log_cmd borg prune $BORG_STATS \
-			--keep-daily 14 --keep-weekly 4 \
-			--keep-monthly 12 --keep-yearly -1
-	fi
 }
 
-backup_home mike
-backup_home sheena
-backup_home jenkins-photos
+# Save bookmarkbackups from the firefox profile.
+# Firefox Sync doesn't e.g. protect against malice,
+# and I have a lot of bookmarks I want to keep.
+backup_firefox_bookmarks()
+{
+	HOME_DIR=/home/"$1"
+	if [ ! -d "$HOME_DIR"/.mozilla ]; then
+		return
+	fi
+
+	BORG_REPO="$BORG_REPOS_DIR"/"$1".firefox-bookmarks
+	export BORG_REPO
+
+	borg_init "$BORG_REPO"
+
+	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+
+	log_cmd borg prune $BORG_STATS \
+		--keep-daily 14 --keep-weekly 4 \
+		--keep-monthly 12 --keep-yearly -1
+}
+
+backup() {
+	backup_home "$1"
+	backup_firefox_bookmarks "$1"
+}
+
+backup mike
+backup sheena
+backup jenkins-photos
