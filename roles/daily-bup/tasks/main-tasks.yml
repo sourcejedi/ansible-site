@@ -12,6 +12,17 @@
     - par2
     - cron
 
+# directory is visible without sudo
+- name: Create /data/backup/
+  file:
+    path: /data/backup
+
+# contents is for root only
+- name: Create /data/backup/bup
+  file:
+    path: /data/backup/borg
+    mode: 0600
+
 - name: Install cron job for bup
   copy:
     src: cron.daily/local-bup

@@ -8,6 +8,17 @@
     - borgbackup
     - cron
 
+# directory is visible without sudo
+- name: Create /data/backup/
+  file:
+    path: /data/backup
+
+# contents is for root only
+- name: Create /data/backup/borg
+  file:
+    path: /data/backup/borg
+    mode: 0600
+
 - name: Install cron job for borg
   copy:
     src: cron.daily/local-borgbackup
