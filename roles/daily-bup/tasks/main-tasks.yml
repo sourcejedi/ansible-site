@@ -21,7 +21,7 @@
 - name: Create /data/backup/bup
   file:
     path: /data/backup/borg
-    mode: 0600
+    mode: 0700
 
 - name: Install cron job for bup
   copy:
