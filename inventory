@@ -27,6 +27,9 @@ jessie1   repos_apt=debian-jessie
 stretch   repos_apt=debian-stretch
 stretch0  repos_apt=debian-stretch
 stretch1  repos_apt=debian-stretch
+
+unstable0  repos_apt=debian-unstable
+
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
