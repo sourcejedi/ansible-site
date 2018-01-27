@@ -19,9 +19,9 @@
 
     - packages-dev-basics
 
-    #- { role: sourcejedi.rpmfusion-remove, repo: nonfree }
-    #- { role: sourcejedi.rpmfusion-remove, repo: free }
-    #- sourcejedi.rpmfusion-free
+    - sourcejedi.rpmfusion-free  # e.g. codecs beyond mp3
     #- sourcejedi.rpmfusion-nonfree
+    - { role: sourcejedi.rpmfusion-remove, repo: nonfree }
+    #- { role: sourcejedi.rpmfusion-remove, repo: free }
 
     - sourcejedi.nspawn-on-fedora
