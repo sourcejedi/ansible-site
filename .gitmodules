@@ -33,3 +33,6 @@
 [submodule.sourcejedi-systemd-journal]
 	path = roles/sourcejedi.systemd-journal
 	url = git@github.com:sourcejedi/ansible-systemd-journal.git
+[submodule "roles/tersmitten.sysctl"]
+	path = roles/tersmitten.sysctl
+	url = https://github.com/Oefenweb/ansible-sysctl

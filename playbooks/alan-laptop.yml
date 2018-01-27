@@ -26,3 +26,19 @@
     #- { role: sourcejedi.rpmfusion-remove, repo: free }
 
     - sourcejedi.nspawn-on-fedora
+
+
+    # this works ok, though it doesn't mark the file
+    # as modified automatically by ansible
+    - role: tersmitten.sysctl
+      sysctl_settings:
+        #
+        # https://fedoraproject.org/wiki/QA/Sysrq
+        #
+        # Fedora disables sysrq by default.
+        # It's slightly more powerful than some people are comfortable with
+        # granting to not-logged-in users :).
+        # But I want it.
+        #
+        - name: kernel.sysrq
+          value: 1
