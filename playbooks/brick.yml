@@ -10,6 +10,7 @@
                          # see rsyslog below
                          systemd_journal__disable_syslog_daemon: no
       }
+    - systemd-coredump
     - openssh-server
 
     - sourcejedi.hdparm-noapm

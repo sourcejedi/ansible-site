@@ -7,6 +7,8 @@
     - sourcejedi.etckeeper
 
     - users
+    - sourcejedi.systemd-journal
+    - systemd-coredump
     - openssh-server
 
     - packages-trash-cli

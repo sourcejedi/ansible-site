@@ -1,0 +1,20 @@
+- name: Check if systemd would need to be installed
+  package:
+    name: systemd
+    state: present
+  check_mode: true
+  register: systemd_simulated_install
+
+- name: Require that systemd is already installed
+  assert:
+    that: not systemd_simulated_install.changed
+    msg:
+      This role will not convert your system to systemd.
+      Please do so yourself before running this role.
+
+# In Debian, systemd-coredump is not included in the "systemd" package.
+- name: Debian - install systemd-coredump
+  package:
+    name: systemd-coredump
+    state: present
+  when: ansible_os_family == "Debian"
