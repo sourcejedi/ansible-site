@@ -2,14 +2,14 @@
 # use the raw module to install it.
 # Then we shouldn't need to use the raw module any more.
 
-- name: Test connection with ansible raw module
+- name: Check connection with ansible raw module
   raw: "true"
   changed_when: False  # no change
   check_mode: no  # run this non-check module even in --check mode
 
 # For science :).
-# May also detect if the command interpreter is not a unix shell.
-- name: Test that command interpreter can return failure
+# May also detect if command interpreter is not a unix shell.
+- name: Check command interpreter can return failure
   raw: "false"
   register: raw_false
   failed_when: raw_false.rc != 1
@@ -43,7 +43,7 @@
 
 
 # Now non-raw modules should work.  Cross-check.
-- name: ansible ping module works ok
+- name: Check ansible ping module works ok
   ping:
   check_mode: no
 

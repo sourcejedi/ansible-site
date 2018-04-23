@@ -15,9 +15,10 @@
   set_fact:
     firefox__package: firefox-esr
 
-- name: Test operating system is supported
+- name: Operating system is supported
   assert:
     that: firefox__package is defined
+
 
 - name: Install Firefox
   package:

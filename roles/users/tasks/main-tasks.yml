@@ -6,9 +6,10 @@
   when: ansible_os_family == "Debian"
   set_fact: sudo_group="sudo"
 
-- name: Test operating system is supported
+- name: Operating system is supported
   assert:
     that: sudo_group is defined
+
 
 - name: Install sudo
   package: name=sudo state=present

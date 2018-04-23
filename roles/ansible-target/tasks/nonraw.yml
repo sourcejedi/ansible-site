@@ -1,4 +1,5 @@
-- assert:
+- name: Check that package manager is supported
+  assert:
     that:
       ansible_pkg_mgr in ["dnf", "apt"]
     msg: "This role does not support '{{ ansible_pkg_mgr }}' package manager, only 'dnf' or 'apt'."
