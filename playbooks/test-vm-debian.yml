@@ -9,6 +9,8 @@
     - users
     - sourcejedi.systemd-journal
     - systemd-coredump
+    - atop
+
     - openssh-server
 
     - packages-trash-cli
@@ -17,7 +19,10 @@
     #- packages-gui
 
     - remove-mlocate-on-deb
-    - { role: daily-bup,
-              daily_bup__cron_prefix: '50-' }
+
+    #- { role: daily-bup,
+    #          daily_bup__cron_prefix: '50-' }
     - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '70-' }
+              daily_borgbackup__cron_prefix: '50-' }
+    #- { role: daily-rsync,
+    #          daily_rsync__cron_prefix: '60-' }

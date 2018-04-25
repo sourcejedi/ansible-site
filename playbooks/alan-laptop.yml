@@ -6,6 +6,7 @@
     - sourcejedi.hdparm-noapm
     - users
     - sourcejedi.systemd-journal
+    - systemd-coredump
 
     # This works ok, though it doesn't mark the file
     # as modified automatically by ansible
