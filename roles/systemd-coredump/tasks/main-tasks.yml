@@ -12,9 +12,17 @@
       This role will not convert your system to systemd.
       Please do so yourself before running this role.
 
+
 # In Debian, systemd-coredump is not included in the "systemd" package.
-- name: Debian - install systemd-coredump
+# But on Fedora, there is no separate "systemd-coredump" package.
+#
+- name: Check for systemd-coredump
+  stat:
+    path: /lib/systemd/system/systemd-coredump.socket
+  register: stat_systemd_coredump
+
+- name: Install systemd-coredump as a distinct package
   package:
     name: systemd-coredump
     state: present
-  when: ansible_os_family == "Debian"
+  when: not stat_systemd_coredump.stat.exists
