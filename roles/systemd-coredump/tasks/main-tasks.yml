@@ -13,6 +13,21 @@
       Please do so yourself before running this role.
 
 
+# Check we will not break e.g. Ubuntu apport.
+#
+# Use grep to print the foreign core handler.
+# If there is none, grep will return 1 (failure),
+# and we're ok to continue.
+#
+- name: Check that no other coredump handler is installed
+  command:
+    grep -v -E 'lib/systemd/systemd-coredump|^[^|]' /proc/sys/kernel/core_pattern
+  register: core_pipe_and_is_not_systemd
+  failed_when: core_pipe_and_is_not_systemd.rc != 1
+  check_mode: no
+  changed_when: False
+
+
 # In Debian, systemd-coredump is not included in the "systemd" package.
 # But on Fedora, there is no separate "systemd-coredump" package.
 #

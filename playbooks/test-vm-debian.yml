@@ -8,8 +8,10 @@
 
     - users
     - sourcejedi.systemd-journal
-    - systemd-coredump
     - atop
+
+    - systemd-coredump
+      when: ansible_distribution == "Debian"
 
     - openssh-server
 
