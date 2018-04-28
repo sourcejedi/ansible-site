@@ -10,7 +10,7 @@
     - sourcejedi.systemd-journal
     - atop
 
-    - systemd-coredump
+    - role: systemd-coredump
       when: ansible_distribution == "Debian"
 
     - openssh-server
