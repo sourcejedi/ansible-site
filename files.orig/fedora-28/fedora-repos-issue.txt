@@ -1,0 +1,5 @@
+https://pagure.io/fedora-repos/issue/70
+
+> baseurl for all updates repos is wrong for f28/Rawhide
+>
+> The baseurls for all the updates repos are wrong for F28/Rawhide. They all have a /os subdirectory on the end, but this is incorrect in all cases. None of the actual mirror locations has a /os subdirectory.

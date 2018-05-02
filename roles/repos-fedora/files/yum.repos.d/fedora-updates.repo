@@ -4,7 +4,13 @@
 [updates]
 name=Fedora $releasever - $basearch - Updates
 failovermethod=priority
-baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/$basearch/
+
+# Fedora 27
+#baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/$basearch/
+
+# Fedora 28
+baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/Everything/$basearch/
+
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
