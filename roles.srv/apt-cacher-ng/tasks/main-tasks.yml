@@ -40,6 +40,10 @@
     line: '#LocalDirs: # not required, disabled as security precaution'
   notify: [ 'Restart apt-cacher-ng' ]
 
+
+# apt-cacher-ng is flaky, sometimes I've used polipo instead.
+# The following can be useful to transition from polipo.
+#
 - name: Temporary upstream proxy
   lineinfile:
     dest: /etc/apt-cacher-ng/acng.conf
