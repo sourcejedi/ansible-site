@@ -16,7 +16,6 @@
     - systemd-coredump
     - atop
 
-    - polipo
     - apt-cacher-ng
 
     - packages-trash-cli

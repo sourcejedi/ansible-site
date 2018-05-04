@@ -44,12 +44,12 @@
 # apt-cacher-ng is flaky, sometimes I've used polipo instead.
 # The following can be useful to transition from polipo.
 #
-- name: Temporary upstream proxy
-  lineinfile:
-    dest: /etc/apt-cacher-ng/acng.conf
-    regexp: '^(#?)Proxy:'
-    line: 'Proxy: http://localhost:8123'
-  notify: [ 'Restart apt-cacher-ng' ]
+#- name: Temporary upstream proxy
+#  lineinfile:
+#    dest: /etc/apt-cacher-ng/acng.conf
+#    regexp: '^(#?)Proxy:'
+#    line: 'Proxy: http://localhost:8123'
+#  notify: [ 'Restart apt-cacher-ng' ]
 
 
 # backends_ configuration files
