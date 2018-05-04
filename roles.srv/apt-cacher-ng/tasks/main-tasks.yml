@@ -21,16 +21,16 @@
 # ... of course this has the problem of not taking effect
 # before apt-cacher-ng has already been started... 
 #
-#- name: Disable control page
-#  lineinfile:
-#    dest: /etc/apt-cacher-ng/acng.conf
-#    regexp: '^(#?)ReportPage:'
-#    line: '#ReportPage: acng-report.html # non-essential, disabled for security'
-#  notify: [ 'Restart apt-cacher-ng' ]
+- name: Disable control page
+  lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: '^(#?)ReportPage:'
+    line: '#ReportPage: acng-report.html # non-essential, disabled for security'
+  notify: [ 'Restart apt-cacher-ng' ]
 
-- name: SENSITIVE AREAS ARE NOT RESTRICTED BY DEFAULT
-  debug:
-    msg: "Quote: The AdminAuth option can be used to restrict access to sensitive areas"
+#- name: SENSITIVE AREAS ARE NOT RESTRICTED BY DEFAULT
+  #debug:
+    #msg: "Quote: The AdminAuth option can be used to restrict access to sensitive areas"
 
 
 - name: Disable web server (localhost:3142/acng-doc)
