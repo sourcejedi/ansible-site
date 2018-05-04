@@ -1,5 +1,5 @@
 - name: Install powertop
-  package: name=powertop state=installed
+  package: name=powertop state=present
 
 # powertop --auto-tune overrides the normal kernel defaults, to save power.
 # It BREAKS your system.  You must test that you are happy with this
