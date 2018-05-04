@@ -1,7 +1,9 @@
 # Debian/sigh
-# Don't want rpcbind.  But some packages recommend it!
+# Don't want rpcbind running. But some packages recommend it
+# (and then Debian will start it). Protect against this.
+#
 # For simple idempotence, just mask the service
-# To handle Fedora, we also mask the socket, see
+# While we're here, handle Fedora by masking the socket, see
 # https://unix.stackexchange.com/questions/369937/fedora-25-and-disabling-whatever-is-listening-on-port-111/369943#369943
 
 
