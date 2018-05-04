@@ -1,7 +1,16 @@
 - name: Install icinga2
   package:
-    name: icinga2
+    name: "{{ item }}"
     state: installed
+  with_items:
+    - icinga2
+
+    # check_dig in monitoring-plugins-standard, which is only recommended.
+    #
+    # This will also pull in rpcbind :(.
+    # Hence roles/remove-rpcbind, which masks it in advance.
+    - monitoring-plugins
+
 
 # Note this role does not enable any "features", including the checker (?).
 # The output features you want differ completely, between
