@@ -4,9 +4,10 @@
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-
+    - remove-rpcbind
     - users
     - sourcejedi.systemd-journal
+
     - systemd-coredump
     - atop
 
@@ -14,10 +15,11 @@
     - openssh-server
 
     - remove-mlocate-on-deb
+
     - { role: daily-bup,
               daily_bup__cron_prefix: '50-' }
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '70-' }
 
-    - packages-gui
     - packages-trash-cli
+    - packages-gui

@@ -5,13 +5,14 @@
       when: repos_apt == 'debian-jessie'
 
     - sourcejedi.etckeeper
-
+    - remove-rpcbind
     - users
     - sourcejedi.systemd-journal
-    - atop
 
     - role: systemd-coredump
       when: ansible_distribution == "Debian"
+
+    - atop
 
     - openssh-server
 

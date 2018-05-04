@@ -4,23 +4,23 @@
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-
+    - remove-rpcbind
+    - sourcejedi.hdparm-noapm
     - users
     - { role: sourcejedi.systemd-journal,
                          # see rsyslog below
                          systemd_journal__disable_syslog_daemon: no
       }
+
     - openssh-server
 
-    - sourcejedi.hdparm-noapm
     - systemd-coredump
     - atop
 
-    - remove-mlocate-on-deb
-    - remove-rpcbind
-
+    # Cough, bootstrapping problem.
     - apt-cacher-ng
 
+    - remove-mlocate-on-deb
     - packages-trash-cli
 
     # catch syslogs from router
