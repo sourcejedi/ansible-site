@@ -1,0 +1,35 @@
+# Debian/sigh
+# Don't want rpcbind.  But some packages recommend it!
+# For simple idempotence, just mask the service
+# To handle Fedora, we also mask the socket, see
+# https://unix.stackexchange.com/questions/369937/fedora-25-and-disabling-whatever-is-listening-on-port-111/369943#369943
+
+
+# systemd module refuses to mask services which do not exist
+- name: "Mask rpcbind.service"
+  file:
+    path: /etc/systemd/system/rpcbind.service
+    state: link
+    src: /dev/null
+
+- name: "Mask rpcbind.socket"
+  file:
+    path: /etc/systemd/system/rpcbind.socket
+    state: link
+    src: /dev/null
+
+# it seems happy to stop services which are masked though :)
+
+- name: "Reload systemd"
+  systemd:
+    daemon_reload: yes
+
+- name: "Stop rpcbind.service"
+  systemd:
+    name: rpcbind.service
+    state: stopped
+
+- name: "Stop rpcbind.socket"
+  systemd:
+    name: rpcbind.socket
+    state: stopped

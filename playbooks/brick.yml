@@ -16,6 +16,9 @@
     - systemd-coredump
     - atop
 
+    - remove-mlocate-on-deb
+    - remove-rpcbind
+
     - apt-cacher-ng
 
     - packages-trash-cli
