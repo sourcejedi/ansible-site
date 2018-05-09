@@ -8,26 +8,34 @@
 
 
 # systemd module refuses to mask services which do not exist
-- name: "Mask rpcbind.service"
-  file:
-    path: /etc/systemd/system/rpcbind.service
-    state: link
-    src: /dev/null
-
 - name: "Mask rpcbind.socket"
   file:
     path: /etc/systemd/system/rpcbind.socket
     state: link
     src: /dev/null
 
-# it seems happy to stop services which are masked though :)
+- name: "1/2 Mask rpcbind.service"
+  file:
+    path: /etc/systemd/system/rpcbind.service
+    state: link
+    src: /dev/null
 
-- name: "Reload systemd"
-  systemd:
-    daemon_reload: yes
+# "fix" check mode
+- name: "2/2 rpcbind.socket must be masked for the next task"
+  file:
+    path: /etc/systemd/system/rpcbind.socket
+    state: link
+    src: /dev/null
+  register: mask_rpcbind
+  failed_when: mask_rpcbind.changed
+
+# ansible seems happy to stop services which are masked though :)
 
 - name: "Stop rpcbind.service"
   systemd:
+    # ansible 2.2 doesn't let me split out daemon_reload as a separate task
+    daemon_reload: yes
+
     name: rpcbind.service
     state: stopped
 
