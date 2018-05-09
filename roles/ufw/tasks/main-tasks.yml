@@ -1,0 +1,40 @@
+# role for jenkins-desktop.  because debian/sigh.
+#
+# https://unix.stackexchange.com/questions/442791/has-minissdpd-been-auditted-for-security-at-a-similar-level-to-avahi-daemon
+
+# First google result for "ansible ufw" was the built-in ufw module.
+# So let's try this the simple way.
+
+- name: Install ufw
+  package:
+    name: ufw
+    state: present
+
+# Specific allow lines go first.
+#
+# I'm not sure these rule/policy tasks won't show changed correctly,
+# but that's ok.
+
+- name: ufw allow ssh
+  ufw:
+    name: ssh
+    rule: allow
+
+# "reject" actually drops instead (bug in ufw, 0.35-4), so don't lie about it here
+- name: ufw default deny
+  ufw:
+    policy: deny
+
+- name: Enable ufw
+  ufw:
+    state: enabled
+
+# This should be cosmetic.
+# And yet none of the above manages to mark the service started...
+# I guess it's not special pleading, just some historical accident.
+- name: Enable ufw service
+  service:
+    name: ufw
+    state: started
+    enabled: yes
+

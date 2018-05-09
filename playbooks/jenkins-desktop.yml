@@ -14,6 +14,8 @@
     # Note - remote administration is not permitted on jenkins-destop.
     - openssh-server
 
+    - ufw
+
     - remove-mlocate-on-deb
 
     - { role: daily-bup,
