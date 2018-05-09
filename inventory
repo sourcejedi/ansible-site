@@ -33,8 +33,8 @@ unstable0  repos_apt=debian-unstable
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
-fedora26-vm ansible_host=fedora26-vm.local  # avahi
 fedora27-vm ansible_host=fedora27-vm.local  # avahi
+fedora28-vm ansible_host=fedora28-vm.local  # avahi
 
 [test-vm-debian]
 debian8-vm ansible_host=debian8-vm.local  repos_apt=debian-jessie
