@@ -1,45 +1,67 @@
-# Debian/sigh
-# Don't want rpcbind running. But some packages recommend it
-# (and then Debian will start it). Protect against this.
+# Don't want rpcbind running.
 #
-# For simple idempotence, just mask the service
-# While we're here, handle Fedora by masking the socket, see
+# (Note since NFSv4, NFS does not use rpcbind at all).
+#
+# Some packages (monitoring-plugins-standard for icinga) recommend it,
+# and then Debian will start it.  Protect against this.
+#
+# For simple idempotence, just mask the service.
+#
+#
+# Debian 8 Jessie also installed rpcbind by default.
+# https://unix.stackexchange.com/questions/383013/why-does-debian-come-without-a-firewall-enabled-by-default/383021#383021
+#
+# While we're here, maybe we can support Fedora as well. Fedora 25 is known to enable rpcbind,
+# and not in the way you'd expect from Fedora policy.  Another reason it can be confusing
+# is that rpcbind.service is not started at boot; but rpcbind.socket is, which can activate it
+# on demand. So we mask the socket unit as well.
+#
 # https://unix.stackexchange.com/questions/369937/fedora-25-and-disabling-whatever-is-listening-on-port-111/369943#369943
 
 
 # systemd module refuses to mask services which do not exist
+
 - name: "Mask rpcbind.socket"
   file:
     path: /etc/systemd/system/rpcbind.socket
     state: link
     src: /dev/null
 
-- name: "1/2 Mask rpcbind.service"
+- name: "Mask rpcbind.service"
   file:
     path: /etc/systemd/system/rpcbind.service
     state: link
     src: /dev/null
 
 # "fix" check mode
-- name: "2/2 rpcbind.socket must be masked for the next task"
+
+- name: "rpcbind.socket must be masked, for a later task"
   file:
     path: /etc/systemd/system/rpcbind.socket
     state: link
     src: /dev/null
-  register: mask_rpcbind
-  failed_when: mask_rpcbind.changed
+  register: mask_rpcbind_socket
+  failed_when: mask_rpcbind_socket.changed
+
+- name: "rpcbind.service must be masked, for a later task"
+  file:
+    path: /etc/systemd/system/rpcbind.service
+    state: link
+    src: /dev/null
+  register: mask_rpcbind_service
+  failed_when: mask_rpcbind_service.changed
 
 # ansible seems happy to stop services which are masked though :)
 
-- name: "Stop rpcbind.service"
+- name: "Stop rpcbind.socket"
   systemd:
     # ansible 2.2 doesn't let me split out daemon_reload as a separate task
     daemon_reload: yes
 
-    name: rpcbind.service
+    name: rpcbind.socket
     state: stopped
 
-- name: "Stop rpcbind.socket"
+- name: "Stop rpcbind.service"
   systemd:
-    name: rpcbind.socket
+    name: rpcbind.service
     state: stopped
