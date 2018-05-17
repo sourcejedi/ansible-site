@@ -1,4 +1,4 @@
-- name: install polipo
+- name: Install polipo
   package: name=polipo state=present
 
 - name: Install polipo configuration file
@@ -7,7 +7,7 @@
     dest: /etc/polipo/config
   notify: [ 'Test polipo and restart' ]
 
-- name: ensure polipo is enabled
+- name: Ensure polipo is enabled
   service:
     name: polipo
     enabled: yes
