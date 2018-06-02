@@ -1,3 +1,11 @@
+[submodule.sourcejedi-atop]
+	path = roles/sourcejedi.atop
+	url = git@github.com:sourcejedi/ansible-atop.git
+
+[submodule.sourcejedi-ccache]
+	path = roles/sourcejedi.ccache
+	url = git@github.com:sourcejedi/ansible-ccache.git
+
 [submodule.sourcejedi-etckeeper]
 	path = roles/sourcejedi.etckeeper
 	url = git@github.com:sourcejedi/ansible-etckeeper.git

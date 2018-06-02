@@ -9,7 +9,7 @@
     - sourcejedi.systemd-journal
 
     - systemd-coredump
-    - atop
+    - sourcejedi.atop
 
     # Note - remote administration is not permitted on jenkins-destop.
     - openssh-server

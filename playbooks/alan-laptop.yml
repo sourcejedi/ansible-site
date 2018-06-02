@@ -26,7 +26,7 @@
           value: 1
 
     # Useful to log memory usage per process (default 10 min snapshots).
-    - atop
+    - sourcejedi.atop
 
     # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
     #
@@ -46,6 +46,7 @@
     - packages-gui
 
     - packages-dev-basics
+    - sourcejedi.ccache
 
     - sourcejedi.rpmfusion-free  # e.g. codecs beyond mp3
     #- sourcejedi.rpmfusion-nonfree

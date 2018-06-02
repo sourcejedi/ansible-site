@@ -15,7 +15,7 @@
     - openssh-server
 
     - systemd-coredump
-    - atop
+    - sourcejedi.atop
 
     # Cough, bootstrapping problem.
     - apt-cacher-ng
