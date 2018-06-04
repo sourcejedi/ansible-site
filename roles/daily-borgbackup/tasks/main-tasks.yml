@@ -1,12 +1,14 @@
-# DRAFT ROLE see daily-bup
-
 - name: Install borgbackup, cron
   package:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - borgbackup
     - cron
+
+# Note - this role is not really configurable, to keep it simple
+# and to avoid appearing more general than it is (just edit the script).
+# __cron_prefix is a useful abstraction for me, however.
 
 # directory is visible without sudo
 - name: Create /data/backup/

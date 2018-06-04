@@ -8,7 +8,7 @@ BORG_REPOS_DIR=/data/backup/borg
 BORG_PROGRESS=
 BORG_STATS=
 
-if tty>/dev/null; then
+if tty >/dev/null; then
 	BORG_PROGRESS="--progress"
 	BORG_STATS="--stats --info"
 fi
@@ -16,7 +16,7 @@ fi
 
 ### Write a log to show the time taken ###
 log() {
-	echo >> /var/log/local-borgbackup -- "$@"
+	echo -- "$@" >> /var/log/local-borgbackup
 }
 log_date() {
 	log "$(date --rfc-3339=seconds)"
@@ -49,7 +49,8 @@ borg_init() {
 		mv "$T" "$1"
 	fi &&
 
-	# borg doesn't like renamed repos.  Coddle it.
+	# borg doesn't like renamed repos; we have to baby it.
+	#
 	# There's an easier fix in 1.1, which might even work before the rename
 	# (so we don't end up overriding borg *after* the initial creation).
 	# It would also avoid a warning which we have to suppress.
@@ -57,8 +58,21 @@ borg_init() {
 	(
 		export BORG_REPO="$1" &&
 		export BORG_RELOCATED_REPO_ACCESS_IS_OK=yes &&
-		borg delete ::temp 2>/dev/null &&
-		borg create ::temp /dev/null &&
+
+		# Make sure to delete "temp" archive,
+		# in case previous run was interrupted.
+		# Ignore failure, suppress errors.
+		( borg delete ::temp 2>/dev/null; true ) &&
+
+		# Fire for effect.  But we still need to suppress the warning
+		# from BORG_RELOCATED_REPO_ACCESS_IS_OK=yes.
+		# If there is a fatal error, then retry to show the messages.
+		(
+			borg create ::temp /dev/null 2>/dev/null ||
+			borg create ::temp /dev/null
+		) &&
+
+		# Clean up
 		borg delete ::temp
 	)
 }
