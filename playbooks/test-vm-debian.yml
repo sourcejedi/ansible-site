@@ -12,7 +12,7 @@
     - role: systemd-coredump
       when: ansible_distribution == "Debian"
 
-    - atop
+    - sourcejedi.atop
 
     - openssh-server
 
@@ -25,7 +25,9 @@
 
     #- { role: daily-bup,
     #          daily_bup__cron_prefix: '50-' }
-    - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '50-' }
+
+    #- { role: daily-borgbackup,
+    #          daily_borgbackup__cron_prefix: '50-' }
+
     #- { role: daily-rsync,
     #          daily_rsync__cron_prefix: '60-' }
