@@ -40,4 +40,4 @@ fedora28-vm ansible_host=fedora28-vm.local  # avahi
 debian8-vm ansible_host=debian8-vm.local  repos_apt=debian-jessie
 debian9-vm ansible_host=debian9-vm.local  repos_apt=debian-stretch
 
-ubuntu1604-vm ansible_host=ubuntu1604-vm.local  repos_apt=ubuntu-xenial
+ubuntu1804-vm ansible_host=ubuntu1804-vm.local  repos_apt=ubuntu-bionic
