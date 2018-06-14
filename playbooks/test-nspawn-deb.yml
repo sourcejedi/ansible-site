@@ -57,9 +57,12 @@
     #- polipo
     #- apt-cacher-ng
 
-    #conflict with systemd-journal role
+    # conflict with systemd-journal role
     #- rsyslog-srv
 
-    #puts load on external servers
+    # puts load on external servers
     #- smokeping
     #- icinga2
+
+    # useful when compiling programs
+    #- sourcejedi.ccache
