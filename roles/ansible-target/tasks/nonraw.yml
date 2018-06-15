@@ -74,3 +74,8 @@
 - name: Re-read selinux facts
   setup: {}
   when: selinux_install.changed
+
+- name: Basic test of copy module
+  copy:
+    src: test-file.txt
+    dest: /ansible-managed/ansible-target/test-file.txt
