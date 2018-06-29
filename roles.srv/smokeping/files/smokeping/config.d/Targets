@@ -29,4 +29,4 @@ host = mortar.carrier.duckdns.org
 
 menu = dns1
 title = DNS server
-host = 62.24.243.1
+host = 79.79.79.77
