@@ -49,8 +49,9 @@
     - sourcejedi.ccache
 
     - sourcejedi.rpmfusion-free  # e.g. codecs beyond mp3
+
+    # nonfree, useful at least to keep the repo keys updated for other users.
     #- sourcejedi.rpmfusion-nonfree
     - { role: sourcejedi.rpmfusion-remove, repo: nonfree }
-    #- { role: sourcejedi.rpmfusion-remove, repo: free }
 
     - sourcejedi.nspawn-on-fedora
