@@ -1,0 +1,39 @@
+ubuntu_gnome_remove_snaps:   
+#
+# Ubuntu Desktop (18.04) installs the following snaps.
+# This is done for experimental purposes only.
+# There is no reason to expect a function benefit for these utilities.
+#
+# Unfortunately, we see undesirable results from this experiment.
+# The first time you run one of these small utilities, is the first time
+# you're launching a program which uses any file from e.g. the gnome base
+# snap.  And so gnome-system-monitor, to take a particularly unfortunate
+# example, takes longer to load than expected.  (Like, over 20 seconds.
+# Maybe sometime they will remember about prefetching :).
+#
+# If this is a *big* problem for you, it suggests to me that Ubuntu Desktop is
+# not well designed for your system :).  Or for some of us this serves as a
+# very annoying reminder of a technically questionable decision.  Ubuntu fails
+# to provide a simple revert for this situation, so let's automate one for
+# ourselves.
+#
+# Hopefully Ubuntu will make sure this obvious revert doesn't cause weird
+# breakage when upgrading to the next version of Ubuntu.  Personally I
+# recommend keeping the ansible playbook(s) you use, and re-running them
+# after such an upgrade.
+#
+ - gnome-calculator
+ - gnome-characters
+ - gnome-logs
+ - gnome-system-monitor
+
+# If you don't need snapd for anything else, you might want to remove it
+# altogether.  E.g. to guarantee that snapd can't possibly waste any bandwidth
+# downloading updates to base snaps.  This should work fine for Ubuntu Desktop
+# 18.04.  If you run this on a different version, you will need to check for
+# yourself.  The risk is that there is some other snap, which we have not
+# installed a replacement APT package for.
+#
+# Currently this does not reclaim all disk space e.g. from base snaps.
+# If you want to do so, run "apt purge snapd".
+ubuntu_gnome_remove_snapd: no

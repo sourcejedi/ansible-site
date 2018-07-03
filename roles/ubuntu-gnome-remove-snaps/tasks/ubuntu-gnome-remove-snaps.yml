@@ -1,0 +1,21 @@
+- name: Query installed snaps
+  shell: snap list | cut -f 1 -d " " | tail +2
+  register: snaps
+  failed_when: snaps.stderr != "" or snaps.rc != 0
+  check_mode: no
+  changed_when: False
+
+# Let's install first.  In case there's a problem, I'd prefer having two
+# copies of e.g. gnome-logs over having no gnome-logs at all.
+#
+- name: Manually install apt packages to replace Ubuntu Desktop snaps
+  package:
+    name: "{{ item }}"
+    state: present
+  when: item in snaps.stdout_lines
+  with_items: "{{ ubuntu_gnome_remove_snaps }}"
+
+- name: Remove experimental Ubuntu Desktop snaps
+  command: "snap remove {{ item }}"
+  when: item in snaps.stdout_lines
+  with_items: "{{ ubuntu_gnome_remove_snaps }}"

@@ -1,6 +1,8 @@
 - hosts: test-vm-debian
   roles:
     - repos-apt
+
+    # used for ansible
     - role: repos-debian-jessie-backports
       when: repos_apt == 'debian-jessie'
 
@@ -20,6 +22,9 @@
     - packages-dev-basics
 
     #- packages-gui
+    - role: ubuntu-gnome-remove-snaps
+      ubuntu_gnome_remove_snapd: yes
+      when: ansible_distribution == "Ubuntu"
 
     - remove-mlocate-on-deb
 
