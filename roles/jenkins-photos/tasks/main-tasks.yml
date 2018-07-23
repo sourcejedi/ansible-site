@@ -1,0 +1,38 @@
+- name: Install bindfs
+  package:
+    name: bindfs
+    state: present
+
+- name: Create directory
+  file:
+    state: directory
+    path: /home/jenkins-photos
+
+# Let's take great care in fstab.
+# 1. Use nofail option, so we can still boot without bindfs.
+# 2. Try not to overwrite an existing line?
+#
+# "nosuid" is default for FUSE, so create-as-mounter is safe.
+#
+- name: Create entry in fstab
+  lineinfile:
+    dest: /etc/fstab
+    regexp: '^/home/jenkins-photos[ \t]+/home/jenkins-photos[ \t]+fuse.bindfs([ \t]*|$)'
+    line: '/home/jenkins-photos /home/jenkins-photos fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+wX,create-as-mounter'
+
+# This is not idempotent: it will not apply changed options.
+- name: Start mount unit
+  systemd:
+    daemon_reload: yes  # uhh.
+    # use systemctl do-what-I-mean,
+    # this avoids manually escaping '-' characters in the path.
+    name: /home/jenkins-photos
+    state: started
+  ignore_errors: yes
+  register: jenkins_photos_mount
+
+- name: Check mount unit success
+  assert:
+    that: not jenkins_photos_mount|failed
+    msg: "If you cannot see an error message in the system log, please try `mount /home/jenkins-photos`"
+

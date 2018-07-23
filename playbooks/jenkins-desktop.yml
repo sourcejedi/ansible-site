@@ -37,5 +37,7 @@
     # SSH may be used for other backups though.
     - openssh-server
 
+    - jenkins-photos
+
     - packages-trash-cli
     - packages-gui
