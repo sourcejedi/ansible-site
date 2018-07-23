@@ -3,7 +3,10 @@
 # https://unix.stackexchange.com/questions/442791/has-minissdpd-been-auditted-for-security-at-a-similar-level-to-avahi-daemon
 
 # First google result for "ansible ufw" was the built-in ufw module.
-# So let's try this the simple way.
+# Let's try this the simple way.
+#
+# (Maybe something like ferm, used in debops, would be better Ansible.
+# But, we already know ufw has sensible defaults for IPv6).
 
 - name: Install ufw
   package:
@@ -12,7 +15,7 @@
 
 # Specific allow lines go first.
 #
-# I'm not sure these rule/policy tasks won't show changed correctly,
+# I'm not sure these rule/policy tasks will show changed correctly,
 # but that's ok.
 
 - name: ufw allow ssh
@@ -20,7 +23,7 @@
     name: ssh
     rule: allow
 
-# "reject" actually drops instead (bug in ufw, 0.35-4), so don't lie about it here
+# I want "reject", but it actually drops instead (bug in ufw, 0.35-4). So let's be clear that we're dropping.
 - name: ufw default deny
   ufw:
     policy: deny
@@ -31,7 +34,7 @@
 
 # This should be cosmetic.
 # And yet none of the above manages to mark the service started...
-# I guess it's not special pleading, just some historical accident.
+# I guess it is just some historical accident (not special pleading, I hope).
 - name: Enable ufw service
   service:
     name: ufw

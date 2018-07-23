@@ -1,27 +1,41 @@
+# Init jenkins-desktop.
+#
+# Debian does not implement "No open ports" (aspirational ubuntu policy).
+# I suggest *always* initializing systems on a firewalled network.
+# (E.g. standard home router config.  Sucks if you don't have a router.)
+# Once this role is run, ufw will be installed, and will allow the SSH port.
+#
+# Debian 9 install only.
+# Not validated for upgrade from Debian < 9.
+
+
 - hosts: drystone
   roles:
     - role: repos-apt
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-    - remove-rpcbind
+    - ufw
+
     - users
     - sourcejedi.systemd-journal
-
     - systemd-coredump
     - sourcejedi.atop
 
-    # Note - remote administration is not permitted on jenkins-destop.
-    - openssh-server
-
-    - ufw
-
+    # Cleanup. In particular, remove updatedb task.
+    - remove-rpcbind
     - remove-mlocate-on-deb
 
+    # Create backup tasks.
+    # Make sure to mount /data/backup/ first, I guess :).
     - { role: daily-bup,
               daily_bup__cron_prefix: '50-' }
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '70-' }
+
+    # Note - remote administration is not permitted on jenkins-desktop.
+    # SSH may be used for other backups though.
+    - openssh-server
 
     - packages-trash-cli
     - packages-gui
