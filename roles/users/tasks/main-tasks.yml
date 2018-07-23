@@ -17,8 +17,10 @@
 - name: Create users
   user:
     state: present
-    name:      '{{ item.name }}'
-    comment:   '{{ item.comment | d(omit) }}'
+    name: '{{ item.name }}'
+
+    # I only use the name field. Set the rest of the GECOS blank.
+    comment: '{{ (item.full_name | d(None) + ",,,") or omit }}'
 
     # Debian /etc/default/useradd: 'we use "sh" here because
     # useradd is a low level utility and should be as general

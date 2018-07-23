@@ -1,10 +1,10 @@
 users:
  - name: alan-sysop
-   comment: Alan Jenkins (system admin)
+   full_name: Alan Jenkins (system admin)
    admin: True
 
  - name: alan
-   comment: Alan Jenkins
+   full_name: Alan Jenkins
 
 # We can do this the hard way, or the easy way.
 alan_servers__admins:
