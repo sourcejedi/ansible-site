@@ -1,12 +1,28 @@
-- name: Install bindfs
-  package:
-    name: bindfs
+- name: Create group
+  group:
+    name: jenkins-photos
     state: present
 
+# insert comment here from sourcejedi.systemd-journal/README
+- name: Add users to group
+  user:
+    name: "{{ item }}"
+
+    append: yes
+    groups: jenkins-photos
+  with_items: "{{ jenkins_photos__users }}"
+
+# Not worried about owner or perms, that's what bindfs is for.
 - name: Create directory
   file:
     state: directory
     path: /home/jenkins-photos
+
+
+- name: Install bindfs
+  package:
+    name: bindfs
+    state: present
 
 # Let's take great care in fstab.
 # 1. Use nofail option, so we can still boot without bindfs.
@@ -17,7 +33,7 @@
     dest: /etc/fstab
     regexp: '^/home/jenkins-photos[ \t]+/home/jenkins-photos[ \t]+fuse.bindfs([ \t]*|$)'
     line: '/home/jenkins-photos /home/jenkins-photos fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+wX'
-  register: jenkins_photos_fstab
+  register: jenkins_photos__fstab
 
 - name: Restart mount unit if changed
   systemd:
@@ -26,8 +42,8 @@
     # this avoids manually escaping '-' characters in the path.
     name: /home/jenkins-photos
     state: restarted
-  register: jenkins_photos_mount
-  when: jenkins_photos_fstab|changed
+  register: jenkins_photos__mount
+  when: jenkins_photos__fstab|changed
   ignore_errors: yes
 
 # 1. Some versions of systemd did not log mount errors :-(.
@@ -37,7 +53,7 @@
 #    have fuse-3.2.2 or higher - it chokes on the "nofail" option.
 - name: Check mount unit success
   assert:
-    that: not jenkins_photos_mount|failed
+    that: not jenkins_photos__mount|failed
     msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
 
 # This task is not idempotent: it will not apply changed options.
@@ -48,10 +64,10 @@
     name: /home/jenkins-photos
     state: started
   ignore_errors: yes
-  register: jenkins_photos_mount
+  register: jenkins_photos__mount
 
 - name: Check mount unit success
   assert:
-    that: not jenkins_photos_mount|failed
+    that: not jenkins_photos__mount|failed
     msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
 
