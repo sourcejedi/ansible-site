@@ -12,18 +12,37 @@
 # 1. Use nofail option, so we can still boot without bindfs.
 # 2. Try not to overwrite an existing line?
 #
-# "nosuid" is default for FUSE, so create-as-mounter is safe.
-#
 - name: Create entry in fstab
   lineinfile:
     dest: /etc/fstab
     regexp: '^/home/jenkins-photos[ \t]+/home/jenkins-photos[ \t]+fuse.bindfs([ \t]*|$)'
-    line: '/home/jenkins-photos /home/jenkins-photos fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+wX,create-as-mounter'
+    line: '/home/jenkins-photos /home/jenkins-photos fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+wX'
+  register: jenkins_photos_fstab
 
-# This is not idempotent: it will not apply changed options.
-- name: Start mount unit
+- name: Restart mount unit if changed
   systemd:
     daemon_reload: yes  # uhh.
+    # use systemctl do-what-I-mean,
+    # this avoids manually escaping '-' characters in the path.
+    name: /home/jenkins-photos
+    state: restarted
+  register: jenkins_photos_mount
+  when: jenkins_photos_fstab|changed
+  ignore_errors: yes
+
+# 1. Some versions of systemd did not log mount errors :-(.
+# 2. `systemctl start` error message suggests commands which use the
+#    strange escaped unit name.
+# 3. Testing with `mount /home/jenkins-photos` will fail unless you
+#    have fuse-3.2.2 or higher - it chokes on the "nofail" option.
+- name: Check mount unit success
+  assert:
+    that: not jenkins_photos_mount|failed
+    msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
+
+# This task is not idempotent: it will not apply changed options.
+- name: Ensure mount unit is started
+  systemd:
     # use systemctl do-what-I-mean,
     # this avoids manually escaping '-' characters in the path.
     name: /home/jenkins-photos
@@ -34,5 +53,5 @@
 - name: Check mount unit success
   assert:
     that: not jenkins_photos_mount|failed
-    msg: "If you cannot see an error message in the system log, please try `mount /home/jenkins-photos`"
+    msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
 
