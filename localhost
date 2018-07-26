@@ -2,16 +2,22 @@
 set -e
 
 fatal_usage() {
-	echo "Usage: $0 HOSTNAME [OPTIONS]"
+	echo "Usage: $0 hostname [options] playbook..."
 	exit 1
 }
 
+# Hack - hostname must be first argument, before ansible-playbook options.
 HOST="$1"
 [ -n "$HOST" ] || fatal_usage
-shift  # Hack: any options come after hostname
+shift
 
-# Check the hostname to reduce accidents.
-# User must still type hostname, to encourage awareness.
+# This script requires the user to pass the correct hostname.
+# The idea is to encourage awareness and reduce accidents.
+# Whether this is raelly a good idea may be debatable :).
+#
+# In case you wonder how I automate setting the hostname, I don't.
+# I'm still using manual installers, which prompt you to enter one.
+# (Except for nspawn containers.  For those, I use a checklist.)
 #
 # Assumption: Hosts with the same short name are out of scope.
 # This is a script for human use, and no-one wants to type in FQDNs.
