@@ -1,0 +1,21 @@
+# Uses "jpeginfo --check", from package "jpeginfo".
+#
+# And GNU parallel for multicore from package "parallel",
+# because this tends to be CPU-bound.
+# Please read the notice in the jpegcheck script.
+#
+- name: Install depedencies
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - jpeginfo
+    - parallel
+
+- name: Install jpegcheck script
+  copy:
+  # Ansible copy module does not preserve executable bit, unlike `cp`.
+    src: jpegcheck 
+    dest: /usr/local/bin
+    mode: a+x
+

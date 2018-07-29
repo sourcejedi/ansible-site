@@ -43,6 +43,7 @@
 
     - remove-mlocate-on-fedora
     - packages-trash-cli
+    - jpegcheck
     - packages-gui
 
     - packages-dev-basics

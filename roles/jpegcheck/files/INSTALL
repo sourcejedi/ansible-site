@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Install instructions for jpegcheck script
+# (if you don't use the ansible role).
+
+# We use "jpeginfo --check", from package "jpeginfo".
+#
+# And GNU parallel for multicore from package "parallel",
+# because this tends to be CPU-bound.
+# Please read the notice in the jpegcheck script.
+#
+apt-get install -y jpeginfo parallel
+
+cp jpegcheck /usr/local/bin
