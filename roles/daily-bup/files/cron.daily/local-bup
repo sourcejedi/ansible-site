@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -o nounset
+
 # Note: bup generates progress messages when run in a tty,
 # but when run from cron it will be silent unless there are errors.
 #
@@ -7,9 +9,18 @@
 # We don't try to set an exit status on errors
 # Instead we continue and backup what we can.
 #
-# Tested on Debian Stretch.
-# The version of `bup save` in Jessie returned errors
+# Tested on Debian 9 "stretch".
+# The version of `bup save` in Debian 8 printed errors
 # when it encountered sockets or pipes.
+
+# Quick check
+if ! ( mountpoint -q /data ||
+       mountpoint -q /data/backup ||
+       mountpoint -q /data/backup/bup )
+then
+	echo "Backup disk not mounted"
+	exit 1
+fi
 
 cd /data/backup/bup || exit 1
 

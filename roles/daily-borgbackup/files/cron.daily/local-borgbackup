@@ -5,6 +5,16 @@ set -o nounset
 
 BORG_REPOS_DIR=/data/backup/borg
 
+# Quick check
+if ! ( mountpoint -q /data ||
+       mountpoint -q /data/backup ||
+       mountpoint -q /data/backup/bup )
+then
+	echo "Backup disk not mounted"
+	exit 1
+fi
+
+
 # Show details when run from a terminal (idea stolen from bup).
 # Otherwise, only show errors.
 BORG_PROGRESS=
