@@ -1,0 +1,65 @@
+# bindfs will serve the external directory as group-writable.
+# But we also want the internal one to be group-readable.
+# The plan is that the internal one shows up in Disk Usage Explorer.
+
+- name: Check external and internal directories are not the same
+  assert:
+    that: shared_external != shared_internal
+
+- name: Create external directory
+  file:
+    state: directory
+    path: "{{ shared_external }}"
+
+- name: Create internal directory
+  file:
+    state: directory
+    group: jenkins-photos
+    mode: 0750  # meh
+    path: "{{ shared_internal }}"
+
+# Use nofail option, so we can still boot without bindfs.
+# Also allow for fiddling with options, but don't replace any non-bindfs line.
+- name: Create entry in fstab
+  lineinfile:
+    dest: /etc/fstab
+    line: "{{ shared_internal }} {{ shared_external }} fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+rwX"
+    regexp: '^[^ \t]+[ \t]+{{ shared_external }}[ \t]+fuse.bindfs([ \t]*|$)'
+  register: jenkins_photos__fstab
+
+- name: Restart mount unit if changed
+  systemd:
+    daemon_reload: yes  # uhh.
+    # Use systemctl do-what-I-mean,
+    # this avoids manually escaping '-' characters in the path.
+    # (It breaks for /dev paths, but we don't need that).
+    name: "{{ shared_external }}"
+    state: restarted
+  register: jenkins_photos__mount
+  when: jenkins_photos__fstab|changed
+  ignore_errors: yes
+
+# 1. Some versions of systemd did not log mount errors :-(.
+# 2. `systemctl start` error message suggests commands which use the
+#    strange escaped unit name.
+# 3. Testing with `mount /home/jenkins-photos` will fail unless you
+#    have fuse-3.2.2 or higher - it chokes on the "nofail" option.
+- name: Check mount unit success
+  assert:
+    that: not jenkins_photos__mount|failed
+    msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="
+
+# This task is not idempotent: it will not apply changed options.
+- name: Ensure mount unit is started
+  systemd:
+    # use systemctl do-what-I-mean,
+    # this avoids manually escaping '-' characters in the path.
+    name: "{{ shared_external }}"
+    state: started
+  ignore_errors: yes
+  register: jenkins_photos__mount
+
+- name: Check mount unit success
+  assert:
+    that: not jenkins_photos__mount|failed
+    msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="

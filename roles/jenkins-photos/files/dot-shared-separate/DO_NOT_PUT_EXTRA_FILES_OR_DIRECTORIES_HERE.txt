@@ -1,0 +1,12 @@
+DO NOT PUT EXTRA FILES OR DIRECTORIES HERE
+
+You should not see this file, because it is in a hidden directory.
+
+This hidden directory holds the shared directories Photos and Music.
+
+Photos and Music are backed up automatically like everything else.
+But if you store a file in this hidden directory and not in Photos or Music,
+that file will not be backed up.
+
+Thanks
+Alan

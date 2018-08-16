@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 # Tested on Debian 9 "stretch", i.e. borgbackup-1.0.9
 
 set -o nounset
 
-BORG_REPOS_DIR=/data/backup/borg
+readonly BORG_REPOS_DIR=/data/backup/borg
 
 # Quick check
 if ! ( mountpoint -q /data ||
@@ -17,16 +17,15 @@ fi
 
 # Show details when run from a terminal (idea stolen from bup).
 # Otherwise, only show errors.
-BORG_PROGRESS=
-BORG_STATS=
-
 if tty >/dev/null; then
-	BORG_PROGRESS="--progress"
-	BORG_STATS="--stats --info"
+	readonly BORG_PROGRESS="--progress"
+	readonly BORG_STATS="--stats --info"
+else
+	readonly BORG_PROGRESS=
+	readonly BORG_STATS=
 fi
 
-
-### Write a log to show the time taken ###
+# Write a log to show the time taken
 log() {
 	echo -- "$@" >> /var/log/local-borgbackup
 }
@@ -39,28 +38,31 @@ log_start() {
 	log_date
 }
 log_cmd() {
-    local rc=0
+	local err=0
 
-	"$@" || rc=$?
+	"$@" || err=$?
 
-	log "$*" &&
-	log_date &&  # log time of completion
-	return $rc
+	log "$*" || err=1
+	log_date || err=1  # log time of completion
+
+	return $err
 }
 
 
 # If the borg repo does not exist, create it - atomically.
 # If interrupted, just leaves a small randomly-named directory lying around
 borg_init() {
-	if [ ! -e "$1" ]; then
-		T=$(mktemp --dry-run "$1".tmp.XXXXXX) &&
+	local BORG_REPO="$1" &&
+
+	if [ ! -e "$BORG_REPO" ]; then
+		T=$(mktemp --dry-run "$BORG_REPO".tmp.XXXXXX) &&
 		borg init --encryption=none "$T" &&
 
 		# ~5M segment size (borg 1.0 default) is too small IMO.
 		# Use ~500M (borg 1.1 default).
 		sed -i "$T"/config -e 's/^max_segment_size = .*$/max_segment_size = 524288000/' &&
 
-		mv "$T" "$1"
+		mv "$T" "$BORG_REPO"
 	fi &&
 
 	# borg doesn't like renamed repos; we have to baby it.
@@ -69,31 +71,33 @@ borg_init() {
 	# (so we don't end up overriding borg *after* the initial creation).
 	# It would also avoid a warning which we have to suppress.
 	# https://github.com/borgbackup/borg/issues/1910#issuecomment-354780246
-	(
-		export BORG_REPO="$1" &&
-		export BORG_RELOCATED_REPO_ACCESS_IS_OK=yes &&
 
-		# Make sure to delete "temp" archive,
-		# in case previous run was interrupted.
-		# Ignore failure, suppress errors.
-		( borg delete ::temp 2>/dev/null; true ) &&
+	export BORG_REPO &&
 
-		# Fire for effect.  But we still need to suppress the warning
-		# from BORG_RELOCATED_REPO_ACCESS_IS_OK=yes.
-		# If there is a fatal error, then retry to show the messages.
-		(
-			borg create ::temp /dev/null 2>/dev/null ||
-			borg create ::temp /dev/null
-		) &&
+	local BORG_RELOCATED_REPO_ACCESS_IS_OK=yes &&
+	export BORG_RELOCATED_REPO_ACCESS_IS_OK &&
 
-		# Clean up
-		borg delete ::temp
-	)
+	# Make sure to delete "temp" archive,
+	# in case previous run was interrupted.
+	# Ignore failure, suppress errors.
+	{ borg delete ::temp 2>/dev/null || true; } &&
+
+	# Fire for effect.  But we still need to suppress the warning
+	# from BORG_RELOCATED_REPO_ACCESS_IS_OK=yes.
+	# If there is a fatal error, then retry to show the messages.
+	{
+		borg create ::temp /dev/null 2>/dev/null ||
+		borg create ::temp /dev/null
+	} &&
+
+	# Clean up
+	borg delete ::temp
 }
 
 backup_home() {
-	HOME_DIR=/home/"$1" &&
-	BORG_REPO="$BORG_REPOS_DIR"/"$1" &&
+	local HOME_DIR="$1" &&
+	local BORG_REPO="$2" &&
+
 	export BORG_REPO &&
 
 	borg_init "$BORG_REPO" &&
@@ -130,14 +134,14 @@ backup_home() {
 # Save bookmarkbackups from the firefox profile.
 # Firefox Sync doesn't e.g. protect against malice,
 # and I have a lot of bookmarks I want to keep.
-backup_firefox_bookmarks()
-{
-	HOME_DIR=/home/"$1" &&
+backup_firefox_bookmarks() {
+	local HOME_DIR="$1" &&
+	local BORG_REPO="$2".firefox-bookmarks &&
+
 	if [ ! -d "$HOME_DIR"/.mozilla ]; then
-		return
+		return 0
 	fi &&
 
-	BORG_REPO="$BORG_REPOS_DIR"/"$1".firefox-bookmarks &&
 	export BORG_REPO &&
 
 	borg_init "$BORG_REPO" &&
@@ -154,29 +158,40 @@ backup_firefox_bookmarks()
 # However an error should be printed, which works well for the cron job case.
 # Also make sure to point out if there was an error (like rsync does :).
 backup() {
-	local rc=0
+	local err=0 || return
 
-	backup_home "$1" ||
-		rc=1
-	backup_firefox_bookmarks "$1" ||
-		rc=1
+	backup_home "$1" "$2" ||
+		err=1
+	backup_firefox_bookmarks "$1" "$2" ||
+		err=1
 
-	return $rc
+	return $err
 }
 
 main() {
-	local rc=0
+	local err=0 || return
 
-	log_start || exit 1
+	log_start || return
 
-	for i in mike sheena jenkins-photos; do
-		backup "$i" || rc=1
+	for i in mike sheena; do
+		backup "/home/$i" "$BORG_REPOS_DIR/$i" ||
+			err=1
 	done
 
-	if [ $rc != 0 ]; then
+	backup /home/.shared-internal "$BORG_REPOS_DIR/jenkins-shared" ||
+		err=1
+	backup /home/.shared-separate-internal/Music "$BORG_REPOS_DIR/jenkins-music" ||
+		err=1
+	backup /home/.shared-separate-internal/Photos "$BORG_REPOS_DIR/jenkins-photos" ||
+		err=1
+
+# 	backup /home/jenkins-photos "$BORG_REPOS_DIR/jenkins-photos" ||
+# 		err=1
+
+	if ! [ $err == 0 ]; then
 		echo
 		echo "WARNING: an error occurred.  Some files may not be backed up."
+		return $err
 	fi
-	return $rc
 }
 main

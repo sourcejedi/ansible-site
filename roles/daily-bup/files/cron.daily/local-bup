@@ -1,17 +1,41 @@
 #!/bin/sh
-
-set -o nounset
-
-# Note: bup generates progress messages when run in a tty,
+#
+# Scripted backup to a second disk, using "bup".
+#
+# Tested on Debian 9 "stretch".
+# (The version of `bup save` in Debian 8 printed errors
+# when it encountered sockets or pipes.)
+#
+# ## Features ##
+#
+# * Back up directories to separate bup repos.
+# * Exclude cache, exclude Firefox, include Firefox bookmark backups.
+# * Use "--no-check-device". (It's the more general option, and matches
+#   borgbackup behaviour).
+#
+# ## Error handling ##
+#
+# bup generates progress messages when run in a tty,
 # but when run from cron it will be silent unless there are errors.
 #
 # We rely on error messages being printed (as is usual).
 # We don't try to set an exit status on errors
 # Instead we continue and backup what we can.
 #
-# Tested on Debian 9 "stretch".
-# The version of `bup save` in Debian 8 printed errors
-# when it encountered sockets or pipes.
+# ## Time requirements ##
+#
+# This can take around 5 minutes of CPU time to re-chunk 30GB.
+# Unfortunately, a massive re-chunking seems to be triggered if the
+# previous backup was interrupted.
+#
+# You can see the files it thinks were "modified" using "bup index -s".
+# The output looks consistent with the massive re-chunking after
+# interruptions.
+
+
+set -o nounset
+
+readonly BUP_REPOS_DIR=/data/backup/bup
 
 # Quick check
 if ! ( mountpoint -q /data ||
@@ -22,27 +46,38 @@ then
 	exit 1
 fi
 
-cd /data/backup/bup || exit 1
+backup() {
+	HOME_DIR="$1"
+	ARCHIVE_NAME="$2"
 
-for i in *; do
-	[ -d "$i" ] || continue
+	BUP_DIR="$BUP_REPOS_DIR"/"$2"
+	export BUP_DIR
 
-	HOME_DIR=/home/"$i"
-	export BUP_DIR="$PWD"/"$i"
-
-	bup index "$HOME_DIR" \
+	bup index --no-check-device \
+		"$HOME_DIR" \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.mozilla
-	bup save -q -n "$i" "$HOME_DIR"
+	bup save -q -n "$ARCHIVE_NAME" "$HOME_DIR"
 
 	# Add bookmarkbackups from the firefox profile.
 	# Firefox Sync doesn't e.g. protect against malice,
 	# and I have a lot of bookmarks I want to keep.
 	if [ -d "$HOME_DIR"/.mozilla ]; then
-		bup index "$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
-		bup save -q -n "$i-bookmarkbackups" "$HOME_DIR"
+		bup index --no-check-device \
+			"$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups
+		bup save -q -n "$ARCHIVE_NAME"-bookmarkbackups "$HOME_DIR"
 	fi
-done
+}
+
+backup /home/mike mike
+backup /home/sheena sheena
+
+backup /home/.shared-internal jenkins-shared
+backup /home/.shared-separate-internal/Music jenkins-music
+backup /home/.shared-separate-internal/Photos jenkins-photos
+
+# backup /home/jenkins-photos jenkins-photos
+
 
 # Disabled for parity - borgbackup test
 #

@@ -28,10 +28,10 @@
 
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).
-    - { role: daily-bup,
-              daily_bup__cron_prefix: '50-' }
     - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '70-' }
+              daily_borgbackup__cron_prefix: '50-' }
+    - { role: daily-bup,
+              daily_bup__cron_prefix: '70-' }
 
     # Note - remote administration is not permitted on jenkins-desktop.
     # SSH may be used for other backups though.

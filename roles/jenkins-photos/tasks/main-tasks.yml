@@ -12,62 +12,57 @@
     groups: jenkins-photos
   with_items: "{{ jenkins_photos__users }}"
 
-# Not worried about owner or perms, that's what bindfs is for.
-- name: Create directory
-  file:
-    state: directory
-    path: /home/jenkins-photos
-
 
 - name: Install bindfs
   package:
     name: bindfs
     state: present
 
-# Let's take great care in fstab.
-# 1. Use nofail option, so we can still boot without bindfs.
-# 2. Try not to overwrite an existing line?
+# "You cannot use 'static' on an include with a loop." -- ansible 2.2.1.0
+
+#- name: Configure shared directory /home/jenkins-photos
+  #include: shared-dir.yml
+  #vars:
+    #shared_external: "/home/jenkins-photos"
+    #shared_internal: "/home/jenkins-photos"
+
+- name: Configure shared directory /home/shared
+  include: shared-dir.yml
+  vars:
+    shared_external: "/home/shared"
+    shared_internal: "/home/.shared-internal"
+
+- name: Configure shared directory /home/.shared-separate
+  include: shared-dir.yml
+  vars:
+    shared_external: "/home/.shared-separate"
+    shared_internal: "/home/.shared-separate-internal"
+
+# These are directories which are backed up in seperate archives from
+# the rest of the shared files.
+- name: Create separate shared directories (internal)
+  file:
+    dest: "/home/.shared-separate/{{ item }}"
+    state: directory
+    group: jenkins-photos
+  with_items:
+    - Photos
+    - Music
+
+- name: Create separate shared directories (visible links)
+  file:
+    path: "/home/shared/{{ item }}"
+    state: link
+    src: "../.shared-separate/{{ item }}"
+  with_items:
+    - Photos
+    - Music
+
+- name: Warn that extra files in .shared-separate will not be backed up.
+  copy:
+    src: dot-shared-separate/DO_NOT_PUT_EXTRA_FILES_OR_DIRECTORIES_HERE.txt
+    dest: /home/.shared-separate/
+    mode: a+r
 #
-- name: Create entry in fstab
-  lineinfile:
-    dest: /etc/fstab
-    regexp: '^/home/jenkins-photos[ \t]+/home/jenkins-photos[ \t]+fuse.bindfs([ \t]*|$)'
-    line: '/home/jenkins-photos /home/jenkins-photos fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+wX'
-  register: jenkins_photos__fstab
-
-- name: Restart mount unit if changed
-  systemd:
-    daemon_reload: yes  # uhh.
-    # use systemctl do-what-I-mean,
-    # this avoids manually escaping '-' characters in the path.
-    name: /home/jenkins-photos
-    state: restarted
-  register: jenkins_photos__mount
-  when: jenkins_photos__fstab|changed
-  ignore_errors: yes
-
-# 1. Some versions of systemd did not log mount errors :-(.
-# 2. `systemctl start` error message suggests commands which use the
-#    strange escaped unit name.
-# 3. Testing with `mount /home/jenkins-photos` will fail unless you
-#    have fuse-3.2.2 or higher - it chokes on the "nofail" option.
-- name: Check mount unit success
-  assert:
-    that: not jenkins_photos__mount|failed
-    msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
-
-# This task is not idempotent: it will not apply changed options.
-- name: Ensure mount unit is started
-  systemd:
-    # use systemctl do-what-I-mean,
-    # this avoids manually escaping '-' characters in the path.
-    name: /home/jenkins-photos
-    state: started
-  ignore_errors: yes
-  register: jenkins_photos__mount
-
-- name: Check mount unit success
-  assert:
-    that: not jenkins_photos__mount|failed
-    msg: "Check `systemctl status /home/jenkins-photos`.  In case systemd does not log the error message, please manually run the command shown in ExecMount="
-
+# I notice xdg-style trash directories might be created at this
+# top-level - and hence will not be backed up.  But I can accept this.
