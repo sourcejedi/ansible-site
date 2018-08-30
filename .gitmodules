@@ -44,3 +44,7 @@
 [submodule "roles/tersmitten.sysctl"]
 	path = roles/tersmitten.sysctl
 	url = https://github.com/Oefenweb/ansible-sysctl
+
+[submodule "roles/sourcejedi.google-chrome-remove"]
+	path = roles/sourcejedi.google-chrome-remove
+	url = git@github.com:sourcejedi/ansible-google-chrome-remove.git
