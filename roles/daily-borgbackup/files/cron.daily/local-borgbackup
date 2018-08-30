@@ -188,7 +188,7 @@ main() {
 # 	backup /home/jenkins-photos "$BORG_REPOS_DIR/jenkins-photos" ||
 # 		err=1
 
-	if ! [ $err == 0 ]; then
+	if [ $err != 0 ]; then
 		echo
 		echo "WARNING: an error occurred.  Some files may not be backed up."
 		return $err
