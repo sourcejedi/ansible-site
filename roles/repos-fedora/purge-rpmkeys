@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# https://unix.stackexchange.com/questions/400634/does-anyone-bother-to-remove-rpmkeys/400724#400724
+#
+# Fedora keeps old signing keys for RPM indefinitely, hence they will still be
+# accepted by yum / dnf.  (PackageKit is another story though).  If you want
+# to avoid this, just before a distribution upgrade, you can zap all your
+# rpm keys.  This is safe, in the sense that rpm keys will very easily be
+# re-installed if needed...
+#
+# This would be ideal, except that some third party repos like Google's use a
+# yum repo feature to download missing RPM keys over HTTPS.  Presumably
+# trusting all the different web Certificate Authorities, sigh.  For
+# Google Chrome, this is solved by roles/sourcejedi.google-chrome :-).
+
+rpm -e --allmatches gpg-pubkey-*-*
