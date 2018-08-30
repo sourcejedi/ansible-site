@@ -14,8 +14,3 @@
 
     #- { role: sourcejedi.rpmfusion-remove, repo: nonfree }
     #- { role: sourcejedi.rpmfusion-remove, repo: free }
-
-  tasks:
-    # DHCP client
-    - name: Install NetworkManager
-      package: name=NetworkManager state=present
