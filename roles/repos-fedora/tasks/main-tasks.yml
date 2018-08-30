@@ -15,7 +15,8 @@
            --disablerepo="*" --enablerepo=fedora --enablerepo=updates
            --refresh check-update
   register: dnf_check_update
-  # exit status is 0 on success, 100 if updates available (otherwise 100)
+  # "exit code will be 100 when there are updates available and a list of the
+  #  updates will be printed, 0 if not and 1 if an error occurs."
   failed_when: dnf_check_update.rc not in [0, 100]
   args:
     warn: no  # can't use ansible dnf module, it does not implement this
