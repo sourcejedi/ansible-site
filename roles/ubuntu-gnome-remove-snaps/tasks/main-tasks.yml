@@ -1,9 +1,3 @@
-- name: Remove snapd
-  package:
-    name: snapd
-    state: absent
-  when: ubuntu_gnome_remove_snapd
-
 - name: Query - is snapd installed?
   script: scripts/dpkg-state snapd
   register: ubuntu_gnome_remove_snapd_already
@@ -20,3 +14,9 @@
   static: yes
   when: ubuntu_gnome_remove_snapd_already.stdout|trim not in
           ["not-installed", "config-files"]
+
+- name: Remove snapd
+  package:
+    name: snapd
+    state: absent
+  when: ubuntu_gnome_remove_snapd
