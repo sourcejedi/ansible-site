@@ -3,14 +3,14 @@
 # Then we shouldn't need to use the raw module any more.
 
 - name: Check connection with ansible raw module
-  raw: "true"
+  raw: 'true'
   changed_when: False  # no change
   check_mode: no  # run this non-check module even in --check mode
 
 # For science :).
 # May also detect if command interpreter is not a unix shell.
 - name: Check command interpreter can return failure
-  raw: "false"
+  raw: 'false'
   register: raw_false
   failed_when: raw_false.rc != 1
   changed_when: False
@@ -19,7 +19,7 @@
 
 # 1/3) Query condition
 - name: query  | python2 installed, required by non-raw ansible modules
-  raw: "test -x /usr/bin/python2"
+  raw: 'test -x /usr/bin/python2'
   register: python2_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
@@ -29,15 +29,16 @@
 - name: ensure | python2 installed, required by non-raw ansible modules
   when: python2_executable.rc != 0
   # Try candidate install methods in sequence
-  raw: "/usr/bin/dnf install -y python2 ||
-        /usr/bin/apt-get install -y python2 ||
-        /usr/bin/apt-get install -y python ||
-        (echo Failed to install required package python2; exit 1)"
+  raw: |
+    /usr/bin/dnf install -y python2 ||
+    /usr/bin/apt-get install -y python2 ||
+    /usr/bin/apt-get install -y python ||
+    (echo "Failed to install required package python2"; exit 1)
   changed_when: True  # always changes (unless failed)
 
 # 3/3) The condition must now hold.  This "fixes" ansible check mode.
 - name: check  | python2 installed, required by non-raw ansible modules
-  raw: "/usr/bin/python2 -c \"import sys; print (sys.version)\" "
+  raw: '/usr/bin/python2 -c "import sys; print (sys.version)"'
   changed_when: False
   check_mode: no
 
