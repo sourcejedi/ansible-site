@@ -44,7 +44,11 @@
     - remove-mlocate-on-fedora
     - packages-trash-cli
     - jpegcheck
+
     - packages-gui
+
+    # In case you want to test remove+install of google-chrome.
+    #- sourcejedi.google-chrome-remove
 
     - packages-dev-basics
     - sourcejedi.ccache

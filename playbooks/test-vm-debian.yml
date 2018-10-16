@@ -21,13 +21,19 @@
     - packages-trash-cli
     - packages-dev-basics
 
-    #- packages-gui
     - role: ubuntu-gnome-remove-snaps
       ubuntu_gnome_remove_snapd: yes
       when: ansible_distribution == "Ubuntu"
 
     - remove-mlocate-on-deb
 
+    #
+    # Roles which are not always used, or mostly used to test the role itself
+    #
+
+    #- packages-gui
+
+    #- jpegcheck
 
     #- { role: daily-borgbackup,
     #          daily_borgbackup__cron_prefix: '50-' }
