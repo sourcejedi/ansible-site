@@ -1,7 +1,7 @@
-# DRAFT ROLE
+# ROLE NOT COMPLETED
 # Missing:
-# * config variables for backed up directories
-# * atomic creation of BUP_DIR, in mktemp -d
+# * creation of BUP_DIR's (atomically in mktemp -d ?)
+# * config variables for backed up directories?
 
 - name: Install bup, par2, cron
   package:
