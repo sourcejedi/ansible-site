@@ -6,7 +6,7 @@
 - name: Install bup, par2, cron
   package:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - bup
     - par2
