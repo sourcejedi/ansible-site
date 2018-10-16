@@ -158,7 +158,7 @@ backup_firefox_bookmarks() {
 # However an error should be printed, which works well for the cron job case.
 # Also make sure to point out if there was an error (like rsync does :).
 backup() {
-	local err=0 || return
+	local err=0
 
 	backup_home "$1" "$2" ||
 		err=1
@@ -169,7 +169,7 @@ backup() {
 }
 
 main() {
-	local err=0 || return
+	local err=0
 
 	log_start || return
 
@@ -188,10 +188,10 @@ main() {
 # 	backup /home/jenkins-photos "$BORG_REPOS_DIR/jenkins-photos" ||
 # 		err=1
 
-	if [ $err != 0 ]; then
-		echo
-		echo "WARNING: an error occurred.  Some files may not be backed up."
-		return $err
-	fi
+    return $err
 }
-main
+
+if ! main; then
+    echo
+	echo "WARNING: an error occurred.  Some or all files may not be backed up."
+fi
