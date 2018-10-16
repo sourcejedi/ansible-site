@@ -12,16 +12,22 @@
     - par2
     - cron
 
-# directory is visible without sudo
-- name: Create /data/backup/
-  file:
-    path: /data/backup
+# This directory is visible without sudo.
+#
+# Also it's supposed to be on a separate disk.
+# We require the admin to set it up first.
 
-# contents is for root only
+- name: Check for /data/backup/
+  file:
+    path: /data/backup/
+
+# This directory is for root only
+
 - name: Create /data/backup/bup
   file:
     path: /data/backup/borg
     mode: 0700
+    state: directory
 
 - name: Install cron job for bup
   copy:
