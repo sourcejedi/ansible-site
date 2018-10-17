@@ -30,6 +30,10 @@
     # Make sure to mount /data/backup/ first, I guess :).
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '50-' }
+
+    # Old backup system.  Role not completed.
+    # If a full initialization is needed,
+    # this would require additional manual steps.
     - { role: daily-bup,
               daily_bup__cron_prefix: '70-' }
 
@@ -42,3 +46,22 @@
 
     - packages-trash-cli
     - packages-gui
+
+  tasks:
+    - name: /00-README.txt
+      copy:
+        dest: /00-README.txt
+        src: "{{ inventory_dir }}/files/jenkins-desktop/README-rootfs.txt"
+      tags: jenkins-desktop
+
+    - name: /home/00-README.txt
+      copy:
+        dest: /home/00-README.txt
+        src: "{{ inventory_dir }}/files/jenkins-desktop/README-home.txt"
+      tags: jenkins-desktop
+
+    - name: /data/00-README.txt
+      copy:
+        dest: /data/00-README.txt
+        src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
+      tags: jenkins-desktop
