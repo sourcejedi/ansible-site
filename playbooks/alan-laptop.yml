@@ -12,7 +12,7 @@
 
     # This works ok, though it doesn't mark the file
     # as modified automatically by ansible
-    - role: tersmitten.sysctl
+    - role: Oefenweb.sysctl
       sysctl_settings:
         #
         # https://fedoraproject.org/wiki/QA/Sysrq
