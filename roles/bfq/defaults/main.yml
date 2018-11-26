@@ -1,0 +1,3 @@
+# Enable BFQ.
+# Set to "no" to run the uninstaller.
+bfq: yes

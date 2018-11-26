@@ -25,6 +25,21 @@
         - name: kernel.sysrq
           value: 1
 
+    # Linus' hack to reduce dirty_bytes.  Assumes we have 1GB+ ram.
+    # This might reduce latencies in certain situations.
+    # You might want higher values if you have faster storage.
+    # - https://lwn.net/Articles/572911/ "USB-stick stall problem".
+    #
+    # On the flipside, it can cause worse layout i.e. fragmentation.
+    # - https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg531225.html
+    #
+    #- role: Oefenweb.sysctl
+    #  sysctl_settings:
+    #    - name: vm.dirty_bytes
+    #      value: 180000000
+    #    - name: vm.dirty_background_bytes
+    #      value:  90000000
+
     # Useful to log memory usage per process (default 10 min snapshots).
     - sourcejedi.atop
 
@@ -60,3 +75,5 @@
     - { role: sourcejedi.rpmfusion-remove, repo: nonfree }
 
     - sourcejedi.nspawn-on-fedora
+
+    - { role: bfq, bfq: false }

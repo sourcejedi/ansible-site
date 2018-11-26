@@ -1,0 +1,2 @@
+# Set bfq for scsi disks (including sata)
+ACTION=="add|change", KERNEL=="sd[a-z]*", ATTR{queue/scheduler}="bfq"
