@@ -10,3 +10,9 @@
     - packages-trash-cli
     - packages-dev-basics
     - remove-mlocate-on-fedora
+
+    #- sourcejedi.rpmfusion-free
+    #- { role: sourcejedi.rpmfusion-remove, repo: "free" }
+
+    #- sourcejedi.google-chrome
+    #- sourcejedi.google-chrome-remove
