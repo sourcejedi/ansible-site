@@ -1,58 +1,10 @@
-- name: bfq=y | GRUB kernel option - scsi_mod.use_blk_mq=y
-  replace:
-    path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX="\s*((?!.*\b(scsi_mod.use_blk_mq=y)\b).*?)\s*"$'
-    replace: 'GRUB_CMDLINE_LINUX="\1 scsi_mod.use_blk_mq=y"'
-  register:
-    scsi_mod
-  when: bfq
+# this is clunk. should have written a python script instead.
+# used to switch bfq on/off for testing.
 
-# "It may be beneficial to set dm_mod.use_blk_mq=y if the
-#  underlying SCSI devices are also using blk-mq, as doing so
-#  reduces locking overhead at the DM layer."
-# Note LVM is implemented using DM.
-- name: bfq=y | GRUB kernel option - dm_mod.use_blk_mq=y
-  replace:
-    path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX="\s*((?!.*\b(dm_mod.use_blk_mq=y)\b).*?)\s*"$'
-    replace: 'GRUB_CMDLINE_LINUX="\1 dm_mod.use_blk_mq=y"'
-  register:
-    dm_mod
-  when: bfq
+# Don't need to set BFQ for DM, because it doesn't use a separate IO scheduler.
+# (I don't know what that means, see
+# https://unix.stackexchange.com/questions/484053/i-o-queue-on-lvm-device-v-s-i-o-queue-on-underlying-devices
 
-- name: bfq=n | GRUB kernel option - dm_mod.use_blk_mq=y
-  replace:
-    path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX="\s*(.*?)\s*\b(dm_mod.use_blk_mq=y)\b\s*(.*?)\s*"$'
-    replace: 'GRUB_CMDLINE_LINUX="\1 \3"'
-  register:
-    dm_mod
-  when: not bfq
-
-- name: bfq=n | GRUB kernel option - scsi_mod.use_blk_mq=y
-  replace:
-    path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX="\s*(.*?)\s*\b(scsi_mod.use_blk_mq=y)\b\s*(.*?)\s*"$'
-    replace: 'GRUB_CMDLINE_LINUX="\1 \3"'
-  register:
-    scsi_mod
-  when: not bfq
-
-- name: bfq=? | Update GRUB (EFI)
-  shell: |
-    if [ -d /boot/efi/ ]; then
-      grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-    fi
-  when: scsi_mod.changed or dm_mod.changed
-
-- name: bfq=? | Update GRUB (BIOS)
-  shell: |
-    if [ -d /boot/grub2 ]; then
-      grub2-mkconfig -o /boot/grub2/grub.cfg
-    fi
-  when: scsi_mod.changed or dm_mod.changed
-
-# Not needed for DM, because it doesn't use a separate IO scheduler.
 - name: bfq=y | Udev rule to configure SCSI with BFQ
   copy:
      dest: /etc/udev/rules.d/
@@ -65,4 +17,40 @@
     path: /etc/udev/rules.d/99-local-io-scheduler.rules
     state: absent
   register: udev
+  when: not bfq
+
+- name: bfq=y | GRUB kernel option - scsi_mod.use_blk_mq=y
+  replace:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX="\s*((?!.*\b(scsi_mod.use_blk_mq=y)\b).*?)\s*"$'
+    replace: 'GRUB_CMDLINE_LINUX="\1 scsi_mod.use_blk_mq=y"'
+  notify: update-grub
+  when: bfq
+
+# "It may be beneficial to set dm_mod.use_blk_mq=y if the
+#  underlying SCSI devices are also using blk-mq, as doing so
+#  reduces locking overhead at the DM layer."
+# Note LVM is implemented using DM.
+- name: bfq=y | GRUB kernel option - dm_mod.use_blk_mq=y
+  replace:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX="\s*((?!.*\b(dm_mod.use_blk_mq=y)\b).*?)\s*"$'
+    replace: 'GRUB_CMDLINE_LINUX="\1 dm_mod.use_blk_mq=y"'
+  notify: update-grub
+  when: bfq
+
+- name: bfq=n | GRUB kernel option - dm_mod.use_blk_mq=y
+  replace:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX="\s*(.*?)\s*\b(dm_mod.use_blk_mq=y)\b\s*(.*?)\s*"$'
+    replace: 'GRUB_CMDLINE_LINUX="\1 \3"'
+  notify: update-grub
+  when: not bfq
+
+- name: bfq=n | GRUB kernel option - scsi_mod.use_blk_mq=y
+  replace:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX="\s*(.*?)\s*\b(scsi_mod.use_blk_mq=y)\b\s*(.*?)\s*"$'
+    replace: 'GRUB_CMDLINE_LINUX="\1 \3"'
+  notify: update-grub
   when: not bfq
