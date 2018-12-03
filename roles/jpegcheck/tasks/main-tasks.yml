@@ -4,7 +4,7 @@
 # because this tends to be CPU-bound.
 # Please read the notice in the jpegcheck script.
 #
-- name: Install depedencies
+- name: Install dependencies
   package:
     name: '{{ item }}'
     state: present
