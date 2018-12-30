@@ -15,7 +15,14 @@
     # Enable coredumpd.  (Should be already on current Fedora).
     - systemd-coredump
 
-    # mask rpcbind.service, etc.
+    # Configure firewalld.
+    # Fedora already enables it, but the Workstation config is a bit strange.
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+
+    # Mask rpcbind.service, etc.
     # (Should already not be enabled on a *fresh* Fedora install.
     #  Also Fedora would already block the open port in firewalld).
     - remove-rpcbind
