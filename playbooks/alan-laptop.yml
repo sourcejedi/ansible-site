@@ -17,7 +17,7 @@
 
     # Configure firewalld.
     # Fedora already enables it, but the Workstation config is a bit strange.
-    - role: sourcejedi.firewalld
+    - role: firewalld
       firewalld__services:
        - dhcpv6-client
        - mdns
