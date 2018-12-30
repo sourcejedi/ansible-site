@@ -11,7 +11,7 @@
 # Debian 8 Jessie also installed rpcbind by default.
 # https://unix.stackexchange.com/questions/383013/why-does-debian-come-without-a-firewall-enabled-by-default/383021#383021
 #
-# While we're here, maybe we can support Fedora as well. Fedora 25 is known to enable rpcbind,
+# While we're here, maybe we can support Fedora as well. Fedora 25 used to enable rpcbind,
 # and not in the way you'd expect from Fedora policy.  Another reason it can be confusing
 # is that rpcbind.service is not started at boot; but rpcbind.socket is, which can activate it
 # on demand. So we mask the socket unit as well.

@@ -1,14 +1,26 @@
 - hosts: alan-laptop
   roles:
+    # This does not bother backing up originals,
+    # only because that is already done by `bootstrap/fedora`.
     - repos-fedora
 
     - sourcejedi.etckeeper
-    - remove-rpcbind
-    - sourcejedi.hdparm-noapm
+
     - users
+
+    # Add admin user(s) to journald group, and enable persistent journal.
+    # (Journal should be persistent already on current Fedora).
     - sourcejedi.systemd-journal
 
+    # Enable coredumpd.  (Should be already on current Fedora).
     - systemd-coredump
+
+    # mask rpcbind.service, etc.
+    # (Should already not be enabled on a *fresh* Fedora install.
+    #  Also Fedora would already block the open port in firewalld).
+    - remove-rpcbind
+
+    - sourcejedi.hdparm-noapm
 
     # This works ok, though it doesn't mark the file
     # as modified automatically by ansible
