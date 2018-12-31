@@ -4,17 +4,31 @@
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-    - remove-rpcbind
-    - sourcejedi.hdparm-noapm
     - users
     - { role: sourcejedi.systemd-journal,
                          # see rsyslog below
                          systemd_journal__disable_syslog_daemon: no
       }
+    - systemd-coredump
 
     - openssh-server
 
-    - systemd-coredump
+    - role: firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+       - https
+       - syslog
+      firewalld__ports:
+         # apt-cacher-ng
+       - protocol: tcp
+         port: 3142
+
+    - remove-rpcbind
+
+    - sourcejedi.hdparm-noapm
+
     - sourcejedi.atop
 
     # Cough, bootstrapping problem.
