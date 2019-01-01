@@ -96,8 +96,8 @@ borg_init() {
 
 backup_home() {
 	local HOME_DIR="$1" &&
-	local BORG_REPO="$2" &&
 
+	local BORG_REPO="$2" &&
 	export BORG_REPO &&
 
 	borg_init "$BORG_REPO" &&
@@ -137,12 +137,11 @@ backup_home() {
 backup_firefox_bookmarks() {
 	local HOME_DIR="$1" &&
 	local BORG_REPO="$2".firefox-bookmarks &&
+	export BORG_REPO &&
 
 	if [ ! -d "$HOME_DIR"/.mozilla ]; then
 		return 0
 	fi &&
-
-	export BORG_REPO &&
 
 	borg_init "$BORG_REPO" &&
 
@@ -184,9 +183,6 @@ main() {
 		err=1
 	backup /home/.shared-separate-internal/Photos "$BORG_REPOS_DIR/jenkins-photos" ||
 		err=1
-
-# 	backup /home/jenkins-photos "$BORG_REPOS_DIR/jenkins-photos" ||
-# 		err=1
 
     return $err
 }
