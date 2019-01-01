@@ -3,7 +3,7 @@
 # Debian does not implement "No open ports" (aspirational ubuntu policy).
 # I suggest *always* initializing systems on a firewalled network.
 # (E.g. standard home router config.  Sucks if you don't have a router.)
-# Once this role is run, ufw will be installed, and will allow the SSH port.
+# Once this role is run, a firewall will be installed, and will allow the SSH port.
 #
 # Debian 9 install only.
 # Not validated for upgrade from Debian < 9.
@@ -15,11 +15,17 @@
       repos_apt: debian-stretch
 
     - sourcejedi.etckeeper
-    - ufw
 
     - users
     - sourcejedi.systemd-journal
     - systemd-coredump
+
+    - role: firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+
     - sourcejedi.atop
 
     # Cleanup. In particular, remove updatedb task.
