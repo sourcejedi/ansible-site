@@ -1,8 +1,7 @@
 #!/bin/bash
 # Tested on Debian 9 "stretch", i.e. borgbackup-1.0.9
 
-
-# Currently this is taking about 3 minutes, at 40% CPU.
+# This was taking about 3 minutes, at 40% CPU.
 # While the self-report only shows it taking 6 seconds;
 # no idea what that is supposed to mean :-(.
 # (prune doesn't show any time, but that doesn't account for it)
@@ -22,8 +21,8 @@
 #
 # The log is a bit confusing, because it doesn't itemize borg_init()
 # separately.  borg_init() takes over 10s e.g. on /home/sheena
-# - FIXME
-
+# I fixed that part, so right now it takes less that 2 minutes :-).
+# Acceptable for now.
 
 set -o nounset
 
@@ -96,6 +95,18 @@ borg_init() {
 	# It would also avoid a warning which we have to suppress.
 	# https://github.com/borgbackup/borg/issues/1910#issuecomment-354780246
 
+	# If you delete ~/.cache, the below will fail on the prompt for
+	# "Warning: Attempting to access a previously unknown unencrypted repository!"
+	# It will require manual intervention.
+	# This borg bug is fixed in more recent versions of borg (I tested 1.0.11 and 1.1.8).
+
+	# This saves some seconds.  Most importantly, it means borg_init
+	# will not take any significant time.  So all the time shown in the logs
+	# can be accounted to the real `borg create` and `borg prune`.
+	if [ -e "$BORG_REPO"/initialized.daily-borgbackup ]; then
+		return
+	fi &&
+
 	export BORG_REPO &&
 
 	local BORG_RELOCATED_REPO_ACCESS_IS_OK=yes &&
@@ -104,18 +115,20 @@ borg_init() {
 	# Make sure to delete "temp" archive,
 	# in case previous run was interrupted.
 	# Ignore failure, suppress errors.
-	{ borg delete ::temp 2>/dev/null || true; } &&
+	{ borg delete ::temp </dev/null 2>/dev/null || true; } &&
 
 	# Fire for effect.  But we still need to suppress the warning
 	# from BORG_RELOCATED_REPO_ACCESS_IS_OK=yes.
 	# If there is a fatal error, then retry to show the messages.
 	{
-		borg create ::temp /dev/null 2>/dev/null ||
-		borg create ::temp /dev/null
+		borg create ::temp /dev/null </dev/null 2>/dev/null ||
+		borg create ::temp /dev/null </dev/null
 	} &&
 
 	# Clean up
-	borg delete ::temp
+	borg delete ::temp &&
+
+	touch "$BORG_REPO"/initialized.daily-borgbackup
 }
 
 backup_home() {
@@ -212,6 +225,6 @@ main() {
 }
 
 if ! main; then
-    echo
+	echo
 	echo "WARNING: an error occurred.  Some or all files may not be backed up."
 fi
