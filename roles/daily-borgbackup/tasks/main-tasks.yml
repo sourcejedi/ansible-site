@@ -27,6 +27,11 @@
     mode: 0700
     state: directory
 
+- name: Create /data/backup/borg/README.txt
+  copy:
+    src: README.txt
+    dest: /data/backup/borg/
+
 - name: Install cron job for borg
   copy:
     src: cron.daily/local-borgbackup

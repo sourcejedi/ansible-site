@@ -201,10 +201,6 @@ main() {
 			err=1
 	done
 
-	# FIXME:
-	# Since these directories are hidden, when you look inside the backups,
-	# the directories are hidden and at first it looks like nothing is backed up!
-
 	backup /home/.shared-internal "$BORG_REPOS_DIR/jenkins-shared" ||
 		err=1
 	backup /home/.shared-separate-internal/Music "$BORG_REPOS_DIR/jenkins-music" ||

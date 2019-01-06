@@ -2,7 +2,7 @@
 
 This hard drive includes:
 
-backup/borgbackup - Backups of user files from main drive, using Linux "borgbackup".
+backup/borg - Backups of user files from main drive, using Linux "borgbackup".
 
 And other miscellaneous files, which might be a bit harder to categorize.
 
