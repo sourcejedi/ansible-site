@@ -6,6 +6,10 @@
 	path = roles/sourcejedi.ccache
 	url = git@github.com:sourcejedi/ansible-ccache.git
 
+[submodule.sourcejedi-firewalld]
+	path = roles/sourcejedi.firewalld
+	url = git@github.com:sourcejedi/ansible-firewalld.git
+
 [submodule.sourcejedi-etckeeper]
 	path = roles/sourcejedi.etckeeper
 	url = git@github.com:sourcejedi/ansible-etckeeper.git
