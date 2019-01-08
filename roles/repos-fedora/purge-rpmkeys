@@ -10,7 +10,6 @@
 #
 # This would be ideal, except that some third party repos like Google's use a
 # yum repo feature to download missing RPM keys over HTTPS.  Presumably
-# trusting all the different web Certificate Authorities, sigh.  For
-# Google Chrome, this is solved by roles/sourcejedi.google-chrome :-).
+# trusting all the different web Certificate Authorities, sigh.
 
 rpm -e --allmatches gpg-pubkey-*-*
