@@ -11,9 +11,15 @@
 # Do not defer this, as other roles may add drop-in configs.
 - name: Test "dnf check-update"
   when: repos.changed
-  command: dnf \
-           --disablerepo="*" --enablerepo=fedora --enablerepo=updates
-           --refresh check-update
+  command: >
+    dnf
+      --disablerepo="*"
+      --enablerepo=fedora
+      --enablerepo=updates
+      --enablerepo=fedora-modular
+      --enablerepo=updates-modular
+      --refresh
+      check-update
   register: dnf_check_update
   # "exit code will be 100 when there are updates available and a list of the
   #  updates will be printed, 0 if not and 1 if an error occurs."

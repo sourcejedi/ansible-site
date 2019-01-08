@@ -89,6 +89,12 @@
     dest: /etc/apt-cacher-ng/backends_fedora
   notify: [ 'Restart apt-cacher-ng' ]
 
+- name: Allow fedora-modular.repo to work
+  lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: '^(# )?PfilePatternEx:'
+    line: 'PfilePatternEx: .*-modules.yaml.gz  # fedora-modular.repo'
+  notify: [ 'Restart apt-cacher-ng' ]
 
 - name: ensure apt-cacher-ng is enabled
   service:
