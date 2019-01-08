@@ -18,12 +18,11 @@
     mode: 0750  # meh
     path: "{{ shared_internal }}"
 
-# Use nofail option, so we can still boot without bindfs.
-# Also allow for fiddling with options, but don't replace any non-bindfs line.
+# Allow for fiddling with options, but don't replace any non-bindfs line.
 - name: Create entry in fstab
   lineinfile:
     dest: /etc/fstab
-    line: "{{ shared_internal }} {{ shared_external }} fuse.bindfs nofail,allow_other,force-group=jenkins-photos,perms=g+rwX"
+    line: "{{ shared_internal }} {{ shared_external }} fuse.bindfs allow_other,force-group=jenkins-photos,perms=g+rwX"
     regexp: '^[^ \t]+[ \t]+{{ shared_external }}[ \t]+fuse.bindfs([ \t]*|$)'
   register: jenkins_photos__fstab
 
