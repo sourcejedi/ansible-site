@@ -1,12 +1,22 @@
+[fedora]
+alan-laptop
+alan-x201
+
+[fedora:children]
+test-nspawn-fedora
+test-vm-fedora
+
+[fedora:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
 [ungrouped]
-alan-laptop
 drystone  # jenkins-desktop
 
 [alan-servers]
 brick
 alan-x201
-
 
 [test-servers:children]
 test-nspawn-fedora

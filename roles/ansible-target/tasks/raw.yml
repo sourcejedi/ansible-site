@@ -17,28 +17,40 @@
   check_mode: no
 
 
+# Which python interpreter do we need to install?
+# Fedora might only have python3 installed by default.
+# Older distros may have Ansible that does not officially support python3.
+# I don't claim the expression below is correct,
+# only that it currently provides the correct result for me.
+- name: Query if Ansible is configured to use python2 or python3
+  set_fact:
+    python2_or_python3:
+      '{{ "python2" if ansible_python_interpreter is not defined else
+          "python3" if ansible_python_interpreter == "/usr/bin/python3" else
+          "null" }}'
+
 # 1/3) Query condition
-- name: query  | python2 installed, required by non-raw ansible modules
-  raw: 'test -x /usr/bin/python2'
-  register: python2_executable
+- name: query  | python installed, required by non-raw ansible modules
+  raw: 'test -x /usr/bin/{{ python2_or_python3 }}'
+  register: python_executable
   failed_when: False  # no fail.  rc is our result
   changed_when: False
   check_mode: no
 
 # 2/3) Run raw task conditionally, to provide accurate "changed" status
-- name: ensure | python2 installed, required by non-raw ansible modules
-  when: python2_executable.rc != 0
+- name: ensure | python installed, required by non-raw ansible modules
+  when: python_executable.rc != 0
   # Try candidate install methods in sequence
   raw: |
-    /usr/bin/dnf install -y python2 ||
-    /usr/bin/apt-get install -y python2 ||
-    /usr/bin/apt-get install -y python ||
-    (echo "Failed to install required package python2"; exit 1)
+    /usr/bin/dnf install -y {{ python2_or_python3 }} ||
+    /usr/bin/apt-get install -y {{ python2_or_python3 }} ||
+    /usr/bin/apt-get install -y {{ python2_or_python3 }} ||
+    (echo "Failed to install required python package"; exit 1)
   changed_when: True  # always changes (unless failed)
 
 # 3/3) The condition must now hold.  This "fixes" ansible check mode.
-- name: check  | python2 installed, required by non-raw ansible modules
-  raw: '/usr/bin/python2 -c "import sys; print (sys.version)"'
+- name: check  | python installed, required by non-raw ansible modules
+  raw: '/usr/bin/{{ python2_or_python3 }} -c "import sys; print (sys.version)"'
   changed_when: False
   check_mode: no
 
