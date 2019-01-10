@@ -2,7 +2,6 @@
 [ungrouped]
 alan-laptop
 drystone  # jenkins-desktop
-stretch-srv
 
 [alan-servers]
 brick
