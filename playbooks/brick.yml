@@ -13,7 +13,7 @@
 
     - openssh-server
 
-    - role: firewalld
+    - role: sourcejedi.firewalld
       firewalld__services:
        - dhcpv6-client
        - mdns
