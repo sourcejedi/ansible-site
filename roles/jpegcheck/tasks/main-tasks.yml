@@ -3,7 +3,17 @@
 # And GNU parallel for multicore from package "parallel",
 # because this tends to be CPU-bound.
 # Please read the notice in the jpegcheck script.
-#
+
+# Note:
+# parallel on Debian 9 has a hard dependency on sysstat.
+# On systemd, this will show the sysstat service as started.
+# However there is actually no daemon started
+# unless you edit `/etc/default/sysstat`.
+# (The queried status could be made accurate if it was a native
+# systemd service, instead of a legacy sysvinit script.
+# That would still leave a log entry though -
+# it would be better to simply not enable the service!).
+
 - name: Install dependencies
   package:
     name: '{{ item }}'
