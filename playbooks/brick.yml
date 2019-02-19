@@ -25,6 +25,10 @@
        - protocol: tcp
          port: 3142
 
+       # quassel irc (occasionally)
+       - protocol: tcp
+         port: 4242
+
     - remove-rpcbind
 
     - sourcejedi.hdparm-noapm
