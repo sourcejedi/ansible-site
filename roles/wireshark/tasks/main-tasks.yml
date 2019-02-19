@@ -1,0 +1,14 @@
+# This pulls in everything on both Debian and Fedora.
+# (More care is needed if you want tshark only).
+- name: Install Wireshark
+  package:
+    name: wireshark
+    state: present
+
+- name: Add users to group for capturing packets
+  user:
+    name: "{{ item }}"
+
+    append: yes
+    groups: wireshark
+  with_items: "{{ wireshark__users }}"

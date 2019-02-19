@@ -86,6 +86,7 @@
 
     - packages-dev-basics
     - sourcejedi.ccache
+    - wireshark
 
     - sourcejedi.rpmfusion-free  # e.g. codecs beyond mp3
 

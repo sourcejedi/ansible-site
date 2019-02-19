@@ -15,3 +15,5 @@ alan_servers__admins:
 # to avoid that mysteriously depending on roles/nspawn-on-debian
 # (that's what installs systemd).
 systemd_journal__users: "{{ alan_servers__admins }}"
+
+wireshark__users: "{{ alan_servers__admins }}"
