@@ -31,7 +31,7 @@ readonly BORG_REPOS_DIR=/data/backup/borg
 # Quick check
 if ! ( mountpoint -q /data ||
        mountpoint -q /data/backup ||
-       mountpoint -q /data/backup/bup )
+       mountpoint -q /data/backup/borg )
 then
 	echo "Backup disk not mounted"
 	exit 1
