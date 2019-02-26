@@ -1,0 +1,6 @@
+nspawn_on_fedora__machines_directory: "/home/nspawn"
+
+# roles/debian_on_nspawn
+# Note: I don't know if this is the recommended way for Ubuntu
+locale_gen:
+  - en_GB.UTF-8
