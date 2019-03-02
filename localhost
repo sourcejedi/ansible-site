@@ -31,5 +31,13 @@ if [ "$HOST" != "$LOCALHOST" ]; then
 	fatal_usage
 fi
 
-# Run this script with sudo, it remembers password unlike ansible --become.
-ansible-playbook "$@" -c local --limit "$HOST"
+# Run this script with sudo, it remembers password unlike ansible --ask-become-pass.
+# Unless sudo is not installed yet.
+SUDO=
+if command -v sudo > /dev/null; then
+	SUDO=sudo
+fi
+
+# Disable use of sudo in Ansible, in case sudo is not installed yet.
+
+$SUDO ansible-playbook --limit "$HOST" -c local -e ansible_become= "$@"
