@@ -41,7 +41,7 @@
                      ["not-installed", "config-files",
                       "unpacked", "half-installed", "half-configured",
                       "triggers-pending", "triggers-awaited", "installed"]
-      check_mode: False
+      check_mode: no
 
     - name: Make sure OpenSSH configuration directory exists
       file:
@@ -127,6 +127,11 @@
     enabled: yes
     state: started
 
+# In case of SSH config fail on a running server, we want to know NOW.
+# Don't wait for the tasks from X other roles in the same play.
+- name: Flush handlers (ssh server restart)
+  meta: flush_handlers
+
 - name: ssh authorized keys
   authorized_key:
     exclusive: yes  # replace existing key, when it is changed
@@ -148,7 +153,23 @@
   loop_control:
     label: "{{ item.name }}"
 
-# In case of SSH config fail on a running server, we want to know NOW.
-# Don't wait for the tasks from X other roles in the same play.
-- name: Flush handlers (ssh server restart)
-  meta: flush_handlers
+- name: Create local directory for ssh-hostkeys
+  delegate_to: 127.0.0.1
+  run_once: yes
+  file:
+    path: "{{ inventory_dir }}/files/ssh-hostkeys/"
+    state: directory
+
+- name: Read host public key (generated at install time)
+  shell: |
+    ssh-keyscan -t ed25519 localhost | cut -d " " -f 2-
+  register: hostkey
+  failed_when: hostkey.rc != 0 or hostkey.stdout_lines|length != 1
+  changed_when: false
+  check_mode: no
+
+- name: Record ssh-hostkey
+  delegate_to: 127.0.0.1
+  copy:
+    content: "{{ hostkey.stdout }}\n"
+    dest: "{{ inventory_dir }}/files/ssh-hostkeys/{{ inventory_hostname }}"
