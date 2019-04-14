@@ -38,6 +38,6 @@ if command -v sudo > /dev/null; then
 	SUDO=sudo
 fi
 
-# Disable use of sudo in Ansible, in case sudo is not installed yet.
-
-$SUDO ansible-playbook --limit "$HOST" -c local -e ansible_become= "$@"
+ANSIBLE_CONFIG=./ansible-local.cfg \
+	$SUDO --preserve-env=ANSIBLE_CONFIG \
+	ansible-playbook --limit "$HOST" -c local "$@"

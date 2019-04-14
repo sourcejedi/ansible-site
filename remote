@@ -1,0 +1,2 @@
+#!/bin/sh
+ANSIBLE_CONFIG=./ansible-remote.cfg exec ansible-playbook -b -K "$@"
