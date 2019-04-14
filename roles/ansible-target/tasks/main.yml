@@ -1,3 +1,5 @@
 ---
-- include: main-tasks.yml
+- block:
+   - include: raw.yml
+   - include: nonraw.yml
   tags: ansible-target
