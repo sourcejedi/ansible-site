@@ -1,6 +1,6 @@
-# private. (but for the moment, let's remember they're there )
-#files/ssh-authkeys
-#host_vars/drystone.yml
+files/ssh-authkeys
+files/ssh-hostkeys
+host_vars/drystone.yml
 
 # disabled now
 #playbooks/*.retry
