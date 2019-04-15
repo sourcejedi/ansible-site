@@ -25,8 +25,8 @@ test-vm-fedora
 test-vm-debian
 
 [test-nspawn-fedora]
-fedora-27  # nss-mymachines (FIXME nspawn-on-fedora)
-fedora-28  # nss-mymachines (FIXME nspawn-on-fedora)
+fedora-27  # nss-mymachines
+fedora-28  # nss-mymachines
 
 [test-nspawn-deb]
 jessie    repos_apt=debian-jessie
