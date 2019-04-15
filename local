@@ -31,13 +31,13 @@ if [ "$HOST" != "$LOCALHOST" ]; then
 	fatal_usage
 fi
 
-# Run this script with sudo, it remembers password unlike ansible --ask-become-pass.
-# Unless sudo is not installed yet.
+# Run this script with sudo (if sudo is installed).
+# It remembers the password, unlike `ansible --ask-become-pass`.
 SUDO=
 if command -v sudo > /dev/null; then
-	SUDO=sudo
+	SUDO="sudo --preserve-env=ANSIBLE_CONFIG"
 fi
 
-ANSIBLE_CONFIG=./ansible-local.cfg \
-	$SUDO --preserve-env=ANSIBLE_CONFIG \
-	ansible-playbook --limit "$HOST" -c local "$@"
+export ANSIBLE_CONFIG=./ansible-local.cfg
+
+exec $SUDO ansible-playbook -c local --limit "$HOST" "$@"
