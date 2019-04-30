@@ -42,8 +42,8 @@ unstable0  repos_apt=debian-unstable
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
-fedora28-vm ansible_host=fedora28-vm.local  # avahi
 fedora29-vm ansible_host=fedora29-vm.local  # avahi
+fedora30-vm ansible_host=fedora30-vm.local  # avahi
 
 [test-vm-debian]
 debian9-vm ansible_host=debian9-vm.local  repos_apt=debian-stretch
