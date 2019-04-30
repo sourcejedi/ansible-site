@@ -7,9 +7,10 @@
     - sourcejedi.systemd-journal
     - openssh-server
 
+    - sourcejedi.atop
+    - remove-mlocate-on-fedora
     - packages-trash-cli
     - packages-dev-basics
-    - remove-mlocate-on-fedora
 
     #- sourcejedi.rpmfusion-free
     #- { role: sourcejedi.rpmfusion-remove, repo: "free" }
