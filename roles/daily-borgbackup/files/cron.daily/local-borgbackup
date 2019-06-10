@@ -221,10 +221,11 @@ main() {
 	backup /home/.shared-separate-internal/Photos "$BORG_REPOS_DIR/jenkins-photos" ||
 		err=1
 
-    return $err
+	return $err
 }
 
 if ! main; then
 	echo
 	echo "WARNING: an error occurred.  Some or all files may not be backed up."
+	exit 1
 fi
