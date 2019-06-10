@@ -19,3 +19,12 @@ test_servers__sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
 openssh_server__authkeys:
   - name: alan-sysop
     sshkey: "{{ lookup('file', test_servers__sshkeys + 'alan-sysop') }}"
+
+jenkins_photos__users:
+ - alan
+
+daily_rsync__server: "debian9-vm"
+daily_rsync__server_addresses:
+ - "invalid"
+ - "debian9-vm.local"
+daily_rsync__dir: "/data/rdiff-backup"

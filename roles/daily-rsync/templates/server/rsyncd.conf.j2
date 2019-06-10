@@ -1,0 +1,30 @@
+# Creating symlinks raises security issues.  In principle, you can work
+# around it.  Samba had an equivalent problem, which has been fixed
+# (CVE-2017-2619).  But it is complicated.  "rsync daemon mode" implements
+# a simpler solution:
+#
+# If possible, rsync-daemon uses chroot.
+#
+# If chroot is not possible - because you are not root - then rsync-daemon
+# prefixes symlink targets with a path that does not exist.  Naturally,
+# reading through rsync will undo this.  When you need to undo it manually,
+# there is a script /usr/share/doc/rsync/support/munge-symlinks
+#
+# Starting rsync daemon as root would be extra hassle and more risk to audit.
+# So I use munge-symlinks.  I am perfectly happy with it, it's just a pity we
+# need the extra step.
+#
+use chroot = no
+munge symlinks = yes
+
+[backup]
+{#
+ # These ansible variables must not contain a newline character (or nul).
+ # I would like to check them, but there is no clear way to express a
+ # newline character (or nul) in jinja2.
+ #}
+path = {{ daily_rsync__dir | replace('%', '%%') }}/{{ inventory_hostname | replace('%', '%%') }}/tmp
+
+read only = no
+list = no
+dont compress = *

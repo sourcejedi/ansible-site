@@ -1,0 +1,6 @@
+UserKnownHostsFile /ansible-managed/daily-rsync/known_hosts
+GlobalKnownHostsFile /dev/null
+UpdateHostKeys no
+CheckHostIP no
+
+IdentityFile /ansible-managed/daily-rsync/ssh_key

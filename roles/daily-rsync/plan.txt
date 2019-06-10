@@ -1,0 +1,93 @@
+What am I trying to do?
+
+* write a script for setting up the automated backups of drystone.
+* the idea is it can be used to set up a new backup server.
+* drystone is debian9, i have a VM of debian9.
+
+I already have a script to set up borgbackup to local HDD
+(and a less complete one for bup).
+
+But I don't have anything scripted for an rsync to
+a server yet.
+
+* install + create SSH keys for rsync.
+
+* script which allows rsync, but nothing else.
+* use force-command option in authorized_keys.
+* use a second key to allow triggering rdiff-backup afterwards.
+
+* run rsync server as a specific user (named after the machine being backed up)
+* this user will not be root, so it will not preserve user names in any way.  this is absolutely fine for the user files I want to back up.
+
+What hostname do I want the client to connect to?
+.local? FQDN?
+FQDN would make sure that a laptop does not try to connect to servers that it is not allowed to.
+.local works even if you do not have a DNS server set up.
+.local is simpler, and it makes it easier when switching to a different router.
+actually .local also assumes either a bridged network connection (e.g. not routed Wi-Fi), or a MDNS relay.
+
+generate a "unique local name"?
+avahi-aliases script? I think this requires avahi-daemon, because I don't think systemd-resolved has any backwards-compatible interface?
+ipv6 ULA? ipv6 LLA...?
+
+=>
+try FDQN, then .local.
+
+Rely on SSH host keys, to avoid bothering foreign network servers with *login* attempts.
+Point: we need to install SSH host keys!
+
+Don't need to make that too generic.
+Actually want to avoid installing a system-wide host key for the .local address.
+Script might need to run as root, but can use custom known hosts file.
+
+That said, setup seems a bit awkward, esp since I have been trying for airgap.
+if you want to generate the private key on the client, then
+
+1. host key server -> client
+2. client generate ssh public key
+3. ssh public key client -> server
+4. enable backup job on client (it will not log an error)
+
+=>drop the airgap requirement:
+install a temporary authorized key in order to run all the tasks from the control node.
+
+maybe add client/server tags, to allow check mode after airgapping?
+
+Do we support saving the host key of a new server and switching back and forth?
+What key do we use to index/name the host key?
+Let's start with the oldest system: use a config file, allow commenting out the old values :-).
+
+---
+The script needs to set up both the backup server and the backup client.
+
+In Ansible?
+some tasks run on client, some on server.
+
+I think each needs a different "play"?
+Either that, or use delegate.
+"delegate" uses the variables of the target host?
+
+"delegate" would allow for creating per-host target directories, the user, ...
+Except it does not work with the airgap.
+
+If we have e.g. a separate role, we need a list of hosts (+keys...) for the server.
+
+---
+
+host key from server -> control node...
+
+Dump this in the ssh server role.
+
+---
+
+Where do we specify the different directories that we are backing up?
+Exclusions for rdiff-backup, similar to bup or borgbackup?
+
+
+# A user account is created on the server, for the client to log in over ssh.
+#
+# You could probably setup `root`, probably automate removal if desired...
+# then you either tell rsync to run as a specific user anyway, or as `root`
+# (uhh!), or use the global `nobody` and rely on a containing directory with
+# root-only access.  I think the latter would work fine, it just seems a bit
+# less obvious to me.

@@ -1,0 +1,3 @@
+{% for address in daily_rsync__server_addresses %}
+{{ address }} {{ lookup('file', inventory_dir + '/files/ssh-hostkeys/' + daily_rsync__server) }}
+{% endfor %}

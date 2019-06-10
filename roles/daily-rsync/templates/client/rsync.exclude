@@ -1,0 +1,9 @@
+- /thumbnails-digikam.db
+- /.gvfs/
+- /.cache/
+- /.thumbnails/
+- /.local/share/Trash/files/
++ /.mozilla/firefox/*/bookmarkbackups/***
++ /.mozilla/firefox/*/
++ /.mozilla/firefox/
+- /.mozilla/**
