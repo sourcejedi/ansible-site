@@ -8,8 +8,8 @@
 # The variables `daily_rsync__server` and `daily_rsync__server_addresses`
 # are used to test the role in a VM.
 
-# NOTE 2: `daily_rsync__server_addresses` was added with Wi-Fi in mind,
-# but if you wanted to use this for Wi-Fi or laptops, it is really not
+# NOTE 2: `daily_rsync__server_addresses` was added with Wi-Fi in mind.
+# But if you really wanted to use this for Wi-Fi or laptops, it is not
 # robust enough so far.
 
 # This task list is unusual for me:
@@ -18,7 +18,7 @@
 
 # Client - generate ssh keypair, read the public key into a variable #
 
-- name: Client - Install ssh, rsync, cron
+- name: Client - install ssh, rsync, cron
   package:
     name: "{{ item }}"
     state: present
@@ -27,7 +27,7 @@
     - rsync
     - cron
     
-- name: Client - Create directory for role file(s)
+- name: Client - create directory for role file(s)
   file:
     dest: /ansible-managed/daily-rsync/
     state: directory
@@ -45,7 +45,7 @@
   changed_when: False
   check_mode: False
 
-- name: Client - Read ssh public key
+- name: Client - read ssh public key
   slurp:
     src: /ansible-managed/daily-rsync/ssh_key.pub
   register: sshkey
@@ -62,6 +62,16 @@
     - rdiff-backup
   run_once: True
 
+# NOTE: We need to use the daily_rsync__dir variable from the *server*.
+# Unfortunately this expression is horribly long.  We copy the
+# variable from the server to the client.  So the expression ends up
+# looking horribly misleading!
+#
+- name: Server - read directory variable
+  set_fact:
+    daily_rsync__dir:
+      "{{ hostvars[daily_rsync__server]['daily_rsync__dir'] }}"
+
 - name: Server - create directory
   delegate_to: "{{ daily_rsync__server }}"
   file:
@@ -69,6 +79,21 @@
     state: directory
   run_once: True
 
+- name: Server - create per-client user
+  delegate_to: "{{ daily_rsync__server }}"
+  user:
+    state: present
+    name: "rsyncbak-{{ inventory_hostname }}"
+    home: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}"
+    comment: "SSH login for remote backup client,,,"
+    groups: sshlogin  # roles/openssh-server
+
+    # password_lock is only added in Ansible 2.6.
+    # Doing this manually will warn
+    # "The input password appears not to have been hashed.
+    # The 'password' argument must be encrypted for this module to work properly."
+    # User module does not support "warn: no".
+    password: "!!"
 
 - name: Server - create per-client directories
   delegate_to: "{{ daily_rsync__server }}"
@@ -96,29 +121,13 @@
     state: directory
   run_once: True
 
-- name: Server - create user
-  delegate_to: "{{ daily_rsync__server }}"
-  user:
-    state: present
-    name: "rsyncbak-{{ inventory_hostname }}"
-    home: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}"
-    comment: "SSH login for remote backup client,,,"
-    groups: sshlogin  # roles/openssh-server
-
-    # password_lock is only added in Ansible 2.6.
-    # Doing this manually will warn
-    # "The input password appears not to have been hashed.
-    # The 'password' argument must be encrypted for this module to work properly."
-    # User module does not support "warn: no".
-    password: "!!"
-    
-- name: Server - create rsyncd.conf
+- name: Server - create per-client rsyncd.conf
   delegate_to: "{{ daily_rsync__server }}"
   template:
     src: server/rsyncd.conf.j2
     dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rsyncd.conf"
 
-- name: Server - install ssh server scripts
+- name: Server - install per-client ssh server scripts
   delegate_to: "{{ daily_rsync__server }}"
   template:
     src: "server/{{ item }}"
@@ -128,7 +137,7 @@
     - "ssh_server.sh"
     - "rdiff-backup.sh"
 
-- name: Server - install authorized_key
+- name: Server - install per-client authorized_key
   delegate_to: "{{ daily_rsync__server }}"
   authorized_key:
     exclusive: yes
@@ -136,30 +145,24 @@
     key: "{{ sshkey.content | b64decode }}"
     key_options: 'command="/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/ssh_server.sh",restrict,no-port-forwarding,no-agent-forwarding,no-X11-forwarding,no-pty,no-user-rc'
 
-- name: Server - create rsyncd.conf
-  delegate_to: "{{ daily_rsync__server }}"
-  template:
-    src: server/rsyncd.conf.j2
-    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rsyncd.conf"
-
 # Client #
 
-- name: Create known-hosts file for server addresses
+- name: Client - create known-hosts file for server addresses
   template:
     src: client/known_hosts.j2
     dest: /ansible-managed/daily-rsync/known_hosts
 
-- name: Create ssh_config
+- name: Client - create ssh_config
   template:
     src: client/ssh_config
     dest: /ansible-managed/daily-rsync/ssh_config
 
-- name: create rsync.exclude
+- name: Client - create rsync.exclude
   template:
     src: client/rsync.exclude
     dest: "/ansible-managed/daily-rsync/rsync.exclude"
     
-- name: Install cron job for rsync
+- name: Client - install cron job for rsync
   template:
     src: client/cron.daily.j2
     dest: /etc/cron.daily/{{ daily_rsync__cron_prefix }}local-rsync
