@@ -79,6 +79,13 @@
     state: directory
   run_once: True
 
+- name: Server - create configs directory
+  delegate_to: "{{ daily_rsync__server }}"
+  file:
+    dest: /ansible-managed/daily-rsync-clients/
+    state: directory
+  run_once: True
+
 - name: Server - create per-client user
   delegate_to: "{{ daily_rsync__server }}"
   user:
@@ -114,12 +121,6 @@
     state: directory
     owner: "rsyncbak-{{ inventory_hostname }}"
     mode: "700"
-
-- name: Server - create configs directory
-  file:
-    dest: /ansible-managed/daily-rsync-clients/
-    state: directory
-  run_once: True
 
 - name: Server - create per-client rsyncd.conf
   delegate_to: "{{ daily_rsync__server }}"
