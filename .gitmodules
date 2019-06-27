@@ -27,11 +27,11 @@
 	url = git@github.com:sourcejedi/sourcejedi-nspawn-on-fedora.git
 
 [submodule.sourcejedi-rpmfusion-free]
-	path = roles/sourcejedi.rpmfusion-free
+	path = roles/sourcejedi.rpmfusion_free
 	url = git@github.com:sourcejedi/ansible-rpmfusion-free.git
 
 [submodule.sourcejedi-rpmfusion-nonfree]
-	path = roles/sourcejedi.rpmfusion-nonfree
+	path = roles/sourcejedi.rpmfusion_nonfree
 	url = git@github.com:sourcejedi/ansible-rpmfusion-nonfree.git
 
 [submodule.sourcejedi-rpmfusion-impl]
@@ -39,7 +39,7 @@
 	url = git@github.com:sourcejedi/ansible-rpmfusion__impl.git
 
 [submodule.sourcejedi-rpmfusion-remove]
-	path = roles/sourcejedi.rpmfusion-remove
+	path = roles/sourcejedi.rpmfusion_remove
 	url = git@github.com:sourcejedi/ansible-rpmfusion-remove.git
 
 [submodule.sourcejedi-systemd-journal]
