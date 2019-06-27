@@ -89,5 +89,3 @@
     - { role: sourcejedi.rpmfusion-remove, repo: nonfree }
 
     - sourcejedi.nspawn-on-fedora
-
-    - { role: bfq, bfq: false }

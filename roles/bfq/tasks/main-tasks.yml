@@ -1,3 +1,8 @@
+# This role is Fedora-specific (/boot/efi/EFI/fedora/grub.cfg).
+# It violates the new boot option stuff that was introduced in Fedora 30.
+# (The boot option stuff is also not necessary in Fedora 30,
+#  because the kernel no longer has any "single-queue block layer").
+
 # this is clunk. should have written a python script instead.
 # used to switch bfq on/off for testing.
 
