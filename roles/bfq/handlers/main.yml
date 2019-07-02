@@ -1,13 +1,2 @@
-- name: Update GRUB (EFI)
-  shell: |
-    if [ -d /boot/efi/ ]; then
-      grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-    fi
-  listen: update-grub
-
-- name: Update GRUB (BIOS)
-  shell: |
-    if [ -d /boot/grub2 ]; then
-      grub2-mkconfig -o /boot/grub2/grub.cfg
-    fi
-  listen: update-grub
+- name: Reload udev rules
+  command: udevadm trigger
