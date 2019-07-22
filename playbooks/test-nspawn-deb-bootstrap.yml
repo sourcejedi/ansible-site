@@ -1,4 +1,4 @@
-# See also test-nspawn-debian
+# See also test-nspawn-deb
 
 - hosts: test-nspawn-deb
   roles:

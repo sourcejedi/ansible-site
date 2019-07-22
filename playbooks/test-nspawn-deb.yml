@@ -1,3 +1,6 @@
+# XXX Using virbr0 to bypass firewalld seems to have stopped working,
+#     as of Fedora 30.  So these instructions don't work.
+
 # Test nspawns.  Used for network services, so make sure you run them
 # in a network namespace.  Example:
 #
@@ -21,7 +24,7 @@
 # bootstrap/debian $DIST &&
 #
 # # Prepare system for boot & login, including a DHCP client
-# ./localhost $HOSTNAME playbooks/test-nspawn-deb-bootstrap.yml
+# ./local $HOSTNAME playbooks/test-nspawn-deb-bootstrap.yml
 #
 # passwd alan-sysop
 # exit
@@ -37,7 +40,7 @@
 #
 # # Now run this playbook
 # cd /ansible
-# ./localhost jessie playbooks/test-nspawn-deb.yml
+# ./local jessie playbooks/test-nspawn-deb.yml
 #
 
 - include: test-nspawn-deb-bootstrap.yml
@@ -49,7 +52,7 @@
     - sourcejedi.systemd-journal
     - openssh-server
 
-    - deb-apache
+    #- deb-apache
 
     # needs fixing
     #- debian-unattended-upgrades
