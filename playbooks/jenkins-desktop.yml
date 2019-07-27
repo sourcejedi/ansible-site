@@ -32,6 +32,11 @@
     - remove-rpcbind
     - remove-mlocate-on-deb
 
+    # Old-school "mail" used by
+    # * backup script messes! - which use cron
+    #
+    - deb-mail
+
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).
     - { role: daily-borgbackup,

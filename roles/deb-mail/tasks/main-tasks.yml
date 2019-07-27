@@ -1,0 +1,6 @@
+- name: Install default-mta and bsd-mailx
+  package:
+    name:
+      - default-mta
+      - bsd-mailx
+    state: present

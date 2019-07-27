@@ -49,3 +49,11 @@
     - deb-apache-acl  # kept separate for easier testing
     - smokeping
     - icinga2
+
+    # Old-school "mail" used by
+    # * icinga
+    # * cron-apt - notify of updates!
+    # * backup script mess! - uses at/cron
+    # * smartd
+    #
+    - deb-mail
