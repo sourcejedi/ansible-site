@@ -31,12 +31,18 @@
     # Roles which are not always used, or mostly used to test the role itself
     #
 
+    # relied upon for daily-borgbackup and daily-rsync (cron mail).
+    #- deb-mail
+
     #- packages-gui
 
     #- jpegcheck
 
-    #- { role: daily-borgbackup,
-    #          daily_borgbackup__cron_prefix: '50-' }
+    - jenkins-photos
 
-    #- { role: daily-rsync,
-    #          daily_rsync__cron_prefix: '60-' }
+    - { role: daily-borgbackup,
+              daily_borgbackup__cron_prefix: '50-' }
+
+    # Test using test-vm-debian9 as both the client and the server.
+    - { role: daily-rsync,
+              daily_rsync__cron_prefix: '60-' }

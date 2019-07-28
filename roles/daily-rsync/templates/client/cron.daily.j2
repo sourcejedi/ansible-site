@@ -23,7 +23,7 @@ try_rsync() {
 	assert_nospace \$SSH_USER "$SSH_USER"
 	local RSH="ssh -F /ansible-managed/daily-rsync/ssh_config -l ${SSH_USER}"
 
-	rsync --rsh="$RSH" \
+	nice rsync --rsh="$RSH" \
 		-a --delete --partial \
 		--exclude-from /ansible-managed/daily-rsync/rsync.exclude \
 		--delete-excluded \
@@ -45,7 +45,7 @@ try_address() {
 	# jenkins-music is not included here
 
 	ssh -F /ansible-managed/daily-rsync/ssh_config -l "$SSH_USER" \
-	    "$SERVER" rdiff-backup &&
+	    "$SERVER" snapshot &&
 
 	printf '== Backup succeeded ==\n'
 }

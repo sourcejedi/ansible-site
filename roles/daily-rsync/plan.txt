@@ -91,3 +91,14 @@ Exclusions for rdiff-backup, similar to bup or borgbackup?
 # (uhh!), or use the global `nobody` and rely on a containing directory with
 # root-only access.  I think the latter would work fine, it just seems a bit
 # less obvious to me.
+
+...it belatedly occurs to me, it should be possible to use a single
+user account for all clients, and just differentiate by ssh key.
+Using a template for authorized_keys would automatically give you an
+easy way to revoke keys.
+
+It would be better practice to have a non-root account that can access the
+backups?  Especially since manual access is required for pruning snapshots.
+
+I notice I'm writing some files outside of /etc.
+Are there any concerns that I'm not benefitting from etckeeper?

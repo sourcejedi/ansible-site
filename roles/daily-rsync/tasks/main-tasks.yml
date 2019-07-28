@@ -12,6 +12,9 @@
 # But if you really wanted to use this for Wi-Fi or laptops, it is not
 # robust enough so far.
 
+# NOTE 3: It is a good idea to install a mail setup, to catch cron errors.
+# See roles/deb-mail/
+
 # This task list is unusual for me:
 # it runs tasks on two different hosts.
 
@@ -26,7 +29,7 @@
     - openssh-client
     - rsync
     - cron
-    
+
 - name: Client - create directory for role file(s)
   file:
     dest: /ansible-managed/daily-rsync/
@@ -52,7 +55,7 @@
 
 # Server #
 
-- name: Server - install rsync and rdiff-backup
+- name: Server - install rsync, rdiff-backup, at
   delegate_to: "{{ daily_rsync__server }}"
   package:
     name: "{{ item }}"
@@ -137,6 +140,8 @@
   with_items:
     - "ssh_server.sh"
     - "rdiff-backup.sh"
+
+# Server - requires information from client #
 
 - name: Server - install per-client authorized_key
   delegate_to: "{{ daily_rsync__server }}"
