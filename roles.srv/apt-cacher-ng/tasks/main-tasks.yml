@@ -54,10 +54,10 @@
 
 # backends_ configuration files
 #
-- name: Set Debian repo to primary UK mirror
+- name: Set Debian repo to official Debian APT CDN service
   copy:
     content: |
-      http://ftp.uk.debian.org/debian/
+      http://deb.debian.org/debian
     dest: /etc/apt-cacher-ng/backends_debian
   notify: [ 'Restart apt-cacher-ng' ]
 

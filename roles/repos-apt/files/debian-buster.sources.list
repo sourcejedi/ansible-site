@@ -10,25 +10,25 @@
 
 # Debian release 10.x
 #
-deb http://ftp.uk.debian.org/debian/ buster main
+deb http://deb.debian.org/debian buster main
 
 # Security updates
 #
-deb http://security.debian.org/ buster/updates main
+deb http://deb.debian.org/debian-security buster/updates main
 
 # "Stable updates" e.g. timezone data.  https://wiki.debian.org/StableUpdates
 #
-deb http://ftp.uk.debian.org/debian/ buster-updates main
+deb http://deb.debian.org/debian buster-updates main
 
 
 # Source code repositories.
 # Can be uncommented for temporary use, or copied to sources.lists.d/
 
-# deb-src http://ftp.uk.debian.org/debian/ buster main
-# deb-src http://security.debian.org/ buster/updates main
-# deb-src http://ftp.uk.debian.org/debian/ buster-updates main
+# deb-src http://deb.debian.org/debian buster main
+# deb-src http://deb.debian.org/debian-security buster/updates main
+# deb-src http://deb.debian.org/debian buster-updates main
 
 # -dbgsym packages.  https://wiki.debian.org/HowToGetABacktrace
 # Note it doesn't say if this works for packages in updates repo.
 
-# deb http://debug.mirrors.debian.org/debian-debug/ buster-debug main
+# deb http://deb.debian.org/debian-debug/ buster-debug main

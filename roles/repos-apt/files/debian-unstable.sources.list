@@ -7,13 +7,13 @@
 # Here's a standardized sources.list for Debian Unstable,
 # (hopefully) configured to use a nearby server.
 
-deb http://ftp.uk.debian.org/debian/ unstable main
+deb http://deb.debian.org/debian unstable main
 
 # Source code repositories.
 # Can be uncommented for temporary use, or copied to sources.lists.d/
 #
-# deb-src http://ftp.uk.debian.org/debian/ unstable main
+# deb-src http://deb.debian.org/debian unstable main
 
 # -dbgsym packages.  https://wiki.debian.org/HowToGetABacktrace
 #
-# deb http://debug.mirrors.debian.org/debian-debug/ unstable-debug main
+# deb http://deb.debian.org/debian-debug/ unstable-debug main
