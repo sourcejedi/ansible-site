@@ -44,10 +44,10 @@ unstable0  repos_apt=debian-unstable
 xenial    repos_apt=ubuntu-xenial
 
 [test-vm-fedora]
-fedora29-vm ansible_host=fedora29-vm.local  # avahi
 fedora30-vm ansible_host=fedora30-vm.local  # avahi
 
 [test-vm-debian]
 debian9-vm ansible_host=debian9-vm.local  repos_apt=debian-stretch
+debian10-vm ansible_host=debian10-vm.local  repos_apt=debian-buster
 
 ubuntu1804-vm ansible_host=ubuntu1804-vm.local  repos_apt=ubuntu-bionic
