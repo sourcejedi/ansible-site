@@ -88,7 +88,7 @@ borg_init() {
 		mv "$T" "$BORG_REPO"
 	fi &&
 
-	# borg doesn't like renamed repos; we have to baby it.
+	# borg doesn't like renamed repos.  We have to baby it.
 	#
 	# There's an easier fix in 1.1, which might even work before the rename
 	# (so we don't end up overriding borg *after* the initial creation).
@@ -133,11 +133,16 @@ borg_init() {
 
 backup_home() {
 	local HOME_DIR="$1" &&
-
 	local BORG_REPO="$2" &&
-	export BORG_REPO &&
 
 	borg_init "$BORG_REPO" &&
+
+	export BORG_REPO &&
+
+	# Required for first run after upgrading to borg version 1.1.x
+	# This first run will print warnings (and hence send cron mail).
+	local BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes &&
+	export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK &&
 
 	# Exclusions:
 	#
