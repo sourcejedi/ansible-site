@@ -153,8 +153,10 @@ backup_home() {
 	#
 	# Nowadays GNOME logs activity and indexes it, that shows up as well.
 	#
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' -C lz4 \
-		-x "$HOME_DIR" \
+	log_cmd borg create '::{now}' "$HOME_DIR" \
+		$BORG_PROGRESS $BORG_STATS \
+		-C lz4 \
+		--one-file-system \
 		--exclude "$HOME_DIR"/.cache \
 		--exclude "$HOME_DIR"/.mozilla/firefox \
 		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite \
