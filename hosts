@@ -1,3 +1,6 @@
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
 [fedora]
 alan-laptop
 alan-x201
@@ -5,10 +8,6 @@ alan-x201
 [fedora:children]
 test-nspawn-fedora
 test-vm-fedora
-
-[fedora:vars]
-ansible_python_interpreter=/usr/bin/python3
-
 
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
 [ungrouped]
@@ -29,10 +28,6 @@ fedora-27  # nss-mymachines
 fedora-28  # nss-mymachines
 
 [test-nspawn-deb]
-jessie    repos_apt=debian-jessie
-jessie0   repos_apt=debian-jessie
-jessie1   repos_apt=debian-jessie
-
 stretch   repos_apt=debian-stretch
 stretch0  repos_apt=debian-stretch
 stretch1  repos_apt=debian-stretch
