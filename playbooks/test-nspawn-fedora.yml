@@ -8,9 +8,9 @@
     # I have to add updated keys for the rpmfusion roles
     # at some point after each Fedora release.
     #
-    # Note -nonfree depends on -free, so you only need one
-    #- sourcejedi.rpmfusion-free
-    #- sourcejedi.rpmfusion-nonfree
+    # Note _nonfree depends on _free, so you only need one
+    #- sourcejedi.rpmfusion_free
+    #- sourcejedi.rpmfusion_nonfree
 
-    #- { role: sourcejedi.rpmfusion-remove, repo: nonfree }
-    #- { role: sourcejedi.rpmfusion-remove, repo: free }
+    #- { role: sourcejedi.rpmfusion_remove, repo: nonfree }
+    #- { role: sourcejedi.rpmfusion_remove, repo: free }

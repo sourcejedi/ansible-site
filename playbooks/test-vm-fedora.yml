@@ -12,8 +12,8 @@
     - packages-trash-cli
     - packages-dev-basics
 
-    #- sourcejedi.rpmfusion-free
-    #- { role: sourcejedi.rpmfusion-remove, repo: "free" }
+    #- sourcejedi.rpmfusion_free
+    #- { role: sourcejedi.rpmfusion_remove, repo: "free" }
 
     #- sourcejedi.google-chrome
     #- sourcejedi.google-chrome-remove
