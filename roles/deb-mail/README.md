@@ -1,10 +1,10 @@
 # deb-mail #
 
-Install default-mta and bsd-mailx.
+Install exim4 and bsd-mailx.
 
-FIXME this is insufficient, save for those who log in as root.
-(There is a config for this on Debian, and presumably Ubuntu,
-but they use different default MTAs!)
+Mail to the root user is redirected according to the ansible variable
+`deb_mail_root_forward`.  This may contain multiple entries, separated
+by commas.
 
 ---
 

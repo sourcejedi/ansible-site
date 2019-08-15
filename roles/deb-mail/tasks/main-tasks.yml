@@ -1,6 +1,14 @@
-- name: Install default-mta and bsd-mailx
+- name: Install exim4 and bsd-mailx
   package:
     name:
-      - default-mta
+      - exim4
       - bsd-mailx
     state: present
+
+- name: Redirect root mail
+  lineinfile:
+    path: /etc/aliases
+    regexp: '^root:'
+
+    # Note: variable must not contain newlines
+    line: 'root: {{ deb_mail_forward_root }}'

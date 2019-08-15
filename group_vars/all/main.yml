@@ -4,3 +4,5 @@ google_chrome__yum_baseurl: "http://fedora-mirror.carrier.duckdns.org:3142/dl.go
 # This should sound worrying!  The role contains one fragile mitigation:
 # the update is also reported as a failure.
 rpmfusion__update_master_keys: yes
+
+deb_mail_forward_root: 'alan-sysop, alan'
