@@ -32,43 +32,55 @@
 
 # Urgh synchronize module doesn't support sudo.
 # Use unprivileged user directory as staging area.
-- name: 1/5 object config - create temp dir
+- name: Assert $HOME is set correctly. (Check "sudo" weirdness)
+  command: 'sh -x -c "[ 0 = $(id -u) ] && [ ~ = ~root ]"'
+  check_mode: no
+  changed_when: False
+
+- name: 1/6 object config - create temp dir
   file:
     state: directory
-    path: .ansible/role/icinga2/conf.d
+    path: ~/.ansible/role/icinga2/conf.d
   become: no
 
-- name: 2/5 object config - sync to temp dir
+# "fix" check mode
+- name: 2/6 object config - check temp dir created
+  command: test -d ~/.ansible/role/icinga2/conf.d
+  become: no
+  check_mode: no
+  changed_when: False
+
+- name: 3/6 object config - sync to temp dir
   synchronize:
     delete: yes
     src: conf.d/
-    dest: .ansible/role/icinga2/conf.d/
+    dest: ~/.ansible/role/icinga2/conf.d/
   check_mode: no  # run this command even in --check mode.  See 5/5
   become: no
 
 # The following require privilege.
 # However they also need to know where the un-escalated user was.
 # This seems to work fine with ssh+sudo.
-- name: 3/5 object config - diff icinga2
+- name: 4/6 object config - diff icinga2
   command: diff -r -q
-             .ansible/role/icinga2/conf.d/ 
+             ~/.ansible/role/icinga2/conf.d/
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
   register: diff
   failed_when: diff.rc not in [0,1] or diff.stderr != ""
-  
-- name: 4/5 object config - sync to icinga2
+
+- name: 5/6 object config - sync to icinga2
   command: rsync -a --delete
-             .ansible/role/icinga2/conf.d/ 
-              /etc/icinga2/conf-actual.d
+             ~/.ansible/role/icinga2/conf.d/
+             /etc/icinga2/conf-actual.d
   when: diff.rc != 0
   notify: 'Test icinga2 and restart'
 
 # "fix" check mode
-- name: 5/5 object config - verify icinga2
+- name: 6/6 object config - verify icinga2
   command: diff -r -q
-             .ansible/role/icinga2/conf.d/ 
+             ~/.ansible/role/icinga2/conf.d/
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
@@ -76,7 +88,7 @@
 
 - name: Enable our configuration (and disable the examples)
   lineinfile:
-    path: /etc/icinga2/icinga2.conf
+    dest: /etc/icinga2/icinga2.conf
     state: present
     regexp: '^include_recursive "conf'
     line: 'include_recursive "conf-actual.d"'
