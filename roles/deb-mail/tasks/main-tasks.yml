@@ -7,7 +7,7 @@
 
 - name: Redirect root mail
   lineinfile:
-    path: /etc/aliases
+    dest: /etc/aliases
     regexp: '^root:'
 
     # Note: variable must not contain newlines
