@@ -11,6 +11,9 @@
 
 - hosts: drystone
   roles:
+
+    # FIXME proxy address - role uses the FQDN,
+    # but I keep manually resetting it to brick.local.
     - role: repos-apt
       repos_apt: debian-stretch
 
