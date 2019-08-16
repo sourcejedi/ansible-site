@@ -1,0 +1,12 @@
+# NOTE: Some of the role's tasks are "delegated" onto the backup server.
+
+# So far, we don't need to gather any facts.  Maybe we can skip that
+# and then you can run through the server tasks on their own
+# (without access to the air-gapped client).  Ah, but you still have
+# to avoid running the initial client tasks somehow to avoid the failure.
+
+- hosts: drystone
+  gather_facts: no
+  roles:
+    - { role: daily-rsync,
+              daily_rsync__cron_prefix: '60-' }
