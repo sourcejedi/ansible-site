@@ -29,7 +29,7 @@ snapshot)
 
     at now -f ~/rdiff-backup.sh 2>/dev/null
     RC=$?
-    [ $RC == 0 ] || echo "at failed with exit status $RC"
+    [ $RC = 0 ] || echo "at failed with exit status $RC"
     exit $RC
     ;;
 esac
