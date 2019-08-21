@@ -10,10 +10,12 @@
 # This script is used to prevent the client running arbitrary commands on the server.
 # We ignore the specified rsync server command, and run our own.
 
+cd ~ || exit 1
+
 COMMAND1="$(echo "$SSH_ORIGINAL_COMMAND" | cut -d " " -f 1)"
 case "$COMMAND1" in
 rsync)
-    exec nice rsync --server --daemon --config="$HOME"/rsyncd.conf . \
+    exec nice rsync --server --daemon --config=./rsyncd.conf . \
         || exit 1
     ;;
 esac
@@ -32,7 +34,7 @@ snapshot)
     # I suppose we could also just use a daily cronjob,
     # but that seems a bit odd.
 
-    echo "$HOME"/rdiff-backup.sh | at now 2>/dev/null
+    echo ./rdiff-backup.sh | at now 2>/dev/null
     RC=$?
     [ $RC = 0 ] || echo "at failed with exit status $RC"
     exit $RC
