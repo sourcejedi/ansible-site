@@ -141,6 +141,14 @@
     - "ssh_server.sh"
     - "rdiff-backup.sh"
 
+- name: Server - forward atd error mails to root
+  delegate_to: "{{ daily_rsync__server }}"
+  copy:
+    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/.forward"
+    content: "root\n"
+    owner: "rsyncbak-{{ inventory_hostname }}"  # exim4 checks owner
+    mode: 0444
+
 # Server - requires information from client #
 
 - name: Server - install per-client authorized_key

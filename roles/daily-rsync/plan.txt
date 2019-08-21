@@ -102,3 +102,6 @@ backups?  Especially since manual access is required for pruning snapshots.
 
 I notice I'm writing some files outside of /etc.
 Are there any concerns that I'm not benefitting from etckeeper?
+
+Oops, the mail for rsyncbak-drystone will not be seen by anyone - unlike root mail.
+So we need to create a ~/.forward file.
