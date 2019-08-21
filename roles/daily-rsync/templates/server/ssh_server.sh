@@ -22,12 +22,17 @@ case "$SSH_ORIGINAL_COMMAND" in
 snapshot)
     # Run in the background, in case the client shuts down/loses connection.
     #
+    # Don't use "at -f rdiff-backup.sh", it fails silently.
+    # Something non-obvious about how "at -f" works.
+    #
     # at is chatty.  We have to supress the job number
     # & the warning that it uses /bin/sh :(
     #
-    # (Maybe switch to systemd-run ?)
+    # Maybe we should switch to systemd-run?
+    # I suppose we could also just use a daily cronjob,
+    # but that seems a bit odd.
 
-    at now -f "$HOME"/rdiff-backup.sh 2>/dev/null
+    echo "$HOME"/rdiff-backup.sh | at now 2>/dev/null
     RC=$?
     [ $RC = 0 ] || echo "at failed with exit status $RC"
     exit $RC
