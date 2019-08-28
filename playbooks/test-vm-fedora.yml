@@ -12,6 +12,16 @@
     - packages-trash-cli
     - packages-dev-basics
 
+    #
+    # Roles which are not always used, or mostly used to test the role itself
+    #
+
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+
     #- sourcejedi.rpmfusion_free
     #- { role: sourcejedi.rpmfusion_remove, repo: "free" }
 

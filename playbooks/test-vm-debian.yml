@@ -7,7 +7,6 @@
       when: repos_apt == 'debian-jessie'
 
     - sourcejedi.etckeeper
-    - remove-rpcbind
     - users
     - sourcejedi.systemd-journal
 
@@ -25,18 +24,25 @@
       ubuntu_gnome_remove_snapd: yes
       when: ansible_distribution == "Ubuntu"
 
+    - remove-rpcbind
     - remove-mlocate-on-deb
 
     #
     # Roles which are not always used, or mostly used to test the role itself
     #
 
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+
     # relied upon for daily-borgbackup and daily-rsync (cron mail).
-    #- deb-mail
+    - deb-mail
 
-    #- packages-gui
+    - packages-gui
 
-    #- jpegcheck
+    - jpegcheck
 
     - jenkins-photos
 
