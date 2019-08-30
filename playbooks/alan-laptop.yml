@@ -25,7 +25,7 @@
     # Mask rpcbind.service, etc.
     # (Should already not be enabled on a *fresh* Fedora install.
     #  Also Fedora would already block the open port in firewalld).
-    - remove-rpcbind
+    - disable_rpcbind
 
     - sourcejedi.hdparm-noapm
 
@@ -76,7 +76,7 @@
     - packages-gui
 
     # In case you want to test remove+install of google-chrome.
-    #- sourcejedi.google-chrome-remove
+    #- sourcejedi.google_chrome_remove
 
     - packages-dev-basics
     - sourcejedi.ccache

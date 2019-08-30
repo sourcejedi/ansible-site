@@ -1,3 +1,3 @@
 ---
 - include: main-tasks.yml
-  tags: remove-rpcbind
+  tags: disable_rpcbind

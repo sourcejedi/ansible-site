@@ -32,7 +32,7 @@
     - sourcejedi.atop
 
     # Cleanup. In particular, remove updatedb task.
-    - remove-rpcbind
+    - disable_rpcbind
     - remove-mlocate-on-deb
 
     # Old-school "mail" used by

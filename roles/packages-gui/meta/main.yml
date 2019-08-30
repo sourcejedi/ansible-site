@@ -7,4 +7,4 @@ galaxy_info:
 
 dependencies:
  - firefox  # Firstly, bookmarks support.
- - sourcejedi.google-chrome  # Alternative when needed for interop.
+ - sourcejedi.google_chrome  # Alternative when needed for interop.

@@ -25,5 +25,5 @@
     #- sourcejedi.rpmfusion_free
     #- { role: sourcejedi.rpmfusion_remove, repo: "free" }
 
-    #- sourcejedi.google-chrome
-    #- sourcejedi.google-chrome-remove
+    #- sourcejedi.google_chrome
+    #- sourcejedi.google_chrome_remove

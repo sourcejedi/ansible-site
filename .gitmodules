@@ -50,5 +50,5 @@
 	url = https://github.com/Oefenweb/ansible-sysctl
 
 [submodule "roles/sourcejedi.google-chrome-remove"]
-	path = roles/sourcejedi.google-chrome-remove
+	path = roles/sourcejedi.google_chrome_remove
 	url = git@github.com:sourcejedi/ansible-google-chrome-remove.git

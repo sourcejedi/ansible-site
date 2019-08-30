@@ -29,7 +29,7 @@
        - protocol: tcp
          port: 4242
 
-    - remove-rpcbind
+    - disable_rpcbind
 
     - sourcejedi.hdparm-noapm
 
