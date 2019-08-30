@@ -15,7 +15,7 @@
 	url = git@github.com:sourcejedi/ansible-etckeeper.git
 
 [submodule.sourcejedi-google-chrome]
-	path = roles/sourcejedi.google-chrome
+	path = roles/sourcejedi.google_chrome
 	url = git@github.com:sourcejedi/ansible-google-chrome.git
 
 [submodule.sourcejedi-hdparm-noapm]
