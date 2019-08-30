@@ -14,7 +14,7 @@
 # While we're here, maybe we can support Fedora as well. Fedora 25 used
 # to enable rpcbind, and not in the way you'd expect from Fedora
 # policy.  Another reason it can be confusing is that rpcbind.service
-# is not started at boot; but rpcbind.socket is, which can activateit
+# is not started at boot; but rpcbind.socket is, which can activate it
 # on demand.  It is sufficient to just mask the service, but that is
 # confusing.  Mask the socket unit as well.
 #
