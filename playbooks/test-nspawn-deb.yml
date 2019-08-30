@@ -52,6 +52,8 @@
     - sourcejedi.systemd-journal
     - openssh-server
 
+    - disable_unwanted_servers
+
     #- deb-apache
 
     # needs fixing

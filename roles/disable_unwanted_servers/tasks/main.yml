@@ -1,0 +1,38 @@
+---
+- include: main-tasks.yml
+  tags: disable_unwanted_servers
+  vars:
+    network_services:
+      - name: avahi-daemon
+        enabled: "{{ not disable_service_avahi_daemon }}"
+
+      - name: gdomap
+        enabled: "{{ not disable_service_gdomap }}"
+
+      - name: minissdpd
+        enabled: "{{ not disable_service_minissdpd }}"
+      
+      - name: minidlna
+        enabled: "{{ not disable_service_minidlna }}"
+
+      - name: rpcbind
+        enabled: "{{ not disable_service_rpcbind }}"
+
+      - name: cups-browsed
+        enabled: "{{ not disable_service_cups_browsed }}"
+
+      - name: nmbd
+        enabled: "{{ not disable_service_nmbd }}"
+
+    wanted_services:
+      "{{ network_services
+              | selectattr('enabled')
+              | map(attribute='name')
+              | list }}"
+
+    unwanted_services:
+      "{{ network_services
+              | selectattr('enabled', 'equalto', False)
+              | map(attribute='name')
+              | list }}"
+

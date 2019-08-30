@@ -1,0 +1,63 @@
+# TODO: re-lookup links for cups
+
+# An average user probably expects either Ubuntu's "No Open Ports"[1],
+# and/or a firewall like Windows.
+#
+# I recommend installing a firewall.  E.g. see sourcejedi.firewalld.
+# But you might additionally want to approximate "No Open Ports".
+# You can use this role to disable some common unwanted network
+# services.
+#
+# Please note that Ubuntu's "No Open Ports" policy is dead.  It does
+# not document the exception for cups-browsed (UDP port 631).  And the
+# policy is no longer being applied to the media player app.[2]
+#
+# This role does not disable open ports in the media player, or other
+# GUI apps.
+#
+# [1] https://wiki.ubuntu.com/SecurityTeam/Policies
+# [2] https://bugs.launchpad.net/ubuntu/+source/rhythmbox/+bug/1771196
+
+
+# Most people allow Avahi.  Ubuntu audited it for security.
+disable_service_avahi_daemon: no
+
+# cups-browsed automatically adds discovered network printers
+# (including MDNS).
+#
+# Fedora Workstation has this service disabled by default
+# since 2017 (Fedora 26) or earlier, but it is enabled in Ubuntu (!)
+# and Debian.
+#
+# CUPS have decided to use a different approach now,
+# which shows duplicate printers and cannot be disabled.
+# It is not clear to me why you would want to have both
+# approaches enabled at the same time.
+#
+# * https://askubuntu.com/questions/676863/how-do-i-get-rid-of-a-ghost-printer-in-gnome
+# * https://askubuntu.com/questions/345083/how-do-i-disable-automatic-remote-printer-installation/656774#656774
+#
+disable_service_cups_browsed: yes
+
+# gdomap, part of gnustep-base-runtime. Pulled in e.g. by unar.
+# Should be disabled, but there is a bug when upgrading to Debian 10.0.
+disable_service_gdomap: yes
+
+# minissdpd. Debian Desktop 8 and 9 (but not 10) install this by default,
+# due to transmission-gtk.
+disable_service_minissdpd: yes
+
+# minidlna, pulled in by kipi-plugins, e.g. by digikam.
+disable_service_minidlna: yes
+
+# rpcbind installed by default in Debian 8, for NFSv3 client.
+disable_service_rpcbind: yes
+
+# nmbd: ancient network discovery in Samba.
+# I.e. networking for Windows XP and below.
+#
+# Some Linux users may also use it as a way to access devices
+# which only implement the legacy network discovery
+# (because it was convenient for them to implement using Samba :-).
+#
+disable_service_nmbd: yes

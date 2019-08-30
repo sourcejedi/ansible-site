@@ -24,7 +24,7 @@
       ubuntu_gnome_remove_snapd: yes
       when: ansible_distribution == "Ubuntu"
 
-    - disable_rpcbind
+    - disable_unwanted_servers
     - remove-mlocate-on-deb
 
     #
