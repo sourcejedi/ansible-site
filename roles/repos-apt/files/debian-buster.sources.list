@@ -14,7 +14,7 @@ deb http://deb.debian.org/debian buster main
 
 # Security updates
 #
-deb http://deb.debian.org/debian-security buster/updates main
+deb http://security.debian.org/debian-security buster/updates main
 
 # "Stable updates" e.g. timezone data.  https://wiki.debian.org/StableUpdates
 #
@@ -25,7 +25,7 @@ deb http://deb.debian.org/debian buster-updates main
 # Can be uncommented for temporary use, or copied to sources.lists.d/
 
 # deb-src http://deb.debian.org/debian buster main
-# deb-src http://deb.debian.org/debian-security buster/updates main
+# deb-src http://security.debian.org/debian-security buster/updates main
 # deb-src http://deb.debian.org/debian buster-updates main
 
 # -dbgsym packages.  https://wiki.debian.org/HowToGetABacktrace
