@@ -58,7 +58,7 @@
     - jpegcheck
     - jenkins-photos
 
-    - packages-trash-cli
+    - packages-cli-basics
     - packages-gui
 
   tasks:

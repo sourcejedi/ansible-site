@@ -39,7 +39,7 @@
     - apt-cacher-ng
 
     - remove-mlocate-on-deb
-    - packages-trash-cli
+    - packages-cli-basics
     - jpegcheck
 
     # catch syslogs from router

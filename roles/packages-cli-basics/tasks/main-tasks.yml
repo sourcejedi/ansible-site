@@ -1,0 +1,60 @@
+# design:
+# - ensure you have certain programs when you need them (outages etc).
+# - "not very large" etc
+# - x-distro
+#
+# The list is chosen to match my taste, though I think a majority
+# are unobjectionable.
+#
+# So this ends up being constrained by the x-distro thing.
+# It would probably prefer to have separate list for Debian and Fedora.
+#
+# This might be particularly useful for a range of Debian
+# install methods.  I think the "Debian standard" live image
+# omitted almost all of these.
+
+- name: Install a small set of cli packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+
+    # Handy for answering the question "*Why* is the disk churning so much?"
+    # (and also how fast it is running).
+    # Implemented in python.
+    - iotop
+
+    # Trace Linux system calls
+    - strace
+
+    # GNU "time" program, as opposed to the bash shell builtin.
+    # Obscure, but I'm used to having it.  Might be specifically
+    # useful if you want to count page faults or the IO used by
+    # a command, as well as the time taken to run it.
+    - time
+
+    # "Modern traceroute for Linux".  Includes TCP traceroute.
+    - traceroute
+
+    # "netstat" command.  Old, but I think the interface is better than "ss".
+    - net-tools
+
+    # Modern alternative to GNU screen.
+    # GNU screen was removed from RHEL 8 due to outstanding security concerns.
+    - tmux
+    
+    # Copy files, sync, or compare.
+    # Very useful, though not necessarily optimized for local operations.
+    - rsync
+
+    # "diff" command.  (Debian priority: required)
+    - diffutils
+    
+    # `rm` is too unforgiving.  Make sure we have `trash`.
+    # Note this might not work as you expect for root/sudo.
+    # It can also choke on character encodings
+    - trash-cli
+
+    # A nice backup program that I use.
+    # Implemented using python.
+    - borgbackup

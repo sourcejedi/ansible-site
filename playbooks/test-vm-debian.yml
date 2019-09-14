@@ -17,7 +17,7 @@
 
     - openssh-server
 
-    - packages-trash-cli
+    - packages-cli-basics
     - packages-dev-basics
 
     - role: ubuntu-gnome-remove-snaps

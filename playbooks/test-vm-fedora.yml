@@ -9,7 +9,7 @@
 
     - sourcejedi.atop
     - remove-mlocate-on-fedora
-    - packages-trash-cli
+    - packages-cli-basics
     - packages-dev-basics
 
     #
