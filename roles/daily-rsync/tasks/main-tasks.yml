@@ -119,9 +119,9 @@
 
 - name: Server - create per-client lockfile
   delegate_to: "{{ daily_rsync__server }}"
-  file:
+  copy:
     dest: "{{ daily_rsync__dir }}/{{ inventory_hostname }}/lock"
-    state: directory
+    content: ""
     owner: "rsyncbak-{{ inventory_hostname }}"
     mode: "700"
 
