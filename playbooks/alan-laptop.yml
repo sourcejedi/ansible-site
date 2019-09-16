@@ -86,7 +86,7 @@
 
     # nonfree, useful at least to keep the repo keys updated for other users.
     #- sourcejedi.rpmfusion_nonfree
-    - { role: sourcejedi.rpmfusion_remove, repo: nonfree }
+    #- { role: sourcejedi.rpmfusion_remove, repo: nonfree }
 
     - sourcejedi.nspawn-on-fedora
 
