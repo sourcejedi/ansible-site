@@ -12,8 +12,8 @@
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
 
+    - packages-cli-basics
     - packages-gui
-    - packages-trash-cli
 
     - packages-dev-basics
 
