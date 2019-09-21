@@ -57,7 +57,7 @@
 - name: Set Debian repo to official Debian APT CDN service
   copy:
     content: |
-      http://deb.debian.org/debian
+      http://deb.debian.org/debian/
     dest: /etc/apt-cacher-ng/backends_debian
   notify: [ 'Restart apt-cacher-ng' ]
 
