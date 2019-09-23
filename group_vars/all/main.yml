@@ -6,3 +6,9 @@ google_chrome__yum_baseurl: "http://fedora-mirror.carrier.duckdns.org:3142/dl.go
 rpmfusion__update_master_keys: yes
 
 deb_mail_forward_root: 'alan-sysop, alan'
+
+# roles/disable_unwanted_servers
+#
+# I don't need any cups-browsed features.
+# The role defaults don't disable it (yet).
+disable_service_cups_browsed: yes

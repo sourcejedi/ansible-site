@@ -1,12 +1,10 @@
-# TODO: re-lookup links for cups
-
 # An average user probably expects either Ubuntu's "No Open Ports"[1],
-# and/or a firewall like Windows.
+# and/or a firewall that behaves similar to Windows.
 #
-# I recommend installing a firewall.  E.g. see sourcejedi.firewalld.
-# But you might additionally want to approximate "No Open Ports".
-# You can use this role to disable some common unwanted network
-# services.
+# This has not been upheld, so I recommend you configure a firewall.
+# E.g. see sourcejedi.firewalld.  But you might additionally want to
+# approximate "No Open Ports".  You can use this role to disable some
+# common unwanted network services.
 #
 # Please note that Ubuntu's "No Open Ports" policy is dead.  It does
 # not document the exception for cups-browsed (UDP port 631).  And the
@@ -19,28 +17,44 @@
 # [2] https://bugs.launchpad.net/ubuntu/+source/rhythmbox/+bug/1771196
 
 
-# Most people allow Avahi.  Ubuntu audited it for security.
-disable_service_avahi_daemon: no
+# Most people allow Avahi.  Ubuntu audited it for security at one point.
+disable_service_avahi_daemon:
 
-# cups-browsed automatically adds discovered network printers
-# (including MDNS).
+
+# cups-browsed: network printer discovery for CUPS.
+# It has four independently switchable functions:
 #
-# Fedora Workstation has this service disabled by default
-# since 2017 (Fedora 26) or earlier, but it is enabled in Ubuntu (!)
-# and Debian.
+# 1. Query printers using modern MDNS, aka "Avahi" aka "Bonjour" aka
+#    "Airprint".
 #
-# CUPS have decided to use a different approach now,
-# which shows duplicate printers and cannot be disabled.
-# It is not clear to me why you would want to have both
-# approaches enabled at the same time.
+# 2. Listen on UDP port 631 (ipp), for the legacy CUPS discovery protocol.
 #
-# * https://askubuntu.com/questions/676863/how-do-i-get-rid-of-a-ghost-printer-in-gnome
-# * https://askubuntu.com/questions/345083/how-do-i-disable-automatic-remote-printer-installation/656774#656774
+# 3. Query LDAP directory for printers.  This is not enabled by default.
 #
-disable_service_cups_browsed: yes
+# 4. Broadcast on UDP port 631 (ipp), for the legacy CUPS discovery protocol.
+#    This is not enabled by default.
+#
+# Various instructions advise using this to discover network printers.[1]
+# It seems the main reason is an issue with GTK.  The issue is that GTK
+# can discover network printers on its own, but then fails to actually
+# print to them.[2][3]  Assuming this issue is solved, most systems
+# should be able to run without cups-browsed.
+#
+# [1] https://wiki.debian.org/QuickPrintQueuesCUPS#IPP_Printers
+# [2] https://wiki.debian.org/CUPSDriverlessPrinting#CUPS_2.2.4_and_the_GTK_Print_Dialog
+# [3] https://wiki.debian.org/CUPSPrintQueues#Printing_and_GTK_Applications
+#
+# Fedora Workstation 26-30 has this service disabled by default.
+# It is enabled with default settings in Ubuntu and Debian.
+# If you are not using it, you might want to disable it.
+#
+disable_service_cups_browsed:
 
 # gdomap, part of gnustep-base-runtime. Pulled in e.g. by unar.
 # Should be disabled, but there is a bug when upgrading to Debian 10.0.
+#
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939119
+#
 disable_service_gdomap: yes
 
 # minissdpd. Debian Desktop 8 and 9 (but not 10) install this by default,

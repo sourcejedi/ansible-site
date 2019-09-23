@@ -4,6 +4,11 @@
 #
 # See defaults/main.yml for a commented list of services.
 
+- name: "Check for disable_service_* configuration error"
+  assert:
+    that: not error_services
+    msg: "Bad config.  Should evaluate to True, False, or None.  {{ error_services }}"
+
 
 ### Special case for rpcbind  - rpcbind.socket.  Code copied from next section ###
 

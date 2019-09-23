@@ -4,35 +4,39 @@
   vars:
     network_services:
       - name: avahi-daemon
-        enabled: "{{ not disable_service_avahi_daemon }}"
-
-      - name: gdomap
-        enabled: "{{ not disable_service_gdomap }}"
-
-      - name: minissdpd
-        enabled: "{{ not disable_service_minissdpd }}"
-      
-      - name: minidlna
-        enabled: "{{ not disable_service_minidlna }}"
-
-      - name: rpcbind
-        enabled: "{{ not disable_service_rpcbind }}"
+        disable: "{{ disable_service_avahi_daemon }}"
 
       - name: cups-browsed
-        enabled: "{{ not disable_service_cups_browsed }}"
+        disable: "{{ disable_service_cups_browsed }}"
+
+      - name: gdomap
+        disable: "{{ disable_service_gdomap }}"
+
+      - name: minissdpd
+        disable: "{{ disable_service_minissdpd }}"
+      
+      - name: minidlna
+        disable: "{{ disable_service_minidlna }}"
+
+      - name: rpcbind
+        disable: "{{ disable_service_rpcbind }}"
 
       - name: nmbd
-        enabled: "{{ not disable_service_nmbd }}"
+        disable: "{{ disable_service_nmbd }}"
+
+    error_services:
+      "{{ network_services
+              | rejectattr('disable', 'in', [True, False, None])
+              | list }}"
+        
+    unwanted_services:
+      "{{ network_services
+              | selectattr('disable', 'equalto', True)
+              | map(attribute='name')
+              | list }}"
 
     wanted_services:
       "{{ network_services
-              | selectattr('enabled')
+              | selectattr('disable', 'equalto', False)
               | map(attribute='name')
               | list }}"
-
-    unwanted_services:
-      "{{ network_services
-              | selectattr('enabled', 'equalto', False)
-              | map(attribute='name')
-              | list }}"
-
