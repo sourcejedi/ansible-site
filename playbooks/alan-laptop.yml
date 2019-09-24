@@ -21,6 +21,7 @@
       firewalld__services:
        - dhcpv6-client
        - mdns
+       - transmission-client
 
     - sourcejedi.hdparm-noapm
 
