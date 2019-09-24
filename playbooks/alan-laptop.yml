@@ -22,11 +22,6 @@
        - dhcpv6-client
        - mdns
 
-    # Mask rpcbind.service, etc.
-    # (Should already not be enabled on a *fresh* Fedora install.
-    #  Also Fedora would already block the open port in firewalld).
-    - disable_unwanted_servers
-
     - sourcejedi.hdparm-noapm
 
     # This works ok, though it doesn't mark the file
