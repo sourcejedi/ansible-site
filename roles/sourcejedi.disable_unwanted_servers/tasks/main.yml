@@ -12,17 +12,17 @@
       - name: gdomap
         disable: "{{ disable_service_gdomap }}"
 
-      - name: minissdpd
-        disable: "{{ disable_service_minissdpd }}"
-      
       - name: minidlna
         disable: "{{ disable_service_minidlna }}"
 
-      - name: rpcbind
-        disable: "{{ disable_service_rpcbind }}"
+      - name: minissdpd
+        disable: "{{ disable_service_minissdpd }}"
 
       - name: nmbd
         disable: "{{ disable_service_nmbd }}"
+
+      - name: rpcbind
+        disable: "{{ disable_service_rpcbind }}"
 
     error_services:
       "{{ network_services

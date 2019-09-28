@@ -1,0 +1,8 @@
+disable_service_avahi_daemon:
+disable_service_cups_browsed:
+
+disable_service_gdomap: yes
+disable_service_minidlna: yes
+disable_service_minissdpd: yes
+disable_service_nmbd: yes
+disable_service_rpcbind: yes

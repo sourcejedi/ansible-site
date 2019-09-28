@@ -29,7 +29,7 @@
        - protocol: tcp
          port: 4242
 
-    - disable_unwanted_servers
+    - sourcejedi.disable_unwanted_servers
 
     - sourcejedi.hdparm-noapm
 

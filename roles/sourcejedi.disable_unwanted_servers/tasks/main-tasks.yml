@@ -1,9 +1,3 @@
-# NOTE This role is for Debian and derived distributions.
-# It disables local network protocols which you might not want,
-# but which might e.g. get installed as a dependency.
-#
-# See defaults/main.yml for a commented list of services.
-
 - name: "Check for disable_service_* configuration error"
   assert:
     that: not error_services

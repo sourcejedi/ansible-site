@@ -1,0 +1,23 @@
+galaxy_info:
+  role_name: disable_unwanted_servers
+  author: Alan Jenkins
+  description: Prevent network services from being enabled
+               by accident, when you install certain packages.
+               For Debian/Ubuntu based operating systems.
+
+  license: GPLv3
+
+  min_ansible_version: 2.1.4.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 16.04
+        - 18.04
+    - name: Debian
+      versions:
+        - all
+
+  galaxy_tags:
+    - security
+    - rpcbind
