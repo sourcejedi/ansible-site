@@ -6,13 +6,17 @@
 	path = roles/sourcejedi.ccache
 	url = git@github.com:sourcejedi/ansible-ccache.git
 
-[submodule.sourcejedi-firewalld]
-	path = roles/sourcejedi.firewalld
-	url = git@github.com:sourcejedi/ansible-firewalld.git
+[submodule.sourcejedi-disable-unwanted-servers]
+	path = roles/sourcejedi.disable_unwanted_servers
+	url = git@github.com:sourcejedi/ansible_disable_unwanted_servers.git
 
 [submodule.sourcejedi-etckeeper]
 	path = roles/sourcejedi.etckeeper
 	url = git@github.com:sourcejedi/ansible-etckeeper.git
+
+[submodule.sourcejedi-firewalld]
+	path = roles/sourcejedi.firewalld
+	url = git@github.com:sourcejedi/ansible-firewalld.git
 
 [submodule.sourcejedi-google-chrome]
 	path = roles/sourcejedi.google_chrome
