@@ -1,16 +1,13 @@
 # This file is managed by a scripted process.
 # Manual changes will be destroyed if the script is re-applied.
 
+# The baseurl= paths in this file work on Fedora 28 through 30.
+# They do not work on Fedora 27 or below.
+
 [updates-testing]
 name=Fedora $releasever - $basearch - Test Updates
 failovermethod=priority
-
-# Fedora 27
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/$basearch/
-
-# Fedora 28
 baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/Everything/$basearch/
-
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-f$releasever&arch=$basearch
 enabled=0
 gpgcheck=1
@@ -21,13 +18,7 @@ skip_if_unavailable=False
 [updates-testing-debuginfo]
 name=Fedora $releasever - $basearch - Test Updates Debug
 failovermethod=priority
-
-# Fedora 27
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/$basearch/debug/
-
-# Fedora 28
 baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/Everything/$basearch/debug/
-
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-debug-f$releasever&arch=$basearch
 enabled=0
 gpgcheck=1
@@ -38,13 +29,7 @@ skip_if_unavailable=False
 [updates-testing-source]
 name=Fedora $releasever - Test Updates Source
 failovermethod=priority
-
-# Fedora 27
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/SRPMS/
-
-# Fedora 28
 baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/Everything/SRPMS/
-
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-source-f$releasever&arch=$basearch
 enabled=0
 gpgcheck=1

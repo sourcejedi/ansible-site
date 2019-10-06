@@ -1,16 +1,13 @@
 # This file is managed by a scripted process.
 # Manual changes will be destroyed if the script is re-applied.
 
+# The baseurl= paths in this file work on Fedora 28 through 30.
+# They do not work on Fedora 27 or below.
+
 [updates]
 name=Fedora $releasever - $basearch - Updates
 failovermethod=priority
-
-# Fedora 27
-#baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/$basearch/
-
-# Fedora 28
 baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/Everything/$basearch/
-
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
@@ -25,13 +22,7 @@ deltarpm=0
 [updates-debuginfo]
 name=Fedora $releasever - $basearch - Updates - Debug
 failovermethod=priority
-
-# Fedora 27
-#baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/$basearch/debug/
-
-# Fedora 28
 baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/Everything/$basearch/debug/
-
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-debug-f$releasever&arch=$basearch
 enabled=0
 gpgcheck=1
