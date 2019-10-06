@@ -1,7 +1,7 @@
 # design:
 # - ensure you have certain programs when you need them (outages etc).
-# - "not very large" etc
-# - x-distro
+# - "not too large"
+# - cross-distro - Debian and Fedora
 #
 # The list is chosen to match my taste, though I think a majority
 # are unobjectionable.
@@ -15,46 +15,44 @@
 
 - name: Install a small set of cli packages
   package:
-    name: "{{ item }}"
     state: present
-  with_items:
+    name:
+      # Handy for answering the question "*Why* is the disk churning so much?"
+      # (and also how fast it is running).
+      # Implemented using python.
+      - iotop
 
-    # Handy for answering the question "*Why* is the disk churning so much?"
-    # (and also how fast it is running).
-    # Implemented in python.
-    - iotop
+      # Trace Linux system calls
+      - strace
 
-    # Trace Linux system calls
-    - strace
+      # GNU "time" program, as opposed to the bash shell builtin.
+      # Obscure, but I'm used to having it.  Might be specifically
+      # useful if you want to count page faults or the IO used by
+      # a command, as well as the time taken to run it.
+      - time
 
-    # GNU "time" program, as opposed to the bash shell builtin.
-    # Obscure, but I'm used to having it.  Might be specifically
-    # useful if you want to count page faults or the IO used by
-    # a command, as well as the time taken to run it.
-    - time
+      # "Modern traceroute for Linux".  Includes TCP traceroute.
+      - traceroute
 
-    # "Modern traceroute for Linux".  Includes TCP traceroute.
-    - traceroute
+      # "netstat" command.  Old, but I think the interface is better than "ss".
+      - net-tools
 
-    # "netstat" command.  Old, but I think the interface is better than "ss".
-    - net-tools
+      # Modern alternative to GNU screen.
+      # GNU screen was removed from RHEL 8 due to outstanding security concerns.
+      - tmux
 
-    # Modern alternative to GNU screen.
-    # GNU screen was removed from RHEL 8 due to outstanding security concerns.
-    - tmux
-    
-    # Copy files, sync, or compare.
-    # Very useful, though not necessarily optimized for local operations.
-    - rsync
+      # Copy files, sync, or compare.
+      # Very useful, though not necessarily optimized for local operations.
+      - rsync
 
-    # "diff" command.  (Debian priority: required)
-    - diffutils
-    
-    # `rm` is too unforgiving.  Make sure we have `trash`.
-    # Note this might not work as you expect for root/sudo.
-    # It can also choke on character encodings
-    - trash-cli
+      # "diff" command.  (Debian package is "Priority: required")
+      - diffutils
 
-    # A nice backup program that I use.
-    # Implemented using python.
-    - borgbackup
+      # `rm` is too unforgiving.  Make sure we have `trash`.
+      # Note this might not work as you expect for root/sudo.
+      # It can also choke on character encodings
+      - trash-cli
+
+      # A nice backup program that I use.
+      # Implemented using python.
+      - borgbackup
