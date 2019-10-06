@@ -25,11 +25,11 @@ deb http://deb.debian.org/debian/ stretch-updates main
 # Source code repositories.
 # Can be uncommented for temporary use, or copied to sources.lists.d/
 
-#deb-src http://deb.debian.org/debian/ stretch main
-#deb-src http://security.debian.org/debian-security/ stretch/updates main
-#deb-src http://deb.debian.org/debian/ stretch-updates main
+# deb-src http://deb.debian.org/debian/ stretch main
+# deb-src http://security.debian.org/debian-security/ stretch/updates main
+# deb-src http://deb.debian.org/debian/ stretch-updates main
 
 # -dbgsym packages.  https://wiki.debian.org/HowToGetABacktrace
 # Note it doesn't say if this works for packages in updates repo.
 
-#deb http://deb.debian.org/debian-debug/ stretch-debug main
+# deb http://deb.debian.org/debian-debug/ stretch-debug main
