@@ -20,6 +20,7 @@
     - packages-cli-basics
     - packages-dev-basics
 
+    # ubuntu1804.  Remember to update role if any other version is used.
     - role: ubuntu-gnome-remove-snaps
       ubuntu_gnome_remove_snapd: yes
       when: ansible_distribution == "Ubuntu"
@@ -50,5 +51,5 @@
               daily_borgbackup__cron_prefix: '50-' }
 
     ## Test using test-vm-debian9 as both the client and the server.
-    #- { role: daily-rsync,
-              #daily_rsync__cron_prefix: '60-' }
+    - { role: daily-rsync,
+              daily_rsync__cron_prefix: '60-' }
