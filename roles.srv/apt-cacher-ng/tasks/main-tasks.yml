@@ -83,12 +83,25 @@
     line: 'Remap-fedora: /pub/fedora/linux ; file:backends_fedora # Fedora Linux'
   notify: [ 'Restart apt-cacher-ng' ]
 
+# Options:
+#
+# 1. http://dl.fedoraproject.org/pub/fedora/linux
+# 2. http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux
+# 3. http://mirror.ox.ac.uk/pub/fedora/linux
+# 4. http://mirror.sucs.org/pub/linux/fedora
+#
+# dl.fedoraproject.org is 200ms away.
+# Kent mirrorservice has a fat pipe.
+# Oxford mirror is the first? or official? UK mirror.
+#
 # mirrorservice.org does not seem to work well here
 # (incomplete metadata for minutes or tens of minutes,
 #  and does not update on the same day, at least during releases).
 #
 # So far, I've seen mirror.ox.ac.uk have the same problem with incomplete
 # metadata: 1 time.
+#
+# sucs.org: 1 time 404 errors.
 #
 - name: Set Fedora repo to Swansea University Computer Society (mirror.sucs.org)
   copy:
