@@ -87,11 +87,11 @@
 #
 # 1. http://dl.fedoraproject.org/pub/fedora/linux
 # 2. http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux
-# 3. http://mirror.ox.ac.uk/pub/fedora/linux
-# 4. http://mirror.sucs.org/pub/linux/fedora
+# 3. http://mirror.ox.ac.uk/sites/download.fedora.redhat.com/pub/fedora/linux/ (maybe was http://mirror.ox.ac.uk/pub/fedora/linux)
+# 4. [BROKEN] http://mirror.sucs.org/pub/linux/fedora
 #
-# dl.fedoraproject.org is 200ms away.
-# Kent mirrorservice has a fat pipe.
+# dl.fedoraproject.org is 100-200ms away (and they probably don't want me).
+# Kent mirrorservice.org has a fat pipe (and is preferred in the mirrorlist= system).
 # Oxford mirror is the first? or official? UK mirror.
 #
 # mirrorservice.org does not seem to work well here
@@ -102,11 +102,14 @@
 # metadata: 1 time.
 #
 # sucs.org: 1 time 404 errors.
+# sucs.org: `linux/fedora` instead of `fedora/linux` is a bit confusing.
+# sucs.org: BROKEN `fedora/releases/31/Modular/`:
+#           should include source/, but only has x86_64/.
 #
-- name: Set Fedora repo to Swansea University Computer Society (mirror.sucs.org)
+- name: Set Fedora repo to mirror.ox.ac.uk
   copy:
     content: |
-      http://mirror.sucs.org/pub/linux/fedora
+      http://mirror.ox.ac.uk/sites/download.fedora.redhat.com/pub/fedora/linux/
     dest: /etc/apt-cacher-ng/backends_fedora
   notify: [ 'Restart apt-cacher-ng' ]
 
