@@ -14,3 +14,17 @@
 		invoke-rc.d rsyslog rotate > /dev/null
 	endscript
 }
+
+/var/log/modem.log
+{
+	rotate 4
+	weekly
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		invoke-rc.d rsyslog rotate > /dev/null
+	endscript
+}
