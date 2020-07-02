@@ -9,6 +9,7 @@ name=Fedora $releasever - $basearch - Updates
 baseurl=http://fedora-mirror.carrier.duckdns.org:3142/pub/fedora/linux/updates/$releasever/Everything/$basearch/
 #metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
 enabled=1
+countme=1
 repo_gpgcheck=0
 type=rpm
 gpgcheck=1
