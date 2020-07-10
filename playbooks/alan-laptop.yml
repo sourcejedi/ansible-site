@@ -68,10 +68,10 @@
     - remove-mlocate-on-fedora
     - jpegcheck
 
-    - packages-gui
-
     # In case you want to test remove+install of google-chrome.
     #- sourcejedi.google_chrome_remove
+
+    - packages-gui
 
     - packages-cli-basics
     - packages-dev-basics
@@ -87,3 +87,13 @@
     - sourcejedi.nspawn-on-fedora
 
     - bfq
+
+  tasks:
+    - name: flatpak installs
+      flatpak:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - com.skype.Client
+        - us.zoom.Zoom
+      tags: flatpak
