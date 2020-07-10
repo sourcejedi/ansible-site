@@ -1,9 +1,9 @@
+- name: Reload smokeping
+  service:
+    name: smokeping
+    state: reloaded
+
 - name: Restart apache2
   service:
     name: apache2
-    state: restarted
-
-- name: Restart smokeping
-  service:
-    name: smokeping
     state: restarted

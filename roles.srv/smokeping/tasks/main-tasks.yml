@@ -1,11 +1,21 @@
 - name: install smokeping, apache2, apache2 fastcgi
   package:
-    name: "{{ item }}"
+    name:
+      - apache2
+      - libapache2-mod-fcgid
+      - smokeping
     state: present
-  with_items:
-    - libapache2-mod-fcgid
-    - smokeping
-    - apache2
+
+- name: configure smokeping targets
+  copy:
+    src: smokeping/config.d/Targets
+    dest: /etc/smokeping/config.d/
+  notify:
+   - Reload smokeping
+   #
+   # Restart smokeping.cgi (fcgid).
+   # It's crude, but there's no better alternative with this stack.
+   - Restart apache2
 
 # smokeping in jessie does not provide a new-style apache conf drop-in
 - name: create configuration in apache2
@@ -27,16 +37,9 @@
     state: present
   notify: Restart apache2
 
-- name: configure smokeping targets
-  copy:
-    src: smokeping/config.d/Targets
-    dest: /etc/smokeping/config.d/
-  notify:
-   - Restart smokeping
-   #
-   # Restart smokeping.cgi (fcgid).
-   # It's crude, but there's no better alternative with this stack.
-   - Restart apache2
+# later roles may add more drop-in configs; fail fast
+- name: apply modified configs, if any
+  meta: flush_handlers
 
 # This happens at install time for Debian packages, but we also allow
 # for the possibility that the admin disabled a service temporarily.
@@ -46,6 +49,8 @@
     enabled: yes
     state: started
 
-# because later roles may add more drop-in configs
-- name: apply modified configs, if any
-  meta: flush_handlers
+- name: enable and start apache2
+  service:
+    name: apache2
+    enabled: yes
+    state: started
