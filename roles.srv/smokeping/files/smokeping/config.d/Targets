@@ -25,6 +25,12 @@ host = localhost
 menu = Router
 host = mortar.carrier.duckdns.org
 
+++ conduit
+
+menu = conduit
+title = Powerline network
+host = conduit.carrier.duckdns.org
+
 ++ dns
 
 menu = dns1
