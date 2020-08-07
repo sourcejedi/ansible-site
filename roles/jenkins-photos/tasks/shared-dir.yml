@@ -35,7 +35,7 @@
     name: "{{ shared_external }}"
     state: restarted
   register: jenkins_photos__mount
-  when: jenkins_photos__fstab|changed
+  when: jenkins_photos__fstab.changed
   ignore_errors: yes
 
 # 1. Some versions of systemd did not log mount errors :-(.
@@ -45,8 +45,9 @@
 #    have fuse-3.2.2 or higher - it chokes on the "nofail" option.
 - name: Check mount unit success
   assert:
-    that: not jenkins_photos__mount|failed
+    that: not jenkins_photos__mount.failed
     msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="
+  when: jenkins_photos__fstab.changed
 
 # This task is not idempotent: it will not apply changed options.
 - name: Ensure mount unit is started
@@ -60,5 +61,5 @@
 
 - name: Check mount unit success
   assert:
-    that: not jenkins_photos__mount|failed
+    that: not jenkins_photos__mount.failed
     msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="
