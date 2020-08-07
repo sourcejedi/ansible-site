@@ -1,6 +1,18 @@
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 
+# FIXME: "common"?
+# i had everything under common:children, but now it breaks, those are supposed to be groups :-).
+# so, does it really work to have *hosts* listed in two groups (fedora v.s. common)
+
+[common]
+alan-laptop
+drystone
+
+[common:children]
+alan-servers
+test-servers
+
 [fedora]
 alan-laptop
 alan-x201
@@ -10,8 +22,9 @@ test-nspawn-fedora
 test-vm-fedora
 
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
-[ungrouped]
-drystone  # jenkins-desktop
+#[ungrouped]
+#drystone  # jenkins-desktop
+
 
 [alan-servers]
 brick
@@ -23,9 +36,10 @@ test-nspawn-deb
 test-vm-fedora
 test-vm-debian
 
+# nss-mymachines
 [test-nspawn-fedora]
-fedora-27  # nss-mymachines
-fedora-28  # nss-mymachines
+fedora-27
+fedora-28
 
 [test-nspawn-deb]
 stretch   repos_apt=debian-stretch
@@ -35,14 +49,17 @@ stretch1  repos_apt=debian-stretch
 buster   repos_apt=debian-buster
 
 unstable0  repos_apt=debian-unstable
+unstable  repos_apt=debian-unstable
 
 xenial    repos_apt=ubuntu-xenial
 
+# nss-libvirt
 [test-vm-fedora]
-fedora30-vm ansible_host=fedora30-vm.local  # avahi
+fedora30-vm
+fedora31-vm
 
 [test-vm-debian]
-debian9-vm ansible_host=debian9-vm.local  repos_apt=debian-stretch
-debian10-vm ansible_host=debian10-vm.local  repos_apt=debian-buster
+debian9-vm repos_apt=debian-stretch
+debian10-vm repos_apt=debian-buster
 
-ubuntu1804-vm ansible_host=ubuntu1804-vm.local  repos_apt=ubuntu-bionic
+ubuntu1804-vm repos_apt=ubuntu-bionic
