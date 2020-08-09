@@ -41,7 +41,7 @@
 - name: apply modified configs, if any
   meta: flush_handlers
 
-# This happens at install time for Debian packages, but we also allow
+# This happens at install time for Debian packages, but I also allow
 # for the possibility that the admin disabled a service temporarily.
 - name: enable and start smokeping
   service:
