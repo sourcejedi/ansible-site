@@ -2,10 +2,6 @@
   roles:
     - repos-apt
 
-    # used for ansible
-    - role: repos-debian-jessie-backports
-      when: repos_apt == 'debian-jessie'
-
     - sourcejedi.etckeeper
     - users
     - sourcejedi.systemd-journal

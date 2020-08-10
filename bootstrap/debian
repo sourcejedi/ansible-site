@@ -2,8 +2,7 @@
 set -e -o nounset
 
 if [ $# -lt 1 ]; then
-	echo "usage: $0 { jessie | stretch | buster | unstable }"
-	echo "(Debian jessie is the oldoldstable distribution)"
+	echo "usage: $0 { stretch | buster | unstable }"
 	exit 1
 fi
 VER="$1"
@@ -22,12 +21,12 @@ echo 'Configure Debian repos using local cache'
 cp -rv roles/repos-apt/files/apt.conf.d /etc/apt
 cp -rv roles/repos-apt/files/debian-"$VER".sources.list /etc/apt/sources.list
 
-case "$VER" in
-jessie)
-	echo
-	echo 'Add jessie-backports repo (UK mirror)'
-	cp -rv roles/repos-debian-jessie-backports/files/apt /etc
-esac
+#case "$VER" in
+#jessie)
+#	echo
+#	echo 'Add jessie-backports repo (UK mirror)'
+#	cp -rv roles.old/repos-debian-jessie-backports/files/apt /etc
+#esac
 
 echo
 apt-get update
@@ -36,11 +35,11 @@ apt-get update
 apt-get -y install whiptail
 
 case "$VER" in
-jessie)
-	echo
-	echo 'Install ansible from jessie-backports'
-	apt-get -y install ansible/jessie-backports
-	;;
+#jessie)
+#	echo
+#	echo 'Install ansible from jessie-backports'
+#	apt-get -y install ansible/jessie-backports
+#	;;
 *)	
 	echo
 	echo 'Install ansible'
