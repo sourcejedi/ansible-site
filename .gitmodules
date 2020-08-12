@@ -56,3 +56,6 @@
 [submodule "roles/sourcejedi.google-chrome-remove"]
 	path = roles/sourcejedi.google_chrome_remove
 	url = git@github.com:sourcejedi/ansible-google-chrome-remove.git
+[submodule "roles/sourcejedi.cups"]
+	path = roles/sourcejedi.cups
+	url = git@github.com:sourcejedi/ansible-cups.git

@@ -23,6 +23,8 @@
        - mdns
        - transmission-client
 
+    - sourcejedi.cups
+
     - sourcejedi.hdparm-noapm
 
     # This works ok, though it doesn't mark the file
