@@ -13,27 +13,27 @@
 
     - openssh-server
 
+    - sourcejedi.disable_unwanted_servers
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - ssh
+
     - packages-cli-basics
     - packages-dev-basics
     - sourcejedi.ccache
+
+    - remove-mlocate-on-deb
 
     # ubuntu1804.  Remember to update role if any other version is used.
     - role: ubuntu-gnome-remove-snaps
       ubuntu_gnome_remove_snapd: yes
       when: ansible_distribution == "Ubuntu"
 
-    - sourcejedi.disable_unwanted_servers
-    - remove-mlocate-on-deb
-
     #
     # Roles which are not always used, or mostly used to test the role itself
     #
 
-    - role: sourcejedi.firewalld
-      firewalld__services:
-       - dhcpv6-client
-       - mdns
-       - ssh
     - sourcejedi.cups
 
     # relied upon for daily-borgbackup and daily-rsync (cron mail).
