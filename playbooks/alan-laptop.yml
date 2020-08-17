@@ -78,7 +78,9 @@
     - packages-cli-basics
     - packages-dev-basics
     - sourcejedi.ccache
+
     - wireshark
+    - sourcejedi.libvirt_nss
 
     - sourcejedi.rpmfusion_free  # e.g. codecs beyond mp3
 
