@@ -25,10 +25,6 @@
        - protocol: tcp
          port: 3142
 
-       # syslog
-       - protocol: udp
-         port: 514
-
        # quassel irc (occasionally)
        - protocol: tcp
          port: 4242
