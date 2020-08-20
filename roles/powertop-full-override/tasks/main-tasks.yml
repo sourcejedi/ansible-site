@@ -6,9 +6,17 @@
 # and be prepared to debug any problems that show up later as a result.
 # "powertop usb mouse" shows one example.
 
-- name: Enable all powertop overrides at boot time
-  service: name=powertop enabled=yes
+- name: Create powertop.service
+  copy:
+    src: powertop.service
+    dest: /etc/systemd/system/
 
-# We only enable it for the next boot and don't start it now,
-# because ansible is buggy and doesn't support service units
-# which exit immediately.
+- name: Enable all powertop overrides
+  service:
+    name: powertop
+    state: started
+    enabled: yes
+
+# My notes say ansible is pedantic and doesn't support service units
+# which exit immediately.  This was a problem with the stock
+# powertop.service.  However our unit has RemainAfterExit=yes.
