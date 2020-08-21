@@ -11,7 +11,8 @@
     #
     # Note rpcbind is among the packages it recommendeds.
     # You might want to opt out of running rpcbind.
-    # roles/remove-rpcbind can be used to mask it in advance.
+    # roles/sourcejedi.disable_unwanted_servers
+    # can be used to mask it in advance.
     #
     - monitoring-plugins
 
@@ -32,20 +33,29 @@
 
 # Urgh synchronize module doesn't support sudo.
 # Use unprivileged user directory as staging area.
-- name: Assert $HOME is set correctly. (Check "sudo" weirdness)
-  command: 'sh -x -c "[ 0 = $(id -u) ] && [ ~ = ~root ]"'
+#
+# Notice how this should work even if "~" includes a trailing space :-).
+- name: Get temp directory
+  shell: 'echo ~/.ansible/role/icinga2/conf.d'
   check_mode: no
   changed_when: False
+  register: icinga2__echo_tmp
+  become: no
+
+- name: Get temp directory
+  set_fact:
+    icinga2__tmp: "{{ icinga2__echo_tmp.stdout | trim }}"
+
 
 - name: 1/6 object config - create temp dir
   file:
     state: directory
-    path: ~/.ansible/role/icinga2/conf.d
+    path: "{{ icinga2__tmp }}"
   become: no
 
 # "fix" check mode
 - name: 2/6 object config - check temp dir created
-  command: test -d ~/.ansible/role/icinga2/conf.d
+  command: "test -d {{ icinga2__tmp | quote }}"
   become: no
   check_mode: no
   changed_when: False
@@ -54,16 +64,14 @@
   synchronize:
     delete: yes
     src: conf.d/
-    dest: ~/.ansible/role/icinga2/conf.d/
+    dest: "{{ icinga2__tmp }}"
   check_mode: no  # run this command even in --check mode.  See 5/5
   become: no
 
 # The following require privilege.
-# However they also need to know where the un-escalated user was.
-# This seems to work fine with ssh+sudo.
 - name: 4/6 object config - diff icinga2
   command: diff -r -q
-             ~/.ansible/role/icinga2/conf.d/
+             {{ icinga2__tmp }}
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
@@ -72,7 +80,7 @@
 
 - name: 5/6 object config - sync to icinga2
   command: rsync -a --delete
-             ~/.ansible/role/icinga2/conf.d/
+             {{ icinga2__tmp }}/
              /etc/icinga2/conf-actual.d
   when: diff.rc != 0
   notify: 'Test icinga2 and restart'
@@ -80,7 +88,7 @@
 # "fix" check mode
 - name: 6/6 object config - verify icinga2
   command: diff -r -q
-             ~/.ansible/role/icinga2/conf.d/
+             {{ icinga2__tmp }}
              /etc/icinga2/conf-actual.d/
   check_mode: no
   changed_when: False
