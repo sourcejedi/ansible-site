@@ -29,6 +29,7 @@ test-vm-fedora
 [alan-servers]
 brick
 alan-x201
+silo
 
 [test-servers:children]
 test-nspawn-fedora
