@@ -15,7 +15,7 @@
     # FIXME proxy address - role uses the FQDN,
     # but I keep manually resetting it to brick.local.
     - role: repos-apt
-      repos_apt: debian-stretch
+      repos_apt: debian-buster
 
     - sourcejedi.etckeeper
 
@@ -44,12 +44,6 @@
     # Make sure to mount /data/backup/ first, I guess :).
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '50-' }
-
-    # Old backup system.  Role not completed.
-    # If a full initialization is needed,
-    # this would require additional manual steps.
-    - { role: daily-bup,
-              daily_bup__cron_prefix: '70-' }
 
     # Note - remote administration is not permitted on jenkins-desktop.
     # SSH may be used for other backups though.
