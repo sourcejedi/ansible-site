@@ -63,6 +63,7 @@
   with_items:
     - rsync
     - rdiff-backup
+    - at
   run_once: True
 
 # NOTE: We need to use the daily_rsync__dir variable from the *server*.
