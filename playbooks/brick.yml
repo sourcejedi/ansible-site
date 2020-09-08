@@ -7,7 +7,7 @@
     - users
     - { role: sourcejedi.systemd-journal,
                          # see rsyslog below
-                         systemd_journal__disable_syslog_daemon: no
+                         #systemd_journal__disable_syslog_daemon: no
       }
     - systemd-coredump
 
@@ -20,7 +20,7 @@
        - mdns
        - ssh
        - https
-       - syslog
+       #- syslog
       firewalld__ports:
        # apt-cacher-ng
        - protocol: tcp
@@ -42,7 +42,7 @@
     - apt-cacher-ng
 
     # catch syslogs from router
-    - rsyslog
+    #- rsyslog
 
     - deb-apache
     - deb-apache-acl  # kept separate for easier testing
