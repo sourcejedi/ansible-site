@@ -1,4 +1,4 @@
 // This file is managed by a scripted process.
 // Manual changes will be destroyed if the script is re-applied.
 
-Acquire::http::Proxy "http://brick.carrier.duckdns.org:3142/";
+Acquire::http::Proxy "http://silo.carrier.duckdns.org:3142/";

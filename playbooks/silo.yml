@@ -21,10 +21,10 @@
        - ssh
        - https
        - syslog
-      #firewalld__ports:
+      firewalld__ports:
        # apt-cacher-ng
-       #- protocol: tcp
-       #  port: 3142
+       - protocol: tcp
+         port: 3142
 
     # TODO: more selective hdparm role at least for Debian.
     # hdparm.deb looks like it wised up now, yay!
@@ -41,7 +41,7 @@
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
 
-    # Cough, bootstrapping problem.
+    # Cough, bootstrapping problem.  TODO: migrate debian hosts to use this one
     - apt-cacher-ng
 
     # catch syslogs from router
