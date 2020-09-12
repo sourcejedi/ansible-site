@@ -10,9 +10,31 @@
   assert:
     that: sudo_group is defined
 
-
 - name: Install sudo
   package: name=sudo state=present
+
+
+- name: Set HOME_MODE in login.defs (RedHat)
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^HOME_MODE(\s|$)'
+    line: 'HOME_MODE 0700'
+  when: ansible_os_family == "RedHat"
+  register: user__mode_in_login_defs
+
+- name: Set DIR_MODE in adduser.conf (Debian)
+  lineinfile:
+    path: /etc/adduser.conf
+    regexp: '^DIR_MODE=.*'
+    line: 'DIR_MODE=0700'
+  when: ansible_os_family == "Debian"
+  register: user__mode_in_adduser_conf
+
+- name: Operating system is supported
+  assert:
+    that: user__mode_in_login_defs is defined or
+          user__mode_in_adduser_conf is defined
+
 
 - name: Create users
   user:
@@ -39,4 +61,11 @@
   with_items: '{{ users }}'
   loop_control:
     label: "{{ item.name }}"
+  register: users__register
 
+# For previously-created users
+- name: Set permission mode of user home directories
+  file:
+    path: '{{ item }}'
+    mode: '700'
+  with_items: '{{ users__register.results | map(attribute="home") | list }}'
