@@ -41,7 +41,7 @@
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
 
-    # Cough, bootstrapping problem.  TODO: migrate debian hosts to use this one
+    # Cough, bootstrapping problem.
     - apt-cacher-ng
 
     # catch syslogs from router
@@ -49,8 +49,7 @@
 
     - deb-apache
     - deb-apache-acl  # kept separate for easier testing
-    #- smokeping
-    #- icinga2
+    - icinga2
 
     # Old-school "mail" used by
     # * icinga

@@ -47,7 +47,7 @@
     - deb-apache
     - deb-apache-acl  # kept separate for easier testing
     - smokeping
-    - icinga2
+    #- icinga2
 
     # Old-school "mail" used by
     # * icinga
