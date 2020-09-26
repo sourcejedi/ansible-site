@@ -1,20 +1,19 @@
 - name: Install icinga2
   apt:
-    name: "{{ item }}"
+    name:
+      - icinga2
+
+      # check_dig is in monitoring-plugins-standard.
+      # This is not pulled in automatically by icinga2.
+      #
+      # Note rpcbind is among the packages it recommendeds.
+      # You might want to opt out of running rpcbind.
+      # roles/sourcejedi.disable_unwanted_servers
+      # can be used to mask it in advance.
+      #
+      - monitoring-plugins
     state: present
     install_recommends: yes
-  with_items:
-    - icinga2
-
-    # check_dig is in monitoring-plugins-standard.
-    # This is not pulled in automatically by icinga2.
-    #
-    # Note rpcbind is among the packages it recommendeds.
-    # You might want to opt out of running rpcbind.
-    # roles/sourcejedi.disable_unwanted_servers
-    # can be used to mask it in advance.
-    #
-    - monitoring-plugins
 
 # Note this role does not enable any "features", including the checker (?).
 # The output features you want differ completely, between
