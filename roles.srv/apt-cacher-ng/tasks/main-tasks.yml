@@ -106,10 +106,10 @@
 # sucs.org: BROKEN `fedora/releases/31/Modular/`:
 #           should include source/, but only has x86_64/.
 #
-- name: Set Fedora repo to mirror.ox.ac.uk
+- name: Set Fedora repo to a nearby mirror
   copy:
     content: |
-      http://mirror.ox.ac.uk/sites/download.fedora.redhat.com/pub/fedora/linux/
+      http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux
     dest: /etc/apt-cacher-ng/backends_fedora
   notify: [ 'Restart apt-cacher-ng' ]
 
@@ -117,7 +117,14 @@
   lineinfile:
     dest: /etc/apt-cacher-ng/acng.conf
     regexp: '^(# )?PfilePatternEx:'
-    line: 'PfilePatternEx: [a-f0-9]+-modules.yaml.gz|[a-f0-9]+-(primary|filelists|comps-[^.]*.[^.]*|updateinfo|prestodelta).xml(|.gz|.xz|.zck)  # fedora-modular.repo, and zchunk'
+    line: 'PfilePatternEx: [a-f0-9]+-modules.yaml.gz  # fedora-modular.repo'
+  notify: [ 'Restart apt-cacher-ng' ]
+
+- name: Update VfilePattern for Fedora
+  lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: '^(# )?VfilePatternEx:'
+    line: 'VfilePatternEx: [a-f0-9]+-(primary|filelists|comps-[^.]*[.][^.]*|updateinfo|prestodelta).xml.zck  # fedora zchunk'
   notify: [ 'Restart apt-cacher-ng' ]
 
 - name: ensure apt-cacher-ng is enabled
