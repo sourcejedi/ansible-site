@@ -56,8 +56,8 @@ xenial    repos_apt=ubuntu-xenial
 
 # nss-libvirt
 [test-vm-fedora]
-fedora30-vm
-fedora31-vm
+fedora32-vm
+fedora33-vm
 
 [test-vm-debian]
 debian9-vm repos_apt=debian-stretch
