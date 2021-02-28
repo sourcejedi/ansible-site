@@ -1,3 +1,10 @@
+# This uses exim4 for handling "local" unix mail.  It sounds like exim4
+# would not be so great if you want to recieve mail from the network.
+#
+# Postfix was designed to be more secure, and is the default in Ubuntu.
+# I'm just being lazy here, so I don't have to disable port 25 in
+# Postfix.
+
 - name: Install exim4 and bsd-mailx
   package:
     name:
