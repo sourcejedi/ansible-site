@@ -46,6 +46,6 @@ alerts = someloss
 probe = FPingLarge
 
 menu = isp1
-title = ISP router
+title = ISP router - Large packets
 host = host-92-11-216-1.as43234.net
 alerts = someloss
