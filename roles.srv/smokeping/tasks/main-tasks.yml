@@ -10,8 +10,9 @@
     # It's crude, but there's no better alternative with this stack.
     - Restart apache2
   with_items:
-    - smokeping/config.d/Targets
+    - smokeping/config.d/Probes
     - smokeping/config.d/Alerts
+    - smokeping/config.d/Targets
 
 - name: install smokeping, apache2, apache2 fastcgi
   package:

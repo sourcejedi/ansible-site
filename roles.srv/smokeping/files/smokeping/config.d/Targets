@@ -40,3 +40,12 @@ menu = dns1
 title = DNS server
 host = 79.79.79.77
 alerts = someloss
+
+++ isp1
+
+probe = FPingLarge
+
+menu = isp1
+title = ISP router
+host = host-92-11-216-1.as43234.net
+alerts = someloss

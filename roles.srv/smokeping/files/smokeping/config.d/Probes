@@ -1,0 +1,10 @@
+*** Probes ***
++ FPing
+binary = /usr/bin/fping
+
+++ FPing
+offset = 0%
+
+++ FPingLarge
+packetsize = 1000
+offset = 50%
