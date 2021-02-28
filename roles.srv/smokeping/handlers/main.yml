@@ -1,7 +1,6 @@
+# smokeping.service just uses kill to reload, so it doesn't detect errors :-D.
 - name: Reload smokeping
-  service:
-    name: smokeping
-    state: reloaded
+  command: /usr/sbin/smokeping --reload
 
 - name: Restart apache2
   service:
