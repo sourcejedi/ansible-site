@@ -4,8 +4,8 @@ probe = FPing
 
 menu = Top
 title = Network Latency Grapher
-remark = Welcome to the SmokePing website of xxx Company. \
-         Here you will learn all about the latency of our network.
+remark = Welcome to the SmokePing website. \
+         Here you will learn about the latency of our network.
 
 + Local
 
@@ -39,3 +39,4 @@ host = mortar.carrier.duckdns.org
 menu = dns1
 title = DNS server
 host = 79.79.79.77
+alerts = someloss

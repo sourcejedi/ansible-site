@@ -1,0 +1,10 @@
+*** Alerts ***
+to = root@localhost
+from = alan-sysop@silo.carrier.duckdns.org
+
++someloss
+type = loss
+# in percent
+pattern = >0%,*12*,>0%,*12*,>0%
+comment = loss 3 times in a row
+edgetrigger = yes
