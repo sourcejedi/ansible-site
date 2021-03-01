@@ -1,4 +1,4 @@
-- name: Install udev rule to configure SCSI/SATA devices with BFQ
+- name: Install udev rule to configure BFQ on all possible devices
   copy:
      dest: /etc/udev/rules.d/
      src: 99-local-io-scheduler.rules

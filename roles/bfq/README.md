@@ -1,6 +1,6 @@
 # sourcejedi.bfq #
 
-Switch to the BFQ scheduler, for SCSI, SATA and MMC devices.
+Enable the BFQ I/O scheduler.  Applies to all possible block devices, including NVMe.
 
 I believe BFQ improves fairness between latency-sensitive and throughput-sensitive tasks.  According to the author, most software and hardware favours large I/Os.  BFQ aims to rebalance this.  By default its heuristics favour low latencies, but throughput is also very good in most cases.
 

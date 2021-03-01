@@ -1,2 +1,7 @@
-# Set bfq for scsi devices (including sata) and MMC
-ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
+# Set BFQ for all block devices.  Except for devices that don't support
+# setting a specific I/O scheduler.  You can't set an I/O scheduler on
+# a partition or LVM logical volume.  You have to set it on the physical
+# device(s).
+
+ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}!="bfq", \
+                                          ATTR{queue/scheduler}="bfq"
