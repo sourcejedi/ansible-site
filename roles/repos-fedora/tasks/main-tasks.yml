@@ -6,7 +6,7 @@
   copy: src=yum.repos.d/ dest=/etc/yum.repos.d/
   register: repos
 
-# This test is slow, only bother when changed.
+# "dnf check-update" can be slow, only bother when changed.
 # (In which case, the next use of dnf would probably have had to do this anyway).
 # Do not defer this, as other roles may add drop-in configs.
 - name: Test "dnf check-update"
@@ -26,3 +26,39 @@
   failed_when: dnf_check_update.rc not in [0, 100]
   args:
     warn: no  # can't use ansible dnf module, it does not implement this
+
+
+# If the mirror is slightly behind the metadata this system has already
+# downloaded, PackageKit will not necessarily realize the need to
+# discard the newer metadata.  This can cause download errors.
+
+- name: Stop Packagekit
+  when: repos.changed
+  service:
+    name: packagekit
+    state: stopped
+    # Setting a mask is dangerous. Don't bother.
+    # This task can just be a best effort.
+
+- name: Clear Packagekit cache
+  when: repos.changed
+  shell: >
+    if cd /var/cache/PackageKit && ls */metadata/*/repodata/* >/dev/null; then
+        rm */metadata/*/repodata/*
+        exit 2
+    fi
+  register: clean
+  failed_when: clean.rc not in [0, 2]
+  changed_when: clean.rc == 2
+
+- name: Reload Packagekit
+  when: repos.changed
+  service:
+    name: packagekit
+    state: stopped
+    # packagekit starts on-demand, so don't need to start it manually.
+    # Just make sure the service doesn't have any stale metadata.
+
+- name: Test "pkcon refresh"
+  when: repos.changed
+  command: pkcon refresh
