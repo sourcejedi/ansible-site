@@ -39,8 +39,6 @@ test-vm-debian
 
 # nss-mymachines
 [test-nspawn-fedora]
-fedora-27
-fedora-28
 
 [test-nspawn-deb]
 stretch   repos_apt=debian-stretch
@@ -56,8 +54,8 @@ xenial    repos_apt=ubuntu-xenial
 
 # nss-libvirt
 [test-vm-fedora]
-fedora32-vm
 fedora33-vm
+fedora34-vm
 
 [test-vm-debian]
 debian9-vm repos_apt=debian-stretch
