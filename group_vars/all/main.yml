@@ -5,7 +5,7 @@ google_chrome__yum_baseurl: "http://fedora-mirror.carrier.duckdns.org:3142/dl.go
 # the update is also reported as a failure.
 rpmfusion__update_master_keys: yes
 
-deb_mail_forward_root: 'alan-sysop, alan'
+deb_mail_forward_root: 'alan-sysop'
 
 # roles/sourcejedi.disable_unwanted_servers
 #
