@@ -41,11 +41,18 @@ title = DNS server
 host = 79.79.79.77
 alerts = someloss
 
-++ isp1
-
-probe = FPingLarge
-
-menu = isp1
-title = ISP router - Large packets
-host = host-92-11-216-1.as43234.net
-alerts = someloss
+# This got cut off. Maybe they didn't like it.
+# (I know they cut off flood pings).
+# Hmm, but smokeping said it resumed again?
+# maybe change alert pattern from 3 losses to 4 or 5?
+# That has happened several times now, but it doesn't
+# seem to be long enough to triggering alerts often.
+#
+#++ isp1
+#
+#probe = FPingLarge
+#
+#menu = isp1
+#title = ISP router - Large packets
+#host = host-92-11-216-1.as43234.net
+#alerts = someloss
