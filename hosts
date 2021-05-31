@@ -58,7 +58,6 @@ fedora33-vm
 fedora34-vm
 
 [test-vm-debian]
-debian9-vm repos_apt=debian-stretch
 debian10-vm repos_apt=debian-buster
 
 ubuntu1804-vm repos_apt=ubuntu-bionic
