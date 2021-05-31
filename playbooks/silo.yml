@@ -47,14 +47,17 @@
     # catch syslogs from router
     - rsyslog
 
-    - deb-apache
-    - deb-apache-acl  # kept separate for easier testing
-    - icinga2
-
     # Old-school "mail" used by
     # * icinga
+    # * smokeping
     # * cron-apt - notify of updates!
     # * backup script mess! - uses at/cron
     # * smartd
     #
     - deb-mail
+    - smartd
+
+    - deb-apache
+    - deb-apache-acl  # kept separate for easier testing
+    - icinga2
+    - smokeping

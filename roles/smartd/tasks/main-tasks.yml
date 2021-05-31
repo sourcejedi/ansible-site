@@ -1,0 +1,39 @@
+- name: Install smartmontools
+  package:
+    name: smartmontools
+    state: present
+
+# Note:
+#
+# * smart.conf defaults / empty / "DEVICESCAN -a" monitors all drives already.
+#
+# * Debian smartd.conf already sends mail from /etc/smartmontools/run.d/10mail.
+#   You can test by adding "-M test" to the uncommented DEVICESCAN line.
+
+
+# This happens at install time for Debian packages, but we also allow
+# for the possibility that the admin disabled a service temporarily.
+- name: enable and start smartd
+  service:
+    name: smartd
+    enabled: yes
+    state: started
+
+# Double-check smartd service started.
+# You used to have to fiddle with /etc/default/smartmontools.
+#
+# If the service is failing during startup, it will probably have failed
+# already now.  That is, there is no benefit to adding an extra delay
+# here, because Ansible is already slow :-D.
+
+- name: Check if smartd has stopped
+  service:
+    name: smartd
+    state: started
+  check_mode: yes
+  register: smartd_start
+
+- name: Require that smartd is running
+  assert:
+    that: not smartd_start.changed
+    msg: Check 'systemctl status smartd'
