@@ -53,8 +53,7 @@
     # * cron-apt - notify of updates!
     # * backup script mess! - uses at/cron
     # * smartd
-    #
-    - deb-mail
+
     - smartd
 
     - deb-apache
