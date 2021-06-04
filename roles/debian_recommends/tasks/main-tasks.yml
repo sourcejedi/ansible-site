@@ -1,0 +1,15 @@
+- name: Install packages recommended by Debian
+  package:
+    state: present
+    name:
+      # https://www.debian.org/releases/jessie/amd64/release-notes/ch-whats-new.en.html#security
+      # "It is recommended to install needrestart ..."
+      - needrestart
+
+      # Upgrade instructions (in release notes) include multiple aptitude commands.
+      # Upgrade instructions are a pain :-).
+      - aptitude
+
+      # https://www.debian.org/releases/stable/amd64/release-notes/ch-moreinfo.en.html#bugs
+      # "We strongly recommend that you report bugs in Debian using the reportbug program."
+      - reportbug

@@ -61,3 +61,5 @@
     - deb-apache-acl  # kept separate for easier testing
     - icinga2
     - smokeping
+
+    - debian_recommends
