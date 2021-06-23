@@ -13,6 +13,6 @@
     postfix_smtp_tls_mandatory_ciphers: 'high'
     postfix_smtp_tls_cafile: /etc/ssl/certs/ca-certificates.crt
   vars_files:
-    - postfix_sasl_secrets.yml
+    - postfix_relay_gmail_secrets.yml
   roles:
     - Oefenweb.postfix

@@ -1,5 +1,6 @@
 files/ssh-authkeys
 files/ssh-hostkeys
+playbooks/*_secrets.yml
 host_vars/drystone.yml
 
 # disabled now
