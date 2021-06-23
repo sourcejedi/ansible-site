@@ -45,13 +45,6 @@
     # Useful to log memory usage per process (default 10 min snapshots).
     - sourcejedi.atop
 
-    # My Dell Latitude E5450 seems ok with `powertop --auto-tune`.
-    #
-    # except that it causes occasional hangs soon after resume
-    # (test period: 1-3 weeks)
-    #
-    - powertop-full-override
-
     - remove-mlocate-on-fedora
     - jpegcheck
 
@@ -78,6 +71,14 @@
     - bfq
 
   tasks:
+    - name: rc.local script to reduce power usage
+      copy:
+        src: ../files/alan-laptop/rc.local
+        dest: /etc/rc.d/rc.local
+        mode: a+rx
+      notify: restart rc.local
+      tags: rc_local
+
     - name: flatpak installs
       flatpak:
         name: "{{ item }}"
@@ -86,3 +87,9 @@
         - com.skype.Client
         - us.zoom.Zoom
       tags: flatpak
+
+  handlers:
+    - name: restart rc.local
+      service:
+        name: rc.local
+        state: started

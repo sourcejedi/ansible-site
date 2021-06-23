@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# exit on error
+set -e
+
+# Dell Latitude E5450.
+# Seems ok with `powertop --auto-tune` - except it occasionally hangs
+# soon after resume (test period: 1-3 weeks).
+#
+# Retry 2021-06-03:
+# * hard crash 2021-06-08
+# * hard crash 2021-06-17
+#
+# It might be the wifi.
+#
+# So let's only enable *some* of the tunables...
+
+# Package C2 -> C6 !
+echo 'med_power_with_dipm' > '/sys/class/scsi_host/host0/link_power_management_policy'
+echo 'med_power_with_dipm' > '/sys/class/scsi_host/host1/link_power_management_policy'
+
+# moar?
+echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata1/power/control'
+echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata2/power/control'
+echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/power/control'
+
+echo 'auto' > '/sys/block/sda/device/power/control'
+
+# Autosuspend for USB device 5880 [Broadcom Corp]
+# Powertop thinks this helps.
+echo 'auto' > '/sys/bus/usb/devices/1-1.7/power/control'
+
+# ... and somewhere in here I got down to C7.
+#
+# Idle power goes from 5.1 -> 2.8 W !
