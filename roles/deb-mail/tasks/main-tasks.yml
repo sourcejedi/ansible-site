@@ -5,11 +5,9 @@
 # I'm just being lazy here, so I don't have to disable port 25 in
 # Postfix.
 
-- name: Install exim4 and bsd-mailx
+- name: Install exim4
   package:
-    name:
-      - exim4
-      - bsd-mailx
+    name: exim4
     state: present
 
 - name: Redirect root mail

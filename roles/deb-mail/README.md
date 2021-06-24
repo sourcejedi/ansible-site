@@ -1,6 +1,6 @@
 # deb-mail #
 
-Install exim4 and bsd-mailx.
+Install exim4.
 
 Mail to the root user is redirected according to the ansible variable
 `deb_mail_root_forward`.  This may contain multiple entries, separated
