@@ -8,6 +8,9 @@
 # Debian 9 install only.
 # Not validated for upgrade from Debian < 9.
 
+# Additional playbooks:
+# - jenkins-desktop-postfix.yml
+# - jenkins-desktop-backup.yml
 
 - hosts: drystone
   roles:
@@ -35,10 +38,6 @@
     - sourcejedi.disable_unwanted_servers
     - remove-mlocate-on-deb
 
-    # Old-school "mail" used by
-    # * backup script messes! - which use cron
-    #
-    - deb-mail
 
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).

@@ -1,4 +1,10 @@
-# NOTE: Some of the role's tasks are "delegated" onto the backup server.
+# NOTE: Some of the role's tasks are "delegated" onto the backup server
+# (daily_rsync__server variable).
+#
+# Requires openssh-server on the backup server.
+# Error reporting is by cron mail, so you want a mail server installed
+# (and maybe set up a mail forward).
+
 
 # So far, we don't need to gather any facts.  Maybe we can skip that
 # and then you can run through the server tasks on their own

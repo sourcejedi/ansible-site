@@ -1,11 +1,9 @@
 ---
-- hosts: silo
+- hosts: drystone
   vars:
     postfix_compatibility_level: '2'
     postfix_inet_interfaces: 'loopback-only'
-    postfix_aliases:
-      - user: 'root'
-        alias: 'alan-sysop'
+
     postfix_relayhost: 'smtp.gmail.com'
     postfix_relaytls: 'true'
     postfix_smtp_tls_security_level: 'secure'
@@ -13,6 +11,7 @@
     postfix_smtp_tls_mandatory_ciphers: 'high'
     postfix_smtp_tls_cafile: /etc/ssl/certs/ca-certificates.crt
   vars_files:
-    - postfix_relay_gmail_secrets.yml
+    - jenkins-desktop-postfix-secrets.yml
+
   roles:
     - Oefenweb.postfix

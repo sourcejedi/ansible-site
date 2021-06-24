@@ -1,0 +1,25 @@
+---
+# Traditional "mail" may be used by:
+# * icinga
+# * smokeping
+# * backup script mess! - uses at/cron
+# * smartd
+#
+# * cron-apt - notify of updates!
+
+- hosts: silo
+  vars:
+    postfix_compatibility_level: '2'
+    postfix_inet_interfaces: 'loopback-only'
+
+    postfix_relayhost: 'smtp.gmail.com'
+    postfix_relaytls: 'true'
+    postfix_smtp_tls_security_level: 'secure'
+    postfix_smtp_tls_mandatory_protocols: '>= TLSv1.2'
+    postfix_smtp_tls_mandatory_ciphers: 'high'
+    postfix_smtp_tls_cafile: /etc/ssl/certs/ca-certificates.crt
+  vars_files:
+    - silo-postfix-secrets.yml
+
+  roles:
+    - Oefenweb.postfix
