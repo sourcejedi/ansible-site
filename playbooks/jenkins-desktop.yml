@@ -4,9 +4,6 @@
 # I suggest *always* initializing systems on a firewalled network.
 # (E.g. standard home router config.  Sucks if you don't have a router.)
 # Once this role is run, a firewall will be installed, and will allow the SSH port.
-#
-# Debian 9 install only.
-# Not validated for upgrade from Debian < 9.
 
 # Additional playbooks:
 # - jenkins-desktop-postfix.yml
@@ -16,7 +13,7 @@
   roles:
 
     # FIXME proxy address - role uses the FQDN,
-    # but I keep manually resetting it to brick.local.
+    # but I keep manually resetting it to silo.local.
     - role: repos-apt
       repos_apt: debian-buster
 
@@ -32,12 +29,12 @@
        - mdns
        - ssh
 
-    - sourcejedi.atop
-
-    # Cleanup. In particular, remove updatedb task.
     - sourcejedi.disable_unwanted_servers
-    - remove-mlocate-on-deb
+    - sourcejedi.cups
+    - remove-mlocate-on-deb  # Remove updatedb task
 
+    - sourcejedi.atop
+    - smartd
 
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).
