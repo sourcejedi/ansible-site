@@ -22,7 +22,7 @@ fi
 
 ERR=0
 SRC="$DIR"/tmp
-DST="$DIR"/data
+DST="$DIR"/rdiff-backup
 
 cd "$SRC" || exit
 for i in *; do

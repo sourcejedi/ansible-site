@@ -83,6 +83,13 @@
     state: directory
   run_once: True
 
+- name: Server - create README.txt
+  delegate_to: "{{ daily_rsync__server }}"
+  copy:
+    src: README.txt
+    dest: "{{ daily_rsync__dir }}/"
+  run_once: True
+
 - name: Server - create configs directory
   delegate_to: "{{ daily_rsync__server }}"
   file:
@@ -116,7 +123,7 @@
   with_items:
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}"
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/tmp"
-   - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/data"
+   - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/rdiff-backup"
 
 - name: Server - create per-client lockfile
   delegate_to: "{{ daily_rsync__server }}"
@@ -140,7 +147,7 @@
     mode: 0755
   with_items:
     - "ssh_server.sh"
-    - "rdiff-backup.sh"
+    - "snapshot.sh"
 
 - name: Server - forward atd error mails to root
   delegate_to: "{{ daily_rsync__server }}"
