@@ -51,11 +51,13 @@ try_address() {
 }
 
 if ! {
+	exec >/var/log/local-daily-rsync 2>&1 || exit 1
+
 {% for address in daily_rsync__server_addresses %}
 	try_address {{ address | quote}} ||
 {% endfor %}
 	false  # all addresses failed
-} >/var/log/local-daily-rsync 2>&1 ; then
+} ; then
 	cat /var/log/local-daily-rsync
 	exit 1
 fi
