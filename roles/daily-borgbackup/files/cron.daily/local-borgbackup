@@ -2,31 +2,6 @@
 
 # This script has been simplified by assuming borgbackup 1.1 or above.
 
-# Originally tested on Debian 9 "stretch", i.e. borgbackup-1.0.9
-
-# This was taking about 3 minutes, at 40% CPU.
-# While the self-report only shows it taking 6 seconds;
-# no idea what that is supposed to mean :-(.
-# (prune doesn't show any time, but that doesn't account for it)
-#
-# This is not due to a problem with the FUSE mounts;
-# we bypass them.  I double-checked: the per-user dirs alone take 1:45.
-# Without prune takes 1:20.
-#
-# I guess IO load can sometimes be because it forces uncached IO.
-# But I wonder why it is doing so much work here, including the CPU...
-# It is not chunking; the full chunking took a lot longer (~15 mins).
-#
-# The logs say two years previous, it managed to complete in 1 or 2
-# minutes.
-#
-# I was thinking it is a function of the number of different snapshots.
-#
-# The log is a bit confusing, because it doesn't itemize borg_init()
-# separately.  borg_init() takes over 10s e.g. on /home/sheena
-# I fixed that part, so right now it takes less that 2 minutes :-).
-# Acceptable for now.
-
 set -o nounset
 
 readonly BORG_REPOS_DIR=/data/backup/borg
