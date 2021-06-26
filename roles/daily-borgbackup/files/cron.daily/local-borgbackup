@@ -1,5 +1,8 @@
 #!/bin/bash
-# Tested on Debian 9 "stretch", i.e. borgbackup-1.0.9
+
+# This script has been simplified by assuming borgbackup 1.1 or above.
+
+# Originally tested on Debian 9 "stretch", i.e. borgbackup-1.0.9
 
 # This was taking about 3 minutes, at 40% CPU.
 # While the self-report only shows it taking 6 seconds;
@@ -81,54 +84,11 @@ borg_init() {
 		T=$(mktemp --dry-run "$BORG_REPO".tmp.XXXXXX) &&
 		borg init --encryption=none "$T" &&
 
-		# ~5M segment size (borg 1.0 default) is too small IMO.
-		# Use ~500M (borg 1.1 default).
-		sed -i "$T"/config -e 's/^max_segment_size = .*$/max_segment_size = 524288000/' &&
+		# Avoid a prompt about the repo having being relocated.
+		borg config --cache "$T" previous_location "$BORG_REPO" &&
 
 		mv "$T" "$BORG_REPO"
-	fi &&
-
-	# borg doesn't like renamed repos.  We have to baby it.
-	#
-	# There's an easier fix in 1.1, which might even work before the rename
-	# (so we don't end up overriding borg *after* the initial creation).
-	# It would also avoid a warning which we have to suppress.
-	# https://github.com/borgbackup/borg/issues/1910#issuecomment-354780246
-
-	# If you delete ~/.cache, the below will fail on the prompt for
-	# "Warning: Attempting to access a previously unknown unencrypted repository!"
-	# It will require manual intervention.
-	# This borg bug is fixed in more recent versions of borg (I tested 1.0.11 and 1.1.8).
-
-	# This saves some seconds.  Most importantly, it means borg_init
-	# will not take any significant time.  So all the time shown in the logs
-	# can be accounted to the real `borg create` and `borg prune`.
-	if [ -e "$BORG_REPO"/initialized.daily-borgbackup ]; then
-		return
-	fi &&
-
-	export BORG_REPO &&
-
-	local BORG_RELOCATED_REPO_ACCESS_IS_OK=yes &&
-	export BORG_RELOCATED_REPO_ACCESS_IS_OK &&
-
-	# Make sure to delete "temp" archive,
-	# in case previous run was interrupted.
-	# Ignore failure, suppress errors.
-	{ borg delete ::temp </dev/null 2>/dev/null || true; } &&
-
-	# Fire for effect.  But we still need to suppress the warning
-	# from BORG_RELOCATED_REPO_ACCESS_IS_OK=yes.
-	# If there is a fatal error, then retry to show the messages.
-	{
-		borg create ::temp /dev/null </dev/null 2>/dev/null ||
-		borg create ::temp /dev/null </dev/null
-	} &&
-
-	# Clean up
-	borg delete ::temp &&
-
-	touch "$BORG_REPO"/initialized.daily-borgbackup
+	fi
 }
 
 backup_home() {
@@ -138,11 +98,6 @@ backup_home() {
 	borg_init "$BORG_REPO" &&
 
 	export BORG_REPO &&
-
-	# Required for first run after upgrading to borg version 1.1.x
-	# This first run will print warnings (and hence send cron mail).
-	local BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes &&
-	export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK &&
 
 	# Exclusions:
 	#
