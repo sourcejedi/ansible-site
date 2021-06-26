@@ -23,8 +23,8 @@ openssh_server__authkeys:
 jenkins_photos__users:
  - alan
 
-daily_rsync__server: "debian9-vm"
+daily_rsync__server: "debian10-vm"
 daily_rsync__server_addresses:
  - "invalid"
- - "debian9-vm.local"
+ - "debian10-vm"
 daily_rsync__dir: "/data/rdiff-backup"
