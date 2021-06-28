@@ -66,6 +66,13 @@
     - at
   run_once: True
 
+- name: Server - install borgbackup
+  delegate_to: "{{ daily_rsync__server }}"
+  package:
+    name: borgbackup
+    state: present
+  run_once: True
+
 # NOTE: We need to use the daily_rsync__dir variable from the *server*.
 # Unfortunately this expression is horribly long.  We copy the
 # variable from the server to the client.  So the expression ends up
@@ -85,8 +92,8 @@
 
 - name: Server - create README.txt
   delegate_to: "{{ daily_rsync__server }}"
-  copy:
-    src: README.txt
+  template:
+    src: server/README.txt
     dest: "{{ daily_rsync__dir }}/"
   run_once: True
 
@@ -124,6 +131,7 @@
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}"
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/tmp"
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/rdiff-backup"
+   - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/borgbackup"
 
 - name: Server - create per-client lockfile
   delegate_to: "{{ daily_rsync__server }}"
