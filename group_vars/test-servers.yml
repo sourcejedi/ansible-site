@@ -27,4 +27,4 @@ daily_rsync__server: "debian10-vm"
 daily_rsync__server_addresses:
  - "invalid"
  - "debian10-vm"
-daily_rsync__dir: "/data/rdiff-backup"
+daily_rsync__dir: "/data/network-backup"
