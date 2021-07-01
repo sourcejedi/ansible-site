@@ -2,7 +2,11 @@
   roles:
     # This does not bother backing up originals,
     # only because that is already done by `bootstrap/fedora`.
-    - repos-fedora
+    #
+    # Something about Fedora caused apt-cacher-ng downloads to end up
+    # breaking, for a long time now.  Though it can keep working
+    # long enough to enable manually for caching a new Fedora release.
+    #- repos-fedora
 
     - sourcejedi.etckeeper
 
