@@ -75,28 +75,39 @@ backup_home() {
 
 	# Exclusions:
 	#
-	# Firefox profile tends to churn a whole lot (but see below).
+	# Nowadays GNOME logs activity and indexes it, that shows up.
 	#
 	# Thunderbird has an index for searching messages, which shows up.
 	# This is due to the size of the blocks borg uses (megabytes?),
 	# although enabling compression helps a bit.
 	# We're allowed to drop the index - it will be rebuilt.
 	#
+	# Thunderbird also has a "remote settings" DB, like Firefox.
+	# This is used to update data between package releases.
+	# It was taking 10MB/day (uncompressed).
+	#
 	# On Debian, there may be an icedove profile which is half-migrated
 	# to thunderbird, but still uses the old location.
 	#
-	# Nowadays GNOME logs activity and indexes it, that shows up as well.
+	# Firefox profile tends to churn a whole lot (but see below).
 	#
-	log_cmd borg create '::{now}' "$HOME_DIR" \
+	cd "$HOME_DIR"
+	log_cmd borg create '::{now}' . \
 		$BORG_PROGRESS $BORG_STATS \
 		-C lz4 \
 		--one-file-system \
-		--exclude "$HOME_DIR"/.cache \
-		--exclude "$HOME_DIR"/.mozilla/firefox \
-		--exclude "$HOME_DIR"/.thunderbird/*/global-messages-db.sqlite \
-		--exclude "$HOME_DIR"/.icedove/*/global-messages-db.sqlite \
-		--exclude "$HOME_DIR"/.local/share/zeitgeist/fts.index \
-		--exclude "$HOME_DIR"/.local/share/tracker &&
+		--pattern=-.cache \
+		--pattern=-.local/share/tracker \
+		--pattern=-.local/share/zeitgeist/fts.index \
+		\
+		--pattern=-.thunderbird/*/global-messages-db.sqlite \
+		--pattern=-.thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite \
+		\
+		--pattern=-.icedove/*/global-messages-db.sqlite \
+		--pattern=-.icedove/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite \
+		\
+		--pattern=+.mozilla/firefox/*/bookmarkbackups \
+		--pattern=-.mozilla/firefox/* &&
 
 	# Prune old backups to save space
 	log_cmd borg prune $BORG_STATS \
@@ -104,26 +115,9 @@ backup_home() {
 		--keep-monthly 12 --keep-yearly -1
 }
 
-# Save bookmarkbackups from the firefox profile.
-# Firefox Sync doesn't e.g. protect against malice,
-# and I have a lot of bookmarks I want to keep.
 backup_firefox_bookmarks() {
-	local HOME_DIR="$1" &&
-	local BORG_REPO="$2".firefox-bookmarks &&
-	export BORG_REPO &&
-
-	if [ ! -d "$HOME_DIR"/.mozilla ]; then
-		return 0
-	fi &&
-
-	borg_init "$BORG_REPO" &&
-
-	log_cmd borg create $BORG_PROGRESS $BORG_STATS '::{now}' \
-		"$HOME_DIR"/.mozilla/firefox/*/bookmarkbackups &&
-
-	log_cmd borg prune $BORG_STATS \
-		--keep-daily 21 --keep-weekly 6 \
-		--keep-monthly 12 --keep-yearly -1
+	# removed
+	true
 }
 
 # Note if any one backup step fails, we keep going.
