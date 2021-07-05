@@ -97,6 +97,7 @@ backup_home() {
 		-C lz4 \
 		--one-file-system \
 		--pattern=-.cache \
+		\
 		--pattern=-.local/share/tracker \
 		--pattern=-.local/share/zeitgeist/fts.index \
 		\
