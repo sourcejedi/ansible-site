@@ -75,6 +75,15 @@
     - bfq
 
   tasks:
+    - name: Disable selinux enforcement
+      selinux:
+        policy: targeted
+        state: permissive
+      tags: selinux
+    # SELinux Troubleshooter will still notify on policy violations.
+    # To disable that, open the troubleshooter, and select "No" under
+    # "Would you like to recieve alerts?"
+
     - name: rc.local script to reduce power usage
       copy:
         src: ../files/alan-laptop/rc.local
