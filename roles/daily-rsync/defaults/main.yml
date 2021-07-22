@@ -1,2 +1,5 @@
 # Determines order of execution in cron.daily
 daily_rsync__cron_prefix:
+
+daily_rsync__prepare_script: '#!/bin/true'
+daily_rsync__cleanup_script: '#!/bin/true'

@@ -22,13 +22,17 @@ fi
 
 ERR=0
 SRC="$DIR"/tmp
-cd "$SRC" || exit
 
 # rdiff-backup #
 DST="$DIR"/rdiff-backup
+
+cd "$SRC" || exit 1
 for i in *; do
-    nice rdiff-backup --tempdir /var/tmp/ \
-                      -- "$SRC/$i" "$DST/$i" || ERR=1
+    cd "$SRC/$i" &&
+    nice rdiff-backup \
+             --tempdir /var/tmp/ \
+             --include-globbing-filelist ~/rdiff-backup.include \
+             -- . "$DST/$i" || ERR=1
 done
 
 # borgbackup functions #
@@ -138,6 +142,8 @@ backup() {
 # borgbackup run #
 
 DST="$DIR"/borgbackup
+
+cd "$SRC" || exit 1
 for i in *; do
 	backup "$SRC/$i" "$DST/$i" || ERR=1
 done

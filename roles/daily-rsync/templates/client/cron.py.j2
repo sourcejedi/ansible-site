@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+import sys
+import json
+import fcntl
+import subprocess
+import shutil
+
+class ProgramError(Exception):
+    pass
+
+class Program:
+    __slots__ = ("ssh_user", "addresses", "backups", "logfile")
+    def main(self):
+        config = json.load(open("/ansible-managed/daily-rsync/config.json", "rb"))
+        self.ssh_user = config["ssh_user"]
+        self.addresses = config["addresses"]
+        self.backups = config["backups"]
+        del config
+
+        with open("/ansible-managed/daily-rsync/lock", "w") as lockfile:
+            # Lock against cleanup_script, launched at boot time from cron.d
+            fcntl.lockf(lockfile, fcntl.LOCK_EX)
+
+            self.run_script("cleanup_script")
+            self.run_script("prepare_script")
+            try:
+                with open("/var/log/local-daily-rsync", "w+") as self.logfile:
+                    # Try each address until one succeeds
+                    for address in self.addresses:
+                        if self.try_address(address):
+                            break
+                    else:
+                        # No address succeeded. Show all the errors.
+                        self.logfile.seek(0)
+                        shutil.copyfileobj(self.logfile, sys.stdout)
+                        return 1
+            finally:
+                self.run_script("cleanup_script")
+
+    def run_script(self, name):
+        try:
+            subprocess.run("/ansible-managed/daily-rsync/" + name, check=True)
+        except subprocess.CalledProcessError as e:
+            raise ProgramError(f'Failed in {name}: {e}')
+
+    # Return false if rsync fails e.g. because address is unreachable.
+    def try_address(self, address):
+        self.logfile.write(f"== Trying backup server {address} ==\n")
+        try:
+            for backup in self.backups:
+                self.try_rsync(address, backup['directory'], backup['name'])
+
+            self.logfile.flush()
+            subprocess.run(["ssh", "-F", "/ansible-managed/daily-rsync/ssh_config",
+                                "-l", self.ssh_user, address, "snapshot"],
+                        stdout=self.logfile.fileno(), stderr=subprocess.STDOUT,
+                        check=True)
+        except subprocess.CalledProcessError as e:
+            return False
+
+        self.logfile.write("== Backup succeeded ==\n")
+        return True
+
+    def try_rsync(self, server, directory, name):
+        if " " in self.ssh_user:
+            raise ProgramError(
+                f'Fatal: ssh_user contains space: "{self.ssh_user}"')
+
+        rsh = ("ssh -F /ansible-managed/daily-rsync/ssh_config -l " +
+                  self.ssh_user)
+
+        self.logfile.flush()
+        subprocess.run(
+            ["nice", "rsync", "--rsh=" + rsh, "-a", "--delete", "--partial",
+                            "--exclude-from", "/ansible-managed/daily-rsync/rsync.exclude",
+                            "--delete-excluded",
+                            directory + "/", server + "::backup/" + name],
+            stdout=self.logfile.fileno(), stderr=subprocess.STDOUT,
+            check=True)
+
+if __name__ == '__main__':
+    try:
+        p = Program()
+        sys.exit(p.main())
+    except ProgramError as e:
+        print(e)
+        sys.exit(1)

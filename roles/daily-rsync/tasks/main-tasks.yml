@@ -120,6 +120,14 @@
     # User module does not support "warn: no".
     password: "!!"
 
+- name: Server - forward atd error mails to root
+  delegate_to: "{{ daily_rsync__server }}"
+  copy:
+    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/.forward"
+    content: "root\n"
+    owner: "rsyncbak-{{ inventory_hostname }}"  # exim4 checks owner
+    mode: 0444
+
 - name: Server - create per-client directories
   delegate_to: "{{ daily_rsync__server }}"
   file:
@@ -147,6 +155,12 @@
     src: server/rsyncd.conf.j2
     dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rsyncd.conf"
 
+- name: Server - create per-client rdiff-backup.include
+  delegate_to: "{{ daily_rsync__server }}"
+  template:
+    src: server/rdiff-backup.include.j2
+    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rdiff-backup.include"
+
 - name: Server - install per-client ssh server scripts
   delegate_to: "{{ daily_rsync__server }}"
   template:
@@ -156,14 +170,6 @@
   with_items:
     - "ssh_server.sh"
     - "snapshot.sh"
-
-- name: Server - forward atd error mails to root
-  delegate_to: "{{ daily_rsync__server }}"
-  copy:
-    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/.forward"
-    content: "root\n"
-    owner: "rsyncbak-{{ inventory_hostname }}"  # exim4 checks owner
-    mode: 0444
 
 # Server - requires information from client #
 
@@ -191,9 +197,38 @@
   template:
     src: client/rsync.exclude
     dest: "/ansible-managed/daily-rsync/rsync.exclude"
+
+- name: Client - create lockfile
+  copy:
+    dest: "/ansible-managed/daily-rsync/lock"
+    content: ""
+    mode: "700"
     
+- name: Client - install prepare_script
+  copy:
+    content: '{{ daily_rsync__prepare_script }}'
+    dest: /ansible-managed/daily-rsync/prepare_script
+    mode: '755'
+
+- name: Client - install cleanup_script
+  copy:
+    content: '{{ daily_rsync__cleanup_script }}'
+    dest: /ansible-managed/daily-rsync/cleanup_script
+    mode: '755'
+
+- name: Client - install cron job to cleanup on unexpected reboot
+  template:
+    src: client/cron.cleanup.d.j2
+    dest: /etc/cron.d/local-rsync-cleanup
+
+- name: Client - install config
+  template:
+    src: client/config.json.j2
+    dest: /ansible-managed/daily-rsync/config.json
+    mode: "755"
+
 - name: Client - install cron job for rsync
   template:
-    src: client/cron.daily.j2
+    src: client/cron.py.j2
     dest: /etc/cron.daily/{{ daily_rsync__cron_prefix }}local-rsync
     mode: "755"
