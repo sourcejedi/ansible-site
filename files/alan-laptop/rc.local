@@ -6,14 +6,24 @@ set -e
 # Dell Latitude E5450.
 # Seems ok with `powertop --auto-tune` - except it occasionally hangs
 # soon after resume (test period: 1-3 weeks).
+# Maybe wi-fi cuts out just before, so maybe it's caused by wi-fi card?
 #
-# Retry 2021-06-03:
+# 2021-06-03: second test period
 # * hard crash 2021-06-08
 # * hard crash 2021-06-17
 #
-# It might be the wifi.
-#
 # So let's only enable *some* of the tunables...
+#
+# 2021-07-05:
+# I think one of the below is causing occaisional graphics corruption?
+# A line of corruption across the screen, easily cleared.
+# Graphics corruption is fine, but it suggests memory corruption
+# which might be bad.
+# Bisect.
+#
+# 2021-07-05: all commented out.
+# 2021-07-21: med_power_with_dipm only
+# 2021-07-26: graphics corruption
 
 # Package C2 -> C6 !
 echo 'med_power_with_dipm' > '/sys/class/scsi_host/host0/link_power_management_policy'
