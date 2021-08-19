@@ -53,10 +53,10 @@ xenial    repos_apt=ubuntu-xenial
 
 # nss-libvirt
 [test-vm-fedora]
-fedora33-vm
 fedora34-vm
 
 [test-vm-debian]
 debian10-vm repos_apt=debian-buster
+debian11-vm repos_apt=debian-bullseye
 
 ubuntu2004-vm repos_apt=ubuntu-focal
