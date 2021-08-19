@@ -21,15 +21,6 @@ apt-get update
 # apt installs (debconf) complains
 apt-get -y install whiptail
 
-# Recommended by ansible, for the latest release version.
-# At least in Xenial, Ubuntu's ansible package is in universe,
-# and there was no obvious sign of security updates.
-echo
-echo 'Add ansible PPA'
-apt-get install -y software-properties-common
-add-apt-repository -y ppa:ansible/ansible
-apt-get update
-
 echo
 echo 'Install ansible'
 apt-get -y install ansible
