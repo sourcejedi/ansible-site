@@ -59,4 +59,4 @@ fedora34-vm
 [test-vm-debian]
 debian10-vm repos_apt=debian-buster
 
-ubuntu1804-vm repos_apt=ubuntu-bionic
+ubuntu2004-vm repos_apt=ubuntu-focal
