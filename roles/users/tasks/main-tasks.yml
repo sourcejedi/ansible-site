@@ -13,6 +13,9 @@
 - name: Install sudo
   package: name=sudo state=present
 
+# Override old Debian default, so users cannot read each other's directories.
+# Ubuntu 21.04 installs do the same.  (They used mode 0750, I don't know why).
+# https://bugs.launchpad.net/ubuntu/+source/adduser/+bug/48734
 
 - name: Set HOME_MODE in login.defs (RedHat)
   lineinfile:
