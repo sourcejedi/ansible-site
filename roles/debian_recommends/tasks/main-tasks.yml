@@ -7,8 +7,11 @@
       - needrestart
 
       # Upgrade instructions (in release notes) include multiple aptitude commands.
-      # Upgrade instructions are a pain :-).
       - aptitude
+
+      # https://www.debian.org/releases/bullseye/amd64/release-notes/ch-information.en.html#limited-security-support
+      # "The package debian-security-support helps to track the security support status of installed packages."
+      - debian-security-support
 
       # https://www.debian.org/releases/stable/amd64/release-notes/ch-moreinfo.en.html#bugs
       # "We strongly recommend that you report bugs in Debian using the reportbug program."
