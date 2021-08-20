@@ -1,0 +1,61 @@
+- hosts: candy
+  roles:
+    # no proxy. [tailscale?]
+    #- role: repos-apt
+    #  repos_apt: debian_bullseye 
+
+    - sourcejedi.etckeeper
+
+    - users    
+    - openssh-server
+
+    # Add admin user(s) to journald group, and enable persistent journal.
+    - sourcejedi.systemd-journal
+
+    # Enable firewalld.
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+
+    - sourcejedi.cups
+
+    # Useful to log memory usage per process (default 10 min snapshots).
+    - sourcejedi.disable_unwanted_servers
+
+    - sourcejedi.cups
+    - remove-mlocate-on-deb  # Remove updatedb task
+
+    - sourcejedi.atop
+    
+    # FIXME: "suggested packages: thunderbird-gnome-support"
+    - packages-gui
+
+    - packages-cli-basics
+    - debian_recommends
+
+    - bfq
+
+  tasks:
+    - name: install flatpak
+      package:
+        name: flatpak
+        state: present
+      tags: flatpak
+    - name: Add the flathub flatpak repository remote
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+      tags: flatpak
+    - name: flatpak installs
+      flatpak:
+          name: "{{ item }}"
+          state: present
+      with_items:
+          - com.skype.Client
+          - us.zoom.Zoom
+      tags: flatpak
+
+# systemctl enable fstrim.timer
