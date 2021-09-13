@@ -12,7 +12,7 @@ assert_nospace() {
 
 	local PATTERN="[[:space:]]+"
 	if [[ $2 =~ $PATTERN ]]; then
-		printf 'fatal: %s contains space: "%s"\n' "$1"
+		printf 'fatal: %s contains space: "%s"\n' "$NAME" "$VALUE"
 		exit 1
 	fi
 }
@@ -50,14 +50,39 @@ try_address() {
 	printf '== Backup succeeded ==\n'
 }
 
-if ! {
-	exec >/var/log/local-daily-rsync 2>&1 || exit 1
+cleanup_script() {
+	if ! /ansible-managed/daily-rsync/cleanup_script; then
+		echo "Failed in cleanup_script"
+		return 1
+	fi
+}
+prepare_script() {
+	if ! /ansible-managed/daily-rsync/prepare_script; then
+		echo "Failed in prepare_script"
+		return 1
+	fi
+}
+
+__main() (
+	exec >/var/log/local-daily-rsync 2>&1 || return 1
+
+	cleanup_script || return 1
+	prepare_script || return 1
 
 {% for address in daily_rsync__server_addresses %}
 	try_address {{ address | quote}} ||
 {% endfor %}
-	false  # all addresses failed
-} ; then
+		false  # all addresses failed
+	RC=$?
+
+	cleanup_script || return 1
+	return $RC
+)
+
+# Lock against cleanup_script, launched at boot time from cron.d
+exec 3>/ansible-managed/daily-rsync/lock &&
+flock 3 &&
+if ! __main; then
 	cat /var/log/local-daily-rsync
 	exit 1
 fi

@@ -23,8 +23,57 @@ openssh_server__authkeys:
 jenkins_photos__users:
  - alan
 
+# Server
+daily_rsync__dir: "/data/network-backup"
+
+# Client
 daily_rsync__server: "debian10-vm"
 daily_rsync__server_addresses:
  - "invalid"
  - "debian10-vm"
-daily_rsync__dir: "/data/network-backup"
+
+# Debian 10: every lvm command complains about USB SD card reader,
+# causing cron mail.  Fixed in Debian 11 (but not Ubuntu 20.04).
+daily_rsync__prepare_script: !unsafe |
+  #!/bin/bash
+  set -u -o pipefail
+  lvm_vg=vg_test
+  lvm_lv=lv_test
+
+  l_quiet() {
+    LC_ALL=C "$@" 2>&1 1>/dev/null | ( grep -v "open failed: No medium found$" || true )
+  }
+  mkdir -p /ansible-managed/daily-rsync/snapshot &&
+  chmod o-rwx /ansible-managed/daily-rsync/snapshot &&
+  l_quiet lvcreate -s -n daily-rsync-snap -L 1G "/dev/${lvm_vg}/${lvm_lv}" &&
+  mount "/dev/${lvm_vg}/daily-rsync-snap" /ansible-managed/daily-rsync/snapshot
+
+daily_rsync__cleanup_script: !unsafe |
+  #!/bin/bash
+  set -u -o pipefail
+  lvm_vg=vg_test
+
+  l_quiet() {
+        LC_ALL=C "$@" 2>&1 1>/dev/null | ( grep -v "open failed: No medium found$" || true )
+  }
+  if findmnt /ansible-managed/daily-rsync/snapshot >/dev/null; then
+    umount /ansible-managed/daily-rsync/snapshot
+  fi
+  if [ -e "/dev/${lvm_vg}/daily-rsync-snap" ]; then
+    l_quiet lvremove -y "/dev/${lvm_vg}/daily-rsync-snap"
+  fi
+
+daily_rsync__backups:
+  - directory: "/ansible-managed/daily-rsync/snapshot/home/mike"
+    name: mike
+
+  - directory: "/ansible-managed/daily-rsync/snapshot/home/sheena"
+    name: sheena
+
+  - directory: "/ansible-managed/daily-rsync/snapshot/home/.shared-internal"
+    name: jenkins-shared
+
+  - directory: "/ansible-managed/daily-rsync/snapshot/home/.shared-separate-internal/Photos"
+    name: jenkins-photos
+
+  # jenkins-music is not included here

@@ -49,6 +49,6 @@
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '50-' }
 
-    ## Test using test-vm-debian9 as both the client and the server.
+    ## Test using debian10-vm as both the client and the server.
     - { role: daily-rsync,
               daily_rsync__cron_prefix: '60-' }
