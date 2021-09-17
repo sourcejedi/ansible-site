@@ -1,6 +1,6 @@
 # Init jenkins-desktop.
 #
-# Debian does not implement "No open ports" (aspirational ubuntu policy).
+# Ubuntu aspires to "No open ports".  Nevertheless:
 # I suggest *always* initializing systems on a firewalled network.
 # (E.g. standard home router config.  Sucks if you don't have a router.)
 # Once this role is run, a firewall will be installed, and will allow the SSH port.
@@ -12,7 +12,7 @@
 - hosts: drystone
   roles:
     - role: repos_apt
-      repos_apt: debian-buster
+      repos_apt: ubuntu-focal
       repos_apt_autodetect_apt_proxy: yes
 
     - sourcejedi.etckeeper
@@ -30,6 +30,9 @@
     - sourcejedi.disable_unwanted_servers
     - sourcejedi.cups
     - remove-mlocate-on-deb  # Remove updatedb task
+
+    # Temporary while installed on spinny disk drive
+    - sourcejedi.hdparm-noapm
 
     - sourcejedi.atop
     - smartd

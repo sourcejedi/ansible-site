@@ -1,6 +1,7 @@
 - hosts: test-vm-debian
   roles:
-    - repos-apt
+    - role: repos_apt
+      repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'
 
     - sourcejedi.etckeeper
     - users

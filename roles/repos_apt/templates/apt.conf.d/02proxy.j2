@@ -1,0 +1,6 @@
+// This file is managed by a scripted process.
+// Manual changes will be destroyed if the script is re-applied.
+
+{% if repos_apt_proxy %} 
+Acquire::http::Proxy "{{ repos_apt_proxy }}";
+{% endif %}

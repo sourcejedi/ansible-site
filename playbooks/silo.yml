@@ -6,6 +6,8 @@
   roles:
     - role: repos-apt
       repos_apt: debian-buster
+      # Cough, bootstrapping problem.
+      repos_apt_proxy: 'http://localhost:3142'
 
     - sourcejedi.etckeeper
     - users
@@ -45,7 +47,6 @@
     # Thinkpad X201 seems perfectly happy with `powertop --auto-tune`.
     - powertop-full-override
 
-    # Cough, bootstrapping problem.
     - apt-cacher-ng
 
     # catch syslogs from router

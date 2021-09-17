@@ -2,11 +2,16 @@
   assert:
     that: "ansible_os_family == 'Debian'"
 
-- name: Configure apt to use local caching proxy
-  copy:
-    src: apt.conf.d/02proxy
-    dest: /etc/apt/apt.conf.d/
+- name: Configure apt proxy
+  template:
+    src: apt.conf.d/02proxy.j2
+    dest: /etc/apt/apt.conf.d/02proxy
   register: proxy
+
+- name: Configure apt proxy autodetection
+  package:
+    name: squid-deb-proxy-client
+    state: "{{ 'present' if repos_apt_autodetect_apt_proxy else 'absent' }}"
 
 - name: Configure apt to use UK mirror
   copy:

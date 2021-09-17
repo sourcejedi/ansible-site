@@ -1,8 +1,8 @@
 - hosts: candy
   roles:
-    # no proxy. [tailscale?]
-    #- role: repos-apt
-    #  repos_apt: debian_bullseye 
+    - role: repos_apt
+      repos_apt: ubuntu-focal
+      repos_apt_autodetect_apt_proxy: yes
 
     - sourcejedi.etckeeper
 

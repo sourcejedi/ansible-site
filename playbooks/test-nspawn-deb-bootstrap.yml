@@ -4,7 +4,8 @@
   roles:
     # ansible works.
     # ensure subsequent software installs on stable use security repos.
-    - repos-apt
+    - role: repos_apt
+      repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'
     - role: repos-debian-jessie-backports
       when: repos_apt == 'debian-jessie'
 
