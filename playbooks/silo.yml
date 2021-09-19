@@ -4,7 +4,7 @@
 
 - hosts: silo
   roles:
-    - role: repos-apt
+    - role: repos_apt
       repos_apt: debian-buster
       # Cough, bootstrapping problem.
       repos_apt_proxy: 'http://localhost:3142'
