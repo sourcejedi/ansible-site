@@ -25,14 +25,16 @@ host = localhost
 menu = Router
 host = mortar.carrier.duckdns.org
 
-# Powerplug appears to show mysterious power saving (rises to 100ms latency).
-# Let it sleep
+# Note powerplug appears to show mysterious power saving
+# (rises to 100ms latency).  So maybe we should let it sleep.
 #
-#++ conduit
-#
-#menu = conduit
-#title = Powerline network
-#host = conduit.carrier.duckdns.org
+# But, I want to look at the packet loss next time it fails.
+
+++ conduit
+
+menu = conduit
+title = Powerline network
+host = conduit.carrier.duckdns.org
 
 ++ dns
 
