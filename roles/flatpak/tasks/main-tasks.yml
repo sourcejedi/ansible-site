@@ -1,0 +1,47 @@
+- when: flatpak__remove_snapd
+  block:
+  - name: Check we are using the package manager called "apt"
+    assert:
+      that: ansible_pkg_mgr == 'apt'
+
+  - name: Remove snapd
+    apt:
+      name: snapd
+      state: absent
+
+  # Note: apt-hold snapd will only work if snapd exists as a package.
+  # (Currently it does in both Debian and Ubuntu.)
+
+  # 1/3) Query condition
+  - name: query  | ensure snapd is held, in case it ever becomes recommended
+    shell:
+      cmd: apt-mark showholds | grep -q snapd
+    register: snapd_hold
+    failed_when: False  # no fail.  rc is our result
+    changed_when: False
+    check_mode: no
+
+  # 2/3) Run shell task conditionally, to provide accurate "changed" status
+  - name: ensure | ensure snapd is held, in case it ever becomes recommended
+    command: apt-mark hold snapd
+    when: snapd_hold.rc != 0
+
+  # 3/3) The condition must now hold.  This "fixes" ansible check mode.
+  - name: check  | ensure snapd is held, in case it ever becomes recommended
+    shell:
+      cmd: apt-mark showholds | grep -q snapd
+    changed_when: False
+    check_mode: no
+
+- name: Install flatpak and gnome-software-plugin-flatpak
+  package:
+    name:
+      - flatpak
+      - gnome-software-plugin-flatpak
+    state: present
+
+- name: Add the "flathub" flatpak repository remote
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo

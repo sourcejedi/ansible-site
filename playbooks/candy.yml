@@ -37,18 +37,9 @@
 
     - bfq
 
+    - role: flatpak
+      flatpak__remove_snapd: yes
   tasks:
-    - name: install flatpak
-      package:
-        name: flatpak
-        state: present
-      tags: flatpak
-    - name: Add the flathub flatpak repository remote
-      flatpak_remote:
-        name: flathub
-        state: present
-        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-      tags: flatpak
     - name: flatpak installs
       flatpak:
           name: "{{ item }}"
