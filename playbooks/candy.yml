@@ -57,5 +57,3 @@
           - com.skype.Client
           - us.zoom.Zoom
       tags: flatpak
-
-# systemctl enable fstrim.timer
