@@ -4,10 +4,11 @@
     assert:
       that: ansible_pkg_mgr == 'apt'
 
-  - name: Remove snapd
+  - name: Remove and purge snapd
     apt:
       name: snapd
       state: absent
+      purge: yes
 
   # Note: apt-hold snapd will only work if snapd exists as a package.
   # (Currently it does in both Debian and Ubuntu.)
