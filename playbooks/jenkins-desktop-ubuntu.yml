@@ -21,7 +21,9 @@
 
     # FIXME needs rename to use underscores
     - sourcejedi.systemd-journal
-    - systemd-coredump
+
+    # ubuntu uses apport
+    #- systemd-coredump
 
     - role: sourcejedi.firewalld
       firewalld__services:
@@ -37,7 +39,6 @@
 # RUNNING HANDLER [sourcejedi.cups : Change ErrorPolicy for any existing printers] ********************
 #fatal: [drystone]: FAILED! => {"changed": true, "msg": "non-zero return code", "rc": 1, "stderr": "lpstat: No destinations added.\n", "stderr_lines": ["lpstat: No destinations added."], "stdout": "", "stdout_lines": []}
     - sourcejedi.cups
-    - remove-mlocate-on-deb  # Remove updatedb task
 
     # Temporary while installed on spinny disk drive
     - sourcejedi.hdparm-noapm
@@ -45,10 +46,11 @@
     - sourcejedi.atop
     - smartd
 
+    # TODO
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).
-    - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '50-' }
+    #- { role: daily-borgbackup,
+    #          daily_borgbackup__cron_prefix: '50-' }
 
     # Note - remote administration is not permitted on jenkins-desktop.
     # SSH may be used for other backups though.
@@ -59,6 +61,11 @@
 
     - packages-cli-basics
     - packages-gui
+
+    - bfq
+
+    - role: flatpak
+      flatpak__remove_snapd: yes
 
   tasks:
     - name: /00-README.txt
@@ -78,3 +85,12 @@
         dest: /data/00-README.txt
         src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
       tags: jenkins-desktop
+
+    - name: Install apps
+      package:
+        name:
+          - digikam
+          - gimp
+          - xsane
+        state: present
+      tags: apps
