@@ -1,7 +1,7 @@
 # Init jenkins-desktop.
 #
-# Debian does not implement "No open ports" (aspirational ubuntu policy).
-# I suggest *always* initializing systems on a firewalled network.
+# Ubuntu aspires to "No open ports".  Nevertheless, I suggest *always*
+# initializing systems on a firewalled network.
 # (E.g. standard home router config.  Sucks if you don't have a router.)
 # Once this role is run, a firewall will be installed, and will allow the SSH port.
 
@@ -12,14 +12,18 @@
 - hosts: drystone
   roles:
     - role: repos_apt
-      repos_apt: debian-buster
+      repos_apt: ubuntu-focal
       repos_apt_autodetect_apt_proxy: yes
 
     - sourcejedi.etckeeper
 
     - users
+
+    # FIXME needs rename to use underscores
     - sourcejedi.systemd-journal
-    - systemd-coredump
+
+    # ubuntu uses apport
+    #- systemd-coredump
 
     - role: sourcejedi.firewalld
       firewalld__services:
@@ -28,8 +32,13 @@
        - ssh
 
     - sourcejedi.disable_unwanted_servers
+
+# FIXME - one-off error here, perhaps before the printer was automatically detected?
+# (definitely no error after printer was manually added)
+#
+# RUNNING HANDLER [sourcejedi.cups : Change ErrorPolicy for any existing printers] ********************
+#fatal: [drystone]: FAILED! => {"changed": true, "msg": "non-zero return code", "rc": 1, "stderr": "lpstat: No destinations added.\n", "stderr_lines": ["lpstat: No destinations added."], "stdout": "", "stdout_lines": []}
     - sourcejedi.cups
-    - remove-mlocate-on-deb  # Remove updatedb task
 
     - sourcejedi.atop
     - smartd
@@ -49,6 +58,11 @@
     - packages-cli-basics
     - packages-gui
 
+    - bfq
+
+    - role: flatpak
+      flatpak__remove_snapd: yes
+
   tasks:
     - name: /00-README.txt
       copy:
@@ -67,3 +81,12 @@
         dest: /data/00-README.txt
         src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
       tags: jenkins-desktop
+
+    - name: Install apps
+      package:
+        name:
+          - digikam
+          - gimp
+          - xsane
+        state: present
+      tags: apps
