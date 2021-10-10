@@ -65,3 +65,6 @@
 [submodule "roles/Oefenweb.postfix"]
 	path = roles/Oefenweb.postfix
 	url = https://github.com/Oefenweb/ansible-postfix
+[submodule "roles/ansible-ufw"]
+	path = roles/Oefenweb.ufw
+	url = https://github.com/Oefenweb/ansible-ufw
