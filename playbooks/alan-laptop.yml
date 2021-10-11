@@ -23,9 +23,9 @@
     # Fedora already enables it, but the Workstation config is a bit strange.
     - role: sourcejedi.firewalld
       firewalld__services:
-       - dhcpv6-client
-       - mdns
-       - transmission-client
+        - dhcpv6-client
+        - mdns
+        - transmission-client
 
     - sourcejedi.cups
 
