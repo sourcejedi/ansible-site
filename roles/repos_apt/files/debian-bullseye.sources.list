@@ -8,7 +8,7 @@
 # (hopefully) configured to use a nearby server.
 
 
-# Debian release 10.x
+# Debian release 11.x
 #
 deb http://deb.debian.org/debian/ bullseye main
 
@@ -18,17 +18,17 @@ deb http://deb.debian.org/debian-security/ bullseye-security main
 
 # "Stable updates" e.g. timezone data.  https://wiki.debian.org/StableUpdates
 #
-deb http://deb.debian.org/debian/ buster-updates main
+deb http://deb.debian.org/debian/ bullseye-updates main
 
 
 # Source code repositories.
 # Can be uncommented for temporary use, or copied to sources.lists.d/
 
-# deb-src http://deb.debian.org/debian/ buster main
-# deb-src http://deb.debian.org/debian-security/ buster-security main
-# deb-src http://deb.debian.org/debian/ buster-updates main
+# deb-src http://deb.debian.org/debian/ bullseye main
+# deb-src http://deb.debian.org/debian-security/ bullseye-security main
+# deb-src http://deb.debian.org/debian/ bullseye-updates main
 
 # -dbgsym packages.  https://wiki.debian.org/HowToGetABacktrace
 # Note it doesn't say if this works for packages in updates repo.
 
-# deb http://deb.debian.org/debian-debug/ buster-debug main
+# deb http://deb.debian.org/debian-debug/ bullseye-debug main
