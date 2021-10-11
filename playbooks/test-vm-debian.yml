@@ -5,7 +5,7 @@
 
     - sourcejedi.etckeeper
     - users
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
 
     - role: systemd-coredump
       when: ansible_distribution == "Debian"

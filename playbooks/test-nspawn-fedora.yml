@@ -2,7 +2,7 @@
 
 - hosts: test-nspawn-fedora
   roles:
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
     - openssh-server
 
     # I have to add updated keys for the rpmfusion roles

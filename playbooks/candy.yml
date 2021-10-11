@@ -10,7 +10,7 @@
     - openssh-server
 
     # Add admin user(s) to journald group, and enable persistent journal.
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
 
 
     # Useful to log memory usage per process (default 10 min snapshots).

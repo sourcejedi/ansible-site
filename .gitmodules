@@ -47,7 +47,7 @@
 	url = git@github.com:sourcejedi/ansible-rpmfusion-remove.git
 
 [submodule.sourcejedi-systemd-journal]
-	path = roles/sourcejedi.systemd-journal
+	path = roles/sourcejedi.systemd_journal
 	url = git@github.com:sourcejedi/ansible-systemd-journal.git
 [submodule "roles/tersmitten.sysctl"]
 	path = roles/Oefenweb.sysctl

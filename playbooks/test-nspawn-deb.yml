@@ -49,7 +49,7 @@
 # (e.g. which start services).
 - hosts: test-nspawn-deb
   roles:
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
     - openssh-server
 
     - sourcejedi.disable_unwanted_servers

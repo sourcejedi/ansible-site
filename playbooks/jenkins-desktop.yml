@@ -20,7 +20,7 @@
     - users
 
     # FIXME needs rename to use underscores
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
 
     # ubuntu uses apport
     #- systemd-coredump

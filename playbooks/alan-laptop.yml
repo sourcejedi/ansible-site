@@ -14,7 +14,7 @@
 
     # Add admin user(s) to journald group, and enable persistent journal.
     # (Journal should be persistent already on current Fedora).
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
 
     # Enable coredumpd.  (Should be already on current Fedora).
     - systemd-coredump

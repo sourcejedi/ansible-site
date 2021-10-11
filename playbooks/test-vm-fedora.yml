@@ -4,7 +4,7 @@
     - sourcejedi.etckeeper
 
     - users
-    - sourcejedi.systemd-journal
+    - sourcejedi.systemd_journal
     - openssh-server
 
     - sourcejedi.atop
