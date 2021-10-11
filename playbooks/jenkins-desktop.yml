@@ -8,6 +8,7 @@
 # Additional playbooks:
 # - jenkins-desktop-postfix.yml
 # - jenkins-desktop-backup.yml
+# - jenkins-desktop-remove-unused.yml
 
 - hosts: drystone
   roles:
@@ -53,7 +54,7 @@
     - { role: daily-borgbackup,
               daily_borgbackup__cron_prefix: '50-' }
 
-    # Note - remote administration is not permitted on jenkins-desktop.
+    # Note - remote administration may be disabled on jenkins-desktop.
     # SSH may be used for other backups though.
     - openssh-server
 
