@@ -1,3 +1,6 @@
+# Additional playbooks:
+# - candy-remove-unused.yml
+
 - hosts: candy
   roles:
     - role: repos_apt
@@ -12,8 +15,6 @@
     # Add admin user(s) to journald group, and enable persistent journal.
     - sourcejedi.systemd_journal
 
-
-    # Useful to log memory usage per process (default 10 min snapshots).
     - sourcejedi.disable_unwanted_servers
 
     # Note UFW automatically allows DHCPv6, mDNS,
@@ -28,15 +29,15 @@
           to_port: 22
 
     - sourcejedi.cups
-    - remove-mlocate-on-deb  # Remove updatedb task
 
+    # Useful to log memory usage per process (default 10 min snapshots).
     - sourcejedi.atop
-    
-    # FIXME: "suggested packages: thunderbird-gnome-support"
-    - packages-gui
+
+    - sourcejedi.google_chrome
+    - firefox
+    # no thunderbird. save disk space.
 
     - packages-cli-basics
-    - debian_recommends
 
     - bfq
 
