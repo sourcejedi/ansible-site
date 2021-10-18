@@ -44,6 +44,15 @@
 
     - sourcejedi.cups
 
+    - deb-apache
+    - apt-cacher-ng
+
+    # These might add a little network hassle to some systems,
+    # so we disable them when not under test.
+    #
+    #- icinga2
+    #- smokeping
+
     # relied upon for daily-borgbackup and daily-rsync (cron mail).
     - deb-mail
 
