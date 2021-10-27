@@ -26,18 +26,13 @@
     # ubuntu uses apport
     #- systemd-coredump
 
-    - sourcejedi.disable_unwanted_servers
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
 
-    # Note UFW automatically allows DHCPv6, mDNS,
-    # and minissdpd (unsafe uPnP client daemon).
-    - role: Oefenweb.ufw
-      ufw_etc_default_default_input_policy: REJECT
-      ufw_default_incoming_policy: reject
-      ufw_rules:
-        - comment: 'ssh'
-          rule: allow
-          protocol: tcp
-          to_port: 22
+    - sourcejedi.disable_unwanted_servers
 
 # FIXME - one-off error here, perhaps before the printer was automatically detected?
 # (definitely no error after printer was manually added)

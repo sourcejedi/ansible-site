@@ -20,29 +20,17 @@
     - openssh-server
 
     - sourcejedi.disable_unwanted_servers
-
-    # Note UFW automatically allows DHCPv6, mDNS,
-    # and minissdpd (unsafe uPnP client daemon).
-    - role: Oefenweb.ufw
-      ufw_etc_default_default_input_policy: REJECT
-      ufw_default_incoming_policy: reject
-      ufw_rules:
-        - comment: 'ssh'
-          rule: allow
-          protocol: tcp
-          to_port: 22
-        - comment: 'https'
-          rule: allow
-          protocol: tcp
-          to_port: 443
-        - comment: 'syslog'
-          rule: allow
-          protocol: udp
-          to_port: 514
-        - comment: 'apt-cacher-ng'
-          rule: allow
-          protocol: tcp
-          to_port: 3142
+    - role: sourcejedi.firewalld
+      firewalld__services:
+       - dhcpv6-client
+       - mdns
+       - ssh
+       - https
+       - syslog
+      firewalld__ports:
+       # apt-cacher-ng
+       - protocol: tcp
+         port: 3142
 
     # TODO: more selective hdparm role at least for Debian.
     # hdparm.deb looks like it wised up now, yay!
