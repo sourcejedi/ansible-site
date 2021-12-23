@@ -55,6 +55,7 @@ xenial    repos_apt=ubuntu-xenial
 # nss-libvirt
 [test-vm-fedora]
 fedora34-vm
+fedora35-vm
 
 [test-vm-debian]
 debian10-vm repos_apt=debian-buster

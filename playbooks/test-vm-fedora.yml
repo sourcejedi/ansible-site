@@ -23,7 +23,9 @@
        - ssh
 
     #- sourcejedi.rpmfusion_free
+    #- sourcejedi.rpmfusion_nonfree
     #- { role: sourcejedi.rpmfusion_remove, repo: "free" }
+    #- { role: sourcejedi.rpmfusion_remove, repo: "nonfree" }
 
     #- sourcejedi.google_chrome
     #- sourcejedi.google_chrome_remove
