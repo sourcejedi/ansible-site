@@ -23,18 +23,6 @@ fi
 ERR=0
 SRC="$DIR"/tmp
 
-# rdiff-backup #
-DST="$DIR"/rdiff-backup
-
-cd "$SRC" || exit 1
-for i in *; do
-    cd "$SRC/$i" &&
-    nice rdiff-backup \
-             --tempdir /var/tmp/ \
-             --include-globbing-filelist ~/rdiff-backup.include \
-             -- . "$DST/$i" || ERR=1
-done
-
 # borgbackup functions #
 
 # Show details when run from a terminal (idea stolen from bup).

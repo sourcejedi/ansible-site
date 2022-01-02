@@ -55,22 +55,15 @@
 
 # Server #
 
-- name: Server - install rsync, rdiff-backup, at
+- name: Server - install rsync, at, borgbackup
   delegate_to: "{{ daily_rsync__server }}"
   package:
     name: "{{ item }}"
     state: present
   with_items:
     - rsync
-    - rdiff-backup
     - at
-  run_once: True
-
-- name: Server - install borgbackup
-  delegate_to: "{{ daily_rsync__server }}"
-  package:
-    name: borgbackup
-    state: present
+    - borgbackup
   run_once: True
 
 # NOTE: We need to use the daily_rsync__dir variable from the *server*.
@@ -138,7 +131,6 @@
   with_items:
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}"
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/tmp"
-   - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/rdiff-backup"
    - "{{ daily_rsync__dir }}/{{ inventory_hostname }}/borgbackup"
 
 - name: Server - create per-client lockfile
@@ -154,12 +146,6 @@
   template:
     src: server/rsyncd.conf.j2
     dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rsyncd.conf"
-
-- name: Server - create per-client rdiff-backup.include
-  delegate_to: "{{ daily_rsync__server }}"
-  template:
-    src: server/rdiff-backup.include.j2
-    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rdiff-backup.include"
 
 - name: Server - install per-client ssh server scripts
   delegate_to: "{{ daily_rsync__server }}"
