@@ -1,18 +1,10 @@
 # WORK IN PROGRESS
 
-# NOTE 1: looking at some parts you might get the impression this is
-# generalized and configurable, but it is not really.  Correctly passing lists
-# into bash is annoying.  For now, I hard-coded the list of home directories
-# to back up.
-
-# The variables `daily_rsync__server` and `daily_rsync__server_addresses`
-# are used to test the role in a VM.
-
-# NOTE 2: `daily_rsync__server_addresses` was added with Wi-Fi in mind.
+# NOTE 1: `daily_rsync__server_addresses` was added with Wi-Fi in mind.
 # But if you really wanted to use this for Wi-Fi or laptops, it is not
 # robust enough so far.
 
-# NOTE 3: It is a good idea to install a mail setup, to catch cron errors.
+# NOTE 2: It is a good idea to install a mail setup, to catch cron errors.
 # See roles/deb-mail/
 
 # This task list is unusual for me:
