@@ -9,11 +9,3 @@
 # Deleted files can be recovered from older snapshots.
 # Saving Trash in rdiff-backup would effectively store it twice.
 - /.local/share/Trash/files/
-
-# Firefox profile tends to churn a lot, bloating each snapshot.
-# Just save the bookmark backups.
-#+ /.mozilla/firefox/*/bookmarkbackups/**
-#+ /.mozilla/firefox/*/bookmarkbackups/
-#+ /.mozilla/firefox/*/
-#+ /.mozilla/firefox/
-#- /.mozilla/**
