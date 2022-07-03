@@ -18,8 +18,8 @@ fi
 
 echo
 echo 'Configure Debian repos using local cache'
-cp -rv roles/repos-apt/files/apt.conf.d /etc/apt
-cp -rv roles/repos-apt/files/debian-"$VER".sources.list /etc/apt/sources.list
+cp -rv roles/repos_apt/files/apt.conf.d /etc/apt
+cp -rv roles/repos_apt/files/debian-"$VER".sources.list /etc/apt/sources.list
 
 #case "$VER" in
 #jessie)
