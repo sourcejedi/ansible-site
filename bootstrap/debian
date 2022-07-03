@@ -46,12 +46,11 @@ case "$VER" in
 	apt-get -y install ansible
 esac
 
-# python-apt / python3-apt
-# At some point Ansible packages will switch to python3.
 # python3-apt is available at least starting from Debian Jessie.
+# python-apt is removed in Debian Buster (and ansible uses python3).
 echo
 echo 'Install requirements for ansible target'
-apt-get -y install python-apt python3-apt
+apt-get -y install python3-apt python-apt || apt-get -y install python3-apt
 
 echo
 echo 'Bootstrap complete!'
