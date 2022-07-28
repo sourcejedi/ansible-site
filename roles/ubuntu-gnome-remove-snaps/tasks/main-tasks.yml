@@ -10,8 +10,7 @@
                   "triggers-pending", "triggers-awaited", "installed"]
 
 # Only try to remove snaps if snapd is installed :).
-- include: ubuntu-gnome-remove-snaps.yml
-  static: yes
+- import_tasks: ubuntu-gnome-remove-snaps.yml
   when: ubuntu_gnome_remove_snapd_already.stdout|trim not in
           ["not-installed", "config-files"]
 
