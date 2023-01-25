@@ -160,7 +160,7 @@ main() {
 
 	log_start || return
 
-	for i in mike sheena; do
+	for i in mike sheena frank; do
 		backup "/home/$i" "$BORG_REPOS_DIR/$i" ||
 			err=1
 	done
