@@ -26,6 +26,4 @@
   command: apt-get update
   when: proxy.changed or sources.changed
   register: update
-  failed_when: update.rc != 0 or update.stderr != ""
-  args:
-    warn: no  # Can't use apt module.  It doesn't detect unreachable repos.
+  failed_when: update.rc != 0
