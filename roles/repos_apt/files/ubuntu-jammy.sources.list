@@ -1,0 +1,48 @@
+# This file is managed by a scripted process.
+# Manual changes will be destroyed if the script is re-applied.
+#
+# If you want to enable other package repositories, or individual components,
+# they can still be added in sources.lists.d/
+#
+# Here's a standardized sources.list for Ubuntu 20.04 LTS,
+# (hopefully) configured to use a nearby server.
+
+## Main repository.
+## When used on physical hardware, it may be required to enable "restricted" also.
+
+deb http://gb.archive.ubuntu.com/ubuntu jammy main
+deb http://gb.archive.ubuntu.com/ubuntu/ jammy-updates main
+deb http://security.ubuntu.com/ubuntu jammy-security main
+
+## Source code repositories.
+## Can be uncommented for temporary use (or copied to sources.lists.d/)
+
+# deb-src http://gb.archive.ubuntu.com/ubuntu jammy main
+# deb-src http://gb.archive.ubuntu.com/ubuntu/ jammy-updates main
+# deb-src http://security.ubuntu.com/ubuntu jammy-security main
+
+
+## https://help.ubuntu.com/lts/serverguide/configuration.html
+##
+## > Packages in the Multiverse repository often have licensing issues that prevent them from being distributed with a free operating system, and they may be illegal in your locality.
+## >
+## > Be advised that neither the Universe or Multiverse repositories contain officially supported packages. In particular, there may not be security updates for these packages.
+## >
+## > By default, the Universe and Multiverse repositories are enabled but if you would like to disable them edit /etc/apt/sources.list and comment the following lines.
+
+# universe is needed for Ansible & dependencies, atop, ...
+
+deb http://gb.archive.ubuntu.com/ubuntu/ jammy universe
+# deb-src http://gb.archive.ubuntu.com/ubuntu/ jammy universe
+deb http://gb.archive.ubuntu.com/ubuntu/ jammy-updates universe
+# deb-src http://gb.archive.ubuntu.com/ubuntu/ jammy-updates universe
+deb http://security.ubuntu.com/ubuntu jammy-security universe
+# deb-src http://security.ubuntu.com/ubuntu jammy-security universe
+
+# deb http://gb.archive.ubuntu.com/ubuntu/ jammy multiverse
+# deb-src http://gb.archive.ubuntu.com/ubuntu/ jammy multiverse
+# deb http://gb.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+# deb-src http://gb.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+# deb http://security.ubuntu.com/ubuntu jammy-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu jammy-security multiverse
+
