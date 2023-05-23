@@ -2,5 +2,6 @@
 // Manual changes will be destroyed if the script is re-applied.
 
 {% if repos_apt_proxy %} 
-Acquire::http::Proxy "{{ repos_apt_proxy }}";
+Acquire::HTTP::Proxy "{{ repos_apt_proxy }}";
+Acquire::HTTPS::Proxy "DIRECT";
 {% endif %}
