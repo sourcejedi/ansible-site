@@ -13,8 +13,7 @@
 - hosts: drystone
   roles:
     - role: repos_apt
-      repos_apt: ubuntu-focal
-      repos_apt_autodetect_apt_proxy: yes
+      repos_apt: ubuntu-jammy
 
     - sourcejedi.etckeeper
 
