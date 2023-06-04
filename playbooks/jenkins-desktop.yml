@@ -53,7 +53,7 @@
     - openssh-server
 
     - jpegcheck
-    - jenkins-photos
+    - jenkins-shared
 
     - packages-cli-basics
     - packages-gui
