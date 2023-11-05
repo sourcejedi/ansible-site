@@ -3,4 +3,7 @@
   roles:
     - sourcejedi.etckeeper
 
+    # Useful to log memory/CPU usage per process (default 10 min snapshots).
+    - sourcejedi.atop
+
     - sourcejedi.google_chrome
