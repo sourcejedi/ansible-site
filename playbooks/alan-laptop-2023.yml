@@ -1,0 +1,6 @@
+# Ubuntu 22.04
+- hosts: alan-laptop-2023
+  roles:
+    - sourcejedi.etckeeper
+
+    - sourcejedi.google_chrome
