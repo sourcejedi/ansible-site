@@ -5,7 +5,7 @@
 - hosts: silo
   roles:
     - role: repos_apt
-      repos_apt: debian-bullseye
+      repos_apt: debian-bookworm
       # Cough, bootstrapping problem.
       repos_apt_proxy: 'http://localhost:3142'
 
