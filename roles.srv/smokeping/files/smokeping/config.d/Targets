@@ -25,23 +25,30 @@ host = localhost
 menu = Router
 host = mortar.carrier.duckdns.org
 
-# Note powerplug appears to show mysterious power saving
-# (rises to 100ms latency).  So maybe we should let it sleep.
-#
-# But, I want to look at the packet loss next time it fails.
-
-++ conduit
-
-menu = conduit
-title = Powerline network
-host = conduit.carrier.duckdns.org
-
 ++ dns
 
 menu = dns1
 title = DNS server
 host = 79.79.79.77
 alerts = someloss
+
+++ drystone
+
+menu = drystone
+title = Jenkins Desktop
+host = drystone.carrier.duckdns.org
+
+# Note powerplug appears to show mysterious power saving
+# (rises to 100ms latency).  So maybe we should let it sleep.
+#
+# But, I want to look at the packet loss next time it fails.
+
+#++ conduit
+#
+#menu = conduit
+#title = Powerline network
+#host = conduit.carrier.duckdns.org
+
 
 # This got cut off. Maybe they didn't like it.
 # (I know they cut off flood pings).
