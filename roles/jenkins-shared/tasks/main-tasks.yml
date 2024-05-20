@@ -27,13 +27,13 @@
     #shared_internal: "/home/jenkins-photos"
 
 - name: Configure shared directory /home/shared
-  include: shared-dir.yml
+  import_tasks: shared-dir.yml
   vars:
     shared_external: "/home/shared"
     shared_internal: "/home/.shared-internal"
 
 - name: Configure shared directory /home/.shared-separate
-  include: shared-dir.yml
+  import_tasks: shared-dir.yml
   vars:
     shared_external: "/home/.shared-separate"
     shared_internal: "/home/.shared-separate-internal"

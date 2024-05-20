@@ -1,2 +1,2 @@
-- include: main-tasks.yml
+- import_tasks: main-tasks.yml
   tags: daily-rsync
