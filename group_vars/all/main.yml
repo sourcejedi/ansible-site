@@ -1,5 +1,3 @@
-google_chrome__yum_baseurl: "http://fedora-mirror.carrier.duckdns.org:3142/dl.google.com/linux/chrome/rpm/stable/"
-
 # Update our master copy of the RPMFusion keys from the target system.
 # This should sound worrying!  The role contains one fragile mitigation:
 # the update is also reported as a failure.
