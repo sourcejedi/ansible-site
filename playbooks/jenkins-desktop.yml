@@ -61,11 +61,6 @@
     - packages-gui
     #- bfq
 
-    # Revert:
-    # Ubuntu 22.04 uses snap for firefox.
-    #- role: flatpak
-    #  flatpak__remove_snapd: yes
-
   tasks:
     #- name: /00-README.txt
     #  copy:

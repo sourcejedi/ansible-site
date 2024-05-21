@@ -19,15 +19,11 @@
       firewalld__services:
        - dhcpv6-client
        - ssh
+       - https
 
     - packages-cli-basics
     - packages-dev-basics
     - sourcejedi.ccache
-
-    # ubuntu1804.  Remember to update role if any other version is used.
-    - role: ubuntu-gnome-remove-snaps
-      ubuntu_gnome_remove_snapd: yes
-      when: ansible_distribution == "Ubuntu"
 
     #
     # Roles which are not always used, or mostly used to test the role itself
@@ -36,7 +32,7 @@
     - sourcejedi.cups
 
     - deb-apache
-    - apt-cacher-ng
+    #- apt-cacher-ng
 
     # These might add a little network hassle to some systems,
     # so we disable them when not under test.
@@ -52,10 +48,12 @@
 
     - jpegcheck
 
-    - jenkins-photos
+    # fails?
+    #- jenkins-photos
 
-    - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '50-' }
+    # fills up disk??
+    #- { role: daily-borgbackup,
+    #          daily_borgbackup__cron_prefix: '50-' }
 
     ## Test using debian10-vm as both the client and the server.
     - { role: daily-rsync,
