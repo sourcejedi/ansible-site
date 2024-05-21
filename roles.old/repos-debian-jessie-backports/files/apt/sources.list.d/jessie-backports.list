@@ -1,5 +1,0 @@
-# This file is managed by a scripted process.
-# Manual changes will be destroyed if the script is re-applied.
-
-deb http://ftp.uk.debian.org/debian jessie-backports main
-
