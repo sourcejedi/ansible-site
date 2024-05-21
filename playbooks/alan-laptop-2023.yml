@@ -7,3 +7,14 @@
     - sourcejedi.atop
 
     - sourcejedi.google_chrome
+
+    - role: sourcejedi.firewalld
+      firewalld__services:
+        - dhcpv6-client
+        - mdns
+        - transmission-client
+
+    - sourcejedi.disable_unwanted_servers
+    - sourcejedi.cups
+
+    - sourcejedi.libvirt_nss
