@@ -40,8 +40,14 @@
     #- icinga2
     #- smokeping
 
-    # relied upon for daily-borgbackup and daily-rsync (cron mail).
-    - deb-mail
+    # relied upon for daily-rsync (cron mail).
+    - role: Oefenweb.postfix
+      postfix_compatibility_level: '2'
+      postfix_inet_interfaces: 'loopback-only'
+      postfix_aliases:
+        # Redirect system mail to sysop user.
+        - user: 'root'
+          alias: 'alan-sysop'
 
     - packages-gui
     - sourcejedi.libvirt_nss
