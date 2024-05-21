@@ -1,6 +1,6 @@
 - name: Create group
   group:
-    name: jenkins-photos
+    name: jenkins-shared
     state: present
 
 # insert comment here from sourcejedi.systemd-journal/README
@@ -9,8 +9,8 @@
     name: "{{ item }}"
 
     append: yes
-    groups: jenkins-photos
-  with_items: "{{ jenkins_photos__users }}"
+    groups: jenkins-shared
+  with_items: "{{ jenkins_shared__users }}"
 
 
 - name: Install bindfs
@@ -19,12 +19,6 @@
     state: present
 
 # "You cannot use 'static' on an include with a loop." -- ansible 2.2.1.0
-
-#- name: Configure shared directory /home/jenkins-photos
-  #include: shared-dir.yml
-  #vars:
-    #shared_external: "/home/jenkins-photos"
-    #shared_internal: "/home/jenkins-photos"
 
 - name: Configure shared directory /home/shared
   import_tasks: shared-dir.yml
@@ -44,7 +38,7 @@
   file:
     dest: "/home/.shared-separate/{{ item }}"
     state: directory
-    group: jenkins-photos
+    group: jenkins-shared
   with_items:
     - Photos
     - Music

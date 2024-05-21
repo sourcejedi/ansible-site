@@ -14,7 +14,7 @@
 - name: Create internal directory
   file:
     state: directory
-    group: jenkins-photos
+    group: jenkins-shared
     mode: 0750  # meh
     path: "{{ shared_internal }}"
 
@@ -22,9 +22,9 @@
 - name: Create entry in fstab
   lineinfile:
     dest: /etc/fstab
-    line: "{{ shared_internal }} {{ shared_external }} fuse.bindfs allow_other,force-group=jenkins-photos,perms=g+rwX"
+    line: "{{ shared_internal }} {{ shared_external }} fuse.bindfs allow_other,force-group=jenkins-shared,perms=g+rwX"
     regexp: '^[^ \t]+[ \t]+{{ shared_external }}[ \t]+fuse.bindfs([ \t]*|$)'
-  register: jenkins_photos__fstab
+  register: jenkins_shared__fstab
 
 - name: Restart mount unit if changed
   systemd:
@@ -35,7 +35,7 @@
     name: "{{ shared_external }}"
     state: restarted
   register: jenkins_photos__mount
-  when: jenkins_photos__fstab.changed
+  when: jenkins_shared__fstab.changed
   ignore_errors: yes
 
 # 1. Some versions of systemd did not log mount errors :-(.
@@ -47,7 +47,7 @@
   assert:
     that: not jenkins_photos__mount.failed
     msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="
-  when: jenkins_photos__fstab.changed
+  when: jenkins_shared__fstab.changed
 
 # This task is not idempotent: it will not apply changed options.
 - name: Ensure mount unit is started
@@ -57,9 +57,9 @@
     name: "{{ shared_external }}"
     state: started
   ignore_errors: yes
-  register: jenkins_photos__mount
+  register: jenkins_shared__mount
 
 - name: Check mount unit success
   assert:
-    that: not jenkins_photos__mount.failed
+    that: not jenkins_shared__mount.failed
     msg: "Check `systemctl status {{ shared_external }}`.  If systemd does not log an error message, please try manually running the command it shows as ExecMount="

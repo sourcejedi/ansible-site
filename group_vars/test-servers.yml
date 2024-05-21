@@ -20,7 +20,7 @@ openssh_server__authkeys:
   - name: alan-sysop
     sshkey: "{{ lookup('file', test_servers__sshkeys + 'alan-sysop') }}"
 
-jenkins_photos__users:
+jenkins_shared__users:
  - alan
 
 # Server
