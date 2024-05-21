@@ -14,6 +14,8 @@
   roles:
     - role: repos_apt
       repos_apt: ubuntu-jammy
+      # Disable this after install
+      #repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'
 
     - sourcejedi.etckeeper
 
@@ -45,8 +47,8 @@
 
     # Create backup tasks.
     # Make sure to mount /data/backup/ first, I guess :).
-    - { role: daily-borgbackup,
-              daily_borgbackup__cron_prefix: '50-' }
+    #- { role: daily-borgbackup,
+    #          daily_borgbackup__cron_prefix: '50-' }
 
     # Note - remote administration may be disabled on jenkins-desktop.
     # SSH may be used for other backups though.
@@ -57,18 +59,19 @@
 
     - packages-cli-basics
     - packages-gui
+    #- bfq
 
-    - bfq
-
-    - role: flatpak
-      flatpak__remove_snapd: yes
+    # Revert:
+    # Ubuntu 22.04 uses snap for firefox.
+    #- role: flatpak
+    #  flatpak__remove_snapd: yes
 
   tasks:
-    - name: /00-README.txt
-      copy:
-        dest: /00-README.txt
-        src: "{{ inventory_dir }}/files/jenkins-desktop/README-rootfs.txt"
-      tags: jenkins-desktop
+    #- name: /00-README.txt
+    #  copy:
+    #    dest: /00-README.txt
+    #    src: "{{ inventory_dir }}/files/jenkins-desktop/README-rootfs.txt"
+    #  tags: jenkins-desktop
 
     - name: /home/00-README.txt
       copy:
@@ -85,7 +88,7 @@
     - name: Install apps
       package:
         name:
-          - digikam
+          #- digikam
           - gimp
           - xsane
         state: present
