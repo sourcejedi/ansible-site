@@ -55,7 +55,7 @@
     - openssh-server
 
     - jpegcheck
-    - jenkins-shared
+    - jenkins_shared
 
     - packages-cli-basics
     - packages-gui

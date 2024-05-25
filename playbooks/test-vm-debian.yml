@@ -52,7 +52,7 @@
     - packages-gui
     - sourcejedi.libvirt_nss
 
-    - jenkins-shared
+    - jenkins_shared
     - jpegcheck
 
     # fills up disk??
