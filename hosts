@@ -40,24 +40,14 @@ test-vm-debian
 [test-nspawn-fedora]
 
 [test-nspawn-deb]
-stretch   repos_apt=debian-stretch
-stretch0  repos_apt=debian-stretch
-stretch1  repos_apt=debian-stretch
-
-buster   repos_apt=debian-buster
-
-unstable0  repos_apt=debian-unstable
-unstable  repos_apt=debian-unstable
-
-xenial    repos_apt=ubuntu-xenial
+bullseye   repos_apt=debian-bullseye
 
 # nss-libvirt
 [test-vm-fedora]
-fedora34-vm
-fedora35-vm
+fedora39-vm
 
 [test-vm-debian]
-debian10-vm repos_apt=debian-buster
 debian11-vm repos_apt=debian-bullseye
 
-ubuntu2004-vm repos_apt=ubuntu-focal
+ubuntu2204-vm repos_apt=ubuntu-jammy
+ubuntu2210-vm repos_apt=ubuntu-kinetic
