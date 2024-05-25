@@ -52,10 +52,8 @@
     - packages-gui
     - sourcejedi.libvirt_nss
 
+    - jenkins-shared
     - jpegcheck
-
-    # fails?
-    #- jenkins-photos
 
     # fills up disk??
     #- { role: daily-borgbackup,
