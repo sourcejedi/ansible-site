@@ -113,13 +113,6 @@
     dest: /etc/apt-cacher-ng/backends_fedora
   notify: [ 'Restart apt-cacher-ng' ]
 
-- name: Update PfilePattern for Fedora
-  lineinfile:
-    dest: /etc/apt-cacher-ng/acng.conf
-    regexp: '^(# )?PfilePatternEx:'
-    line: 'PfilePatternEx: [a-f0-9]+-modules.yaml.gz  # fedora-modular.repo'
-  notify: [ 'Restart apt-cacher-ng' ]
-
 - name: Update VfilePattern for Fedora
   lineinfile:
     dest: /etc/apt-cacher-ng/acng.conf
