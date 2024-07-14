@@ -39,5 +39,4 @@ if command -v sudo > /dev/null; then
 fi
 
 exec $SUDO \
-	env ANSIBLE_CONFIG=./ansible-local.cfg \
 	ansible-playbook -c local --limit "$HOST" "$@"
