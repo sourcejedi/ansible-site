@@ -1,7 +1,14 @@
+ansible-galaxy-secret.cfg
+
+# empty file, created by a bug.
+ansible-galaxy-token
+
 files/ssh-authkeys
 files/ssh-hostkeys
-playbooks/*-secrets.yml
 host_vars/drystone.yml
+playbooks/*-secrets.yml
+
+
 
 # disabled now
 #playbooks/*.retry

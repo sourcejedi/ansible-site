@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+if [ $# != 1 ]; then
+    echo "Usage: $0 ROLE"
+    exit 2
+fi
+
+# ANSIBLE_GALAXY_TOKEN_PATH does not work.
+set -v
+export ANSIBLE_CONFIG=./ansible-galaxy-secret.cfg
+exec ansible-galaxy role import sourcejedi "$1"
