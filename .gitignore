@@ -1,6 +1,3 @@
-ansible-galaxy-secret.cfg
-
-# empty file, created by a bug.
 ansible-galaxy-token
 
 files/ssh-authkeys
