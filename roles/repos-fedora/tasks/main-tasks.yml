@@ -16,8 +16,6 @@
       --disablerepo="*"
       --enablerepo=fedora
       --enablerepo=updates
-      --enablerepo=fedora-modular
-      --enablerepo=updates-modular
       --refresh
       check-update
   register: dnf_check_update
