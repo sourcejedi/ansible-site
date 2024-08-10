@@ -1,6 +1,7 @@
-- name: install apt-cacher-ng
-  package: name=apt-cacher-ng state=present
-
+- name: Install apt-cacher-ng
+  package:
+    name: apt-cacher-ng
+    state: present
 
 # `lineinfile` is a hack.
 # But, we only want to change a couple features.
@@ -41,17 +42,6 @@
   notify: [ 'Restart apt-cacher-ng' ]
 
 
-# apt-cacher-ng is flaky, sometimes I've used polipo instead.
-# The following can be useful to transition from polipo.
-#
-#- name: Temporary upstream proxy
-#  lineinfile:
-#    dest: /etc/apt-cacher-ng/acng.conf
-#    regexp: '^(#?)Proxy:'
-#    line: 'Proxy: http://localhost:8123'
-#  notify: [ 'Restart apt-cacher-ng' ]
-
-
 # backends_ configuration files
 #
 - name: Set Debian repo to official Debian APT CDN service
@@ -67,57 +57,6 @@
     content: |
       http://www.mirrorservice.org/sites/archive.ubuntu.com/ubuntu/
     dest: /etc/apt-cacher-ng/backends_ubuntu
-  notify: [ 'Restart apt-cacher-ng' ]
-
-# Fedora
-#
-# In previous experience, trying to use this as a proxy for Fedora
-# was very frustrating.  New mirrors would keep popping up that were
-# not in fedora_mirrors.  But using this as an origin server instead
-# can work.
-
-- name: Configure Fedora mapping
-  lineinfile:
-    dest: /etc/apt-cacher-ng/acng.conf
-    regexp: '^Remap-fedora:'
-    line: 'Remap-fedora: /pub/fedora/linux ; file:backends_fedora # Fedora Linux'
-  notify: [ 'Restart apt-cacher-ng' ]
-
-# Options:
-#
-# 1. http://dl.fedoraproject.org/pub/fedora/linux
-# 2. http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux
-# 3. http://mirror.ox.ac.uk/sites/download.fedora.redhat.com/pub/fedora/linux/ (maybe was http://mirror.ox.ac.uk/pub/fedora/linux)
-# 4. [BROKEN] http://mirror.sucs.org/pub/linux/fedora
-#
-# dl.fedoraproject.org is 100-200ms away (and they probably don't want me).
-# Kent mirrorservice.org has a fat pipe (and is preferred in the mirrorlist= system).
-# Oxford mirror is the first? or official? UK mirror.
-#
-# mirrorservice.org does not seem to work well here
-# (incomplete metadata for minutes or tens of minutes,
-#  and does not update on the same day, at least during releases).
-#
-# So far, I've seen mirror.ox.ac.uk have the same problem with incomplete
-# metadata: 1 time.
-#
-# sucs.org: 1 time 404 errors.
-# sucs.org: `linux/fedora` instead of `fedora/linux` is a bit confusing.
-# sucs.org: BROKEN `fedora/releases/31/Modular/`:
-#           should include source/, but only has x86_64/.
-#
-- name: Set Fedora repo to a nearby mirror
-  copy:
-    content: |
-      http://mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux
-    dest: /etc/apt-cacher-ng/backends_fedora
-  notify: [ 'Restart apt-cacher-ng' ]
-
-- name: Update VfilePattern for Fedora
-  lineinfile:
-    dest: /etc/apt-cacher-ng/acng.conf
-    regexp: '^(# )?VfilePatternEx:'
-    line: 'VfilePatternEx: [a-f0-9]+-(primary|filelists|comps-[^.]*[.][^.]*|updateinfo|prestodelta).xml.zck  # fedora zchunk'
   notify: [ 'Restart apt-cacher-ng' ]
 
 - name: ensure apt-cacher-ng is enabled

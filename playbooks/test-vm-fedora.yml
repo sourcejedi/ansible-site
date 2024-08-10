@@ -1,6 +1,5 @@
 - hosts: test-vm-fedora
   roles:
-    - repos-fedora
     - sourcejedi.etckeeper
 
     - users
