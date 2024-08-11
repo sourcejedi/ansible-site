@@ -3,6 +3,8 @@
 - /.cache/
 - /.thumbnails/
 
+- /snap/*/common/.cache/
+
 # FUSE filesystems mounted by gvfs.
 - /.gvfs/
 

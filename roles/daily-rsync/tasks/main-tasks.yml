@@ -139,6 +139,12 @@
     src: server/rsyncd.conf.j2
     dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/rsyncd.conf"
 
+- name: Server - create borgback exclusions file
+  delegate_to: "{{ daily_rsync__server }}"
+  template:
+    src: server/patterns.lst
+    dest: "/ansible-managed/daily-rsync-clients/{{ inventory_hostname }}/patterns.lst"
+
 - name: Server - install per-client ssh server scripts
   delegate_to: "{{ daily_rsync__server }}"
   template:

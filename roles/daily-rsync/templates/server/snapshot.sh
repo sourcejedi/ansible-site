@@ -6,6 +6,9 @@
  #}
 DIR={{ daily_rsync__dir | quote }}/{{ inventory_hostname | quote }}
 
+SCRIPT_DIR="$(dirname "$0")"
+SCRIPT_DIR="$(realpath "$SCRIPT_DIR")"
+
 # rdiff-backup makes some effort to check for competing accesses,
 # but I've had problems with it anyway :'-(.  Use a lock file.
 #
@@ -57,7 +60,7 @@ borg_init() {
 	fi
 }
 
-backup_home() {
+backup() {
 	local HOME_DIR="$1" &&
 	local BORG_REPO="$2" &&
 
@@ -65,66 +68,17 @@ backup_home() {
 
 	export BORG_REPO &&
 
-	# Exclusions:
-	#
-	# Nowadays GNOME logs activity and indexes it, that shows up.
-	#
-	# Thunderbird has an index for searching messages, which shows up.
-	# This is due to the size of the blocks borg uses (megabytes?),
-	# although enabling compression helps a bit.
-	# We're allowed to drop the index - it will be rebuilt.
-	#
-	# Thunderbird also has a "remote settings" DB, like Firefox.
-	# This is used to update data between package releases.
-	# It was taking 10MB/day (uncompressed).
-	#
-	# On Debian, there may be an icedove profile which is half-migrated
-	# to thunderbird, but still uses the old location.
-	#
-	# Firefox profile tends to churn a whole lot (but see below).
-	#
 	cd "$HOME_DIR"
 	log_cmd borg create '::{now}' . \
 		$BORG_PROGRESS $BORG_STATS \
 		-C lz4 \
 		--one-file-system \
-		--pattern=-.cache \
-		\
-		--pattern=-.local/share/tracker \
-		--pattern=-.local/share/zeitgeist/fts.index \
-		\
-		--pattern=-.thunderbird/*/global-messages-db.sqlite \
-		--pattern=-.thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite \
-		\
-		--pattern=-.icedove/*/global-messages-db.sqlite \
-		--pattern=-.icedove/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite \
-		\
-		--pattern=+.mozilla/firefox/*/bookmarkbackups \
-		--pattern=-.mozilla/firefox/* &&
+		--patterns-from="$SCRIPT_DIR"/patterns.lst &&
 
 	# Prune old backups to save space
 	log_cmd borg prune $BORG_STATS \
 		--keep-daily 21 --keep-weekly 6 \
 		--keep-monthly 12 --keep-yearly -1
-}
-
-backup_firefox_bookmarks() {
-	# removed
-	true
-}
-
-# Note if any one backup step fails, we keep going.
-# However an error should be printed, which works well for the cron job case.
-# Also make sure to point out if there was an error (like rsync does :).
-backup() {
-	local err=0
-
-	backup_home "$1" "$2" ||
-		err=1
-	backup_firefox_bookmarks "$1" "$2" ||
-		err=1
-
-	return $err
 }
 
 # borgbackup run #
