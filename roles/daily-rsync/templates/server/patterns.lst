@@ -25,14 +25,18 @@
 - .icedove/*/global-messages-db.sqlite
 - .icedove/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
 
-- /snap/thunderbird/common/.thunderbird/*/global-messages-db.sqlite
-- /snap/thunderbird/common/.thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
+- snap/thunderbird/common/.thunderbird/*/global-messages-db.sqlite
+- snap/thunderbird/common/.thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
 
 + .mozilla/firefox/*/bookmarkbackups
++ .mozilla/firefox/*/key4.db
++ .mozilla/firefox/*/logins.json
 - .mozilla/firefox/*
 
-+ /snap/firefox/common/.mozilla/firefox/*/bookmarkbackups
-- /snap/firefox/common/.mozilla/firefox/*
++ snap/firefox/common/.mozilla/firefox/*/bookmarkbackups
++ snap/firefox/common/.mozilla/firefox/*/key4.db
++ snap/firefox/common/.mozilla/firefox/*/logins.json
+- snap/firefox/common/.mozilla/firefox/*
 
 
 # In daily-rsync, this should already be excluded by rsync.
