@@ -50,4 +50,4 @@ fedora39-vm
 debian11-vm repos_apt=debian-bullseye
 
 ubuntu2204-vm repos_apt=ubuntu-jammy
-ubuntu2210-vm repos_apt=ubuntu-kinetic
+ubuntu2404-vm repos_apt=ubuntu-24.04

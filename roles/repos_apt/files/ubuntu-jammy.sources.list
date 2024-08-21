@@ -4,7 +4,7 @@
 # If you want to enable other package repositories, or individual components,
 # they can still be added in sources.lists.d/
 #
-# Here's a standardized sources.list for Ubuntu 20.04 LTS,
+# Here's a standardized sources.list for Ubuntu 22.04 LTS,
 # (hopefully) configured to use a nearby server.
 
 ## Main repository.
