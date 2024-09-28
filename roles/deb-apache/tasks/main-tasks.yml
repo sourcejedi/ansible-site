@@ -48,7 +48,7 @@
 - name: remove non-ssl default site
   file:
     state: absent
-    path: /etc/apache2/sites-available/default-ssl.conf
+    path: /etc/apache2/sites-available/000-default.conf
   notify: Restart apache2
 
 - name: install ports.conf to listen on port 443 only
