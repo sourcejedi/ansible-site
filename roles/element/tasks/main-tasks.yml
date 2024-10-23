@@ -1,0 +1,44 @@
+# Install the official package from
+#   https://element.io/download#linux
+#
+# Debian / Ubuntu
+# x86_64 / aarch64
+
+- name: Download and install Element signing key
+  get_url:
+    url: https://packages.element.io/debian/element-io-archive-keyring.gpg
+    dest: /usr/share/keyrings/element-io-archive-keyring.gpg
+    force: yes
+  # Skip when in check mode, because it always shows as changed.
+  # Presumably because of "force: yes".
+  when: not ansible_check_mode
+  register: key
+
+- name: Install Element package source
+  copy:
+    src: element-io.list
+    dest: /etc/apt/sources.list.d/element-io.list
+  register: source
+
+# This test is slow, only bother when changed.
+# (In which case, the next use of apt would have had to do it anyway).
+- name: Test "apt-get update"
+  command: apt-get update
+  when: key.changed or source.changed
+  register: update
+
+- name: Show warnings from apt-get update
+  debug:
+    msg: "{{ update.stderr | d('') }}"
+  when: update.stderr | d('')
+
+- name: Install Element Desktop app
+  apt:
+    name: element-desktop
+
+# Consistency check for existing installs.  Confirm that we still have
+# a working package source, to receive updates.
+- name: Test package is still available in repo
+  command: apt-get --print-uris download google-chrome-stable
+  check_mode: no
+  changed_when: False

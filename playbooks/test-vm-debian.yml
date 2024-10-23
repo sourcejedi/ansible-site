@@ -50,6 +50,8 @@
           alias: 'alan-sysop'
 
     - packages-gui
+    - element
+
     - sourcejedi.libvirt_nss
 
     - jenkins_shared
