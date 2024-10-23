@@ -12,41 +12,41 @@ drystone-old
 drystone
 
 [common:children]
-alan-servers
-test-servers
+alan_servers
+test_servers
 
 [fedora]
 alan-laptop
 
 [fedora:children]
-test-nspawn-fedora
-test-vm-fedora
+test_nspawn_fedora
+test_vm_fedora
 
 # Ansible 2.2.1 bug: chokes on ungrouped hosts
 #[ungrouped]
 #drystone  # jenkins-desktop
 
 
-[alan-servers]
+[alan_servers]
 silo
 
-[test-servers:children]
-test-nspawn-fedora
-test-nspawn-deb
-test-vm-fedora
-test-vm-debian
+[test_servers:children]
+test_nspawn_fedora
+test_nspawn_deb
+test_vm_fedora
+test_vm_debian
 
 # nss-mymachines
-[test-nspawn-fedora]
+[test_nspawn_fedora]
 
-[test-nspawn-deb]
+[test_nspawn_deb]
 bullseye   repos_apt=debian-bullseye
 
 # nss-libvirt
-[test-vm-fedora]
-fedora39-vm
+[test_vm_fedora]
+fedora40-vm
 
-[test-vm-debian]
+[test_vm_debian]
 debian11-vm repos_apt=debian-bullseye
 
 ubuntu2204-vm repos_apt=ubuntu-jammy

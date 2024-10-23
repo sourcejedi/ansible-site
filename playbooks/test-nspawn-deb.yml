@@ -47,7 +47,7 @@
 
 # Tasks to run in booted container
 # (e.g. which start services).
-- hosts: test-nspawn-deb
+- hosts: test_nspawn_deb
   roles:
     - sourcejedi.systemd_journal
     - openssh-server

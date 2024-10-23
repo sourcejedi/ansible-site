@@ -1,4 +1,4 @@
-- hosts: test-vm-debian
+- hosts: test_vm_debian
   roles:
     - role: repos_apt
       repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'

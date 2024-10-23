@@ -1,4 +1,4 @@
-- hosts: test-vm-fedora
+- hosts: test_vm_fedora
   roles:
     - sourcejedi.etckeeper
 

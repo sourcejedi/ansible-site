@@ -15,10 +15,10 @@ alan_servers__admins:
 # (that's what installs systemd).
 systemd_journal__users: "{{ alan_servers__admins }}"
 
-alan_servers__sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
+sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
 openssh_server__authkeys:
  - name: alan-sysop
-   sshkey: "{{ lookup('file', alan_servers__sshkeys + 'alan-sysop') }}"
+   sshkey: "{{ lookup('file', sshkeys + 'alan-sysop') }}"
 
  - name: alan
-   sshkey: "{{ lookup('file', alan_servers__sshkeys + 'alan') }}"
+   sshkey: "{{ lookup('file', sshkeys + 'alan') }}"

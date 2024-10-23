@@ -1,6 +1,6 @@
 # See also test-nspawn-deb
 
-- hosts: test-nspawn-deb
+- hosts: test_nspawn_deb
   roles:
     # ansible works.
     # ensure subsequent software installs on stable use security repos.

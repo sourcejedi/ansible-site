@@ -15,10 +15,10 @@ test_servers__admins:
 # (that's what installs systemd).
 systemd_journal__users: "{{ test_servers__admins }}"
 
-test_servers__sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
+sshkeys: "{{ inventory_dir }}/files/ssh-authkeys/"
 openssh_server__authkeys:
   - name: alan-sysop
-    sshkey: "{{ lookup('file', test_servers__sshkeys + 'alan-sysop') }}"
+    sshkey: "{{ lookup('file', sshkeys + 'alan-sysop') }}"
 
 jenkins_shared__users:
  - alan
@@ -27,18 +27,18 @@ jenkins_shared__users:
 daily_rsync__dir: "/data/network-backup"
 
 # Client
-daily_rsync__server: "debian10-vm"
+daily_rsync__server: "{{ inventory_hostname }}"
 daily_rsync__server_addresses:
  - "invalid"
- - "debian10-vm"
+ - "{{ inventory_hostname }}"
 
 # Debian 10: every lvm command complains about USB SD card reader,
 # causing cron mail.  Fixed in Debian 11 (but not Ubuntu 20.04).
 daily_rsync__prepare_script: !unsafe |
   #!/bin/bash
   set -u -o pipefail
-  lvm_vg=vg_test
-  lvm_lv=lv_test
+  lvm_vg=vg_virt
+  lvm_lv=root
 
   l_quiet() {
     LC_ALL=C "$@" 2>&1 1>/dev/null | ( grep -v "open failed: No medium found$" || true )
@@ -51,7 +51,7 @@ daily_rsync__prepare_script: !unsafe |
 daily_rsync__cleanup_script: !unsafe |
   #!/bin/bash
   set -u -o pipefail
-  lvm_vg=vg_test
+  lvm_vg=vg_virt
 
   l_quiet() {
         LC_ALL=C "$@" 2>&1 1>/dev/null | ( grep -v "open failed: No medium found$" || true )
@@ -64,11 +64,8 @@ daily_rsync__cleanup_script: !unsafe |
   fi
 
 daily_rsync__backups:
-  - directory: "/ansible-managed/daily-rsync/snapshot/home/mike"
-    name: mike
-
-  - directory: "/ansible-managed/daily-rsync/snapshot/home/sheena"
-    name: sheena
+  - directory: "/ansible-managed/daily-rsync/snapshot/home/alan"
+    name: alan
 
   - directory: "/ansible-managed/daily-rsync/snapshot/home/.shared-internal"
     name: jenkins-shared
