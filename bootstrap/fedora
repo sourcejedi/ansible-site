@@ -3,20 +3,8 @@ set -e -o nounset
 
 cd "$(dirname "$0")"/../
 
-SRC=/etc/yum.repos.d
-DST=/etc/orig-yum.repos.d
-echo "Backing up $SRC to $DST, if it does not already exist"
-if [ ! -e "$DST" ]; then
-	cp -av "$SRC" "$DST"
-fi
-
-echo
-echo 'Configure Fedora repos using local cache'
-cp -rv roles/repos-fedora/files/yum.repos.d /etc
-
 echo
 echo 'Install ansible and requirements for ansible target'
-
 
 # python3-libselinux - required to run ansible file tasks, when selinux is enabled
 # Note python3-dnf is included in Fedora as a core requirement of its versison of dnf.
