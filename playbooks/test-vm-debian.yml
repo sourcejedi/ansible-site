@@ -50,7 +50,7 @@
           alias: 'alan-sysop'
 
     - packages-gui
-    - element
+    - element_desktop
 
     - sourcejedi.libvirt_nss
 
@@ -61,6 +61,8 @@
     #- { role: daily-borgbackup,
     #          daily_borgbackup__cron_prefix: '50-' }
 
-    ## Test using debian10-vm as both the client and the server.
+    # Test using ubuntu2204-vm as both the client and the server.
+    # Note: I am using LVM snapshots.
+    # This requires having some free space in LVM (1G).
     - { role: daily-rsync,
               daily_rsync__cron_prefix: '60-' }
