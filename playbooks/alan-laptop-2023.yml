@@ -1,22 +1,30 @@
-# Ubuntu 22.04
+# Ubuntu 24.04
+
 - hosts: alan-laptop-2023
   roles:
     - sourcejedi.etckeeper
 
-    # Useful to log memory/CPU usage per process (default 10 min snapshots).
     - sourcejedi.atop
-
-    - sourcejedi.google_chrome
 
     - role: sourcejedi.firewalld
       firewalld__services:
         - dhcpv6-client
         - mdns
         - transmission-client
-
     - sourcejedi.disable_unwanted_servers
     - sourcejedi.cups
 
+    - flatpak
+    - sourcejedi.google_chrome
+    - element_desktop
+
     - sourcejedi.libvirt_nss
 
-    - element_desktop
+  tasks:
+    - name: flatpak installs
+      flatpak:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - org.keepassxc.KeePassXC
+      tags: flatpak
