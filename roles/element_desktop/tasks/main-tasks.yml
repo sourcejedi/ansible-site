@@ -35,6 +35,7 @@
 - name: Install Element Desktop app
   apt:
     name: element-desktop
+    state: present
 
 # Consistency check for existing installs.  Confirm that we still have
 # a working package source, to receive updates.
