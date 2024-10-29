@@ -1,3 +1,5 @@
 ---
 - import_tasks: main-tasks.yml
-  tags: element_desktop
+  tags:
+    - element_desktop
+    - apt_source
