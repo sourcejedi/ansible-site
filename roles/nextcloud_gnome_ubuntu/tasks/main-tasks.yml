@@ -1,0 +1,31 @@
+# "Community-maintained" PPA.
+
+- name: Add nextcloud client Personal Package Archive (community maintained)
+  apt_repository:
+    repo: "ppa:nextcloud-devs/client"
+    state: present
+    update_cache: false
+  register: source
+
+# This test is slow, only bother when changed.
+# (In which case, the next use of apt would have had to do it anyway).
+- name: Test "apt-get update"
+  command: apt-get update
+  when: source.changed
+  register: update
+
+- name: Show warnings from apt-get update
+  debug:
+    msg: "{{ update.stderr | d('') }}"
+  when: update.stderr | d('')
+
+- name: Install nextcloud for Ubuntu (GNOME) with Nautilus file manager
+  apt:
+    name: nautilus-nextcloud
+
+# Consistency check for existing installs.  Confirm that we still have
+# a working package source, to receive updates.
+- name: Test package is still available in repo
+  command: apt-get --print-uris download nautilus-nextcloud
+  check_mode: false
+  changed_when: false
