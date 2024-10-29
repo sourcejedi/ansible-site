@@ -39,6 +39,6 @@
 # Consistency check for existing installs.  Confirm that we still have
 # a working package source, to receive updates.
 - name: Test package is still available in repo
-  command: apt-get --print-uris download google-chrome-stable
+  command: apt-get --print-uris download element-desktop
   check_mode: no
   changed_when: False
