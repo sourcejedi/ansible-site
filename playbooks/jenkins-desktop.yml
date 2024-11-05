@@ -85,5 +85,6 @@
           #- digikam
           - gimp
           - vlc
+          - keepassxc
         state: present
       tags: apps
