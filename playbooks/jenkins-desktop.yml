@@ -13,7 +13,7 @@
 - hosts: drystone
   roles:
     - role: repos_apt
-      repos_apt: ubuntu-jammy
+      repos_apt: ubuntu-24.04
       # Disable this after install
       #repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'
 
@@ -21,7 +21,6 @@
 
     - users
 
-    # FIXME needs rename to use underscores
     - sourcejedi.systemd_journal
 
     # ubuntu uses apport
@@ -74,17 +73,17 @@
         src: "{{ inventory_dir }}/files/jenkins-desktop/README-home.txt"
       tags: jenkins-desktop
 
-    - name: /data/00-README.txt
-      copy:
-        dest: /data/00-README.txt
-        src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
-      tags: jenkins-desktop
+    #- name: /data/00-README.txt
+    #  copy:
+    #    dest: /data/00-README.txt
+    #    src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
+    #  tags: jenkins-desktop
 
     - name: Install apps
       package:
         name:
           #- digikam
           - gimp
-          - xsane
+          - vlc
         state: present
       tags: apps
