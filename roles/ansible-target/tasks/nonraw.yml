@@ -1,7 +1,7 @@
 - name: Check that package manager is supported
   assert:
     that:
-      ansible_pkg_mgr in ["dnf", "apt"]
+      ansible_pkg_mgr in ["dnf", "dnf5", "apt"]
     msg: "This role does not support '{{ ansible_pkg_mgr }}' package manager, only 'dnf' or 'apt'."
 
 - name: Set python_or_python3
@@ -26,8 +26,6 @@
 - name: ensure | python dnf module installed, required by ansible dnf module
   when: ansible_pkg_mgr == "dnf" and python_dnf.rc != 0
   command: 'dnf install -y {{ python2_or_python3 }}-dnf'
-  args:
-    warn: no  # can't use dnf module, we're installing its requirements
 
 # 3/3) The condition must now hold.  This "fixes" ansible check mode.
 - name: check  | python dnf module installed, required by ansible dnf module
@@ -35,6 +33,55 @@
   command: '{{ ansible_python.executable }} -c "import dnf"'
   changed_when: False
   check_mode: no
+
+- name: Quick test of dnf module
+  when: ansible_pkg_mgr == "dnf"
+  dnf:
+    name: "{{ python2_or_python3 }}-dnf"
+    state: present
+
+- name: Quick test of package module
+  when: ansible_pkg_mgr == "dnf"
+  package:
+    name: "{{ python2_or_python3 }}-dnf"
+    state: present
+
+
+# Linux distribution based on DNF package manager:
+#
+# 1/3) Query condition
+- name: query  | python dnf module installed, required by ansible dnf module
+  when: ansible_pkg_mgr == "dnf5"
+  command: '{{ ansible_python.executable }} -c "import libdnf5"'
+  register: python_dnf5
+  failed_when: False
+  changed_when: False
+  check_mode: no
+
+# 2/3) Run command task conditionally, to provide accurate "changed" status
+- name: ensure | python dnf module installed, required by ansible dnf module
+  when: ansible_pkg_mgr == "dnf5" and python_dnf5.rc != 0
+  command: 'dnf install -y python3-libdnf5'
+
+# 3/3) The condition must now hold.  This "fixes" ansible check mode.
+- name: check  | python dnf module installed, required by ansible dnf module
+  when: ansible_pkg_mgr == "dnf5"
+  command: '{{ ansible_python.executable }} -c "import libdnf5"'
+  changed_when: False
+  check_mode: no
+
+- name: Quick test of dnf5 module
+  when: ansible_pkg_mgr == "dnf5"
+  dnf5:
+    name: python3-libdnf5
+    state: present
+
+- name: Quick test of package module
+  when: ansible_pkg_mgr == "dnf5"
+  package:
+    name: python3-libdnf5
+    state: present
+
 
 # Linux distribution based on APT package manager:
 #
@@ -61,6 +108,18 @@
   changed_when: False
   check_mode: no
 
+- name: Quick test of apt module
+  when: ansible_pkg_mgr == "apt"
+  apt:
+    name: '{{ python_or_python3 }}-apt'
+    state: present
+
+- name: Quick test of package module
+  when: ansible_pkg_mgr == "apt"
+  package:
+    name: '{{ python_or_python3 }}-apt'
+    state: present
+
 
 - name: Query whether selinux is enabled
   shell: 'CMD=/usr/sbin/selinuxenabled; test -x $CMD && $CMD'
@@ -83,7 +142,7 @@
   setup:
   when: selinux_install.changed
 
-- name: Basic test of copy module
+- name: Quick test of copy module
   copy:
     src: test-file.txt
     dest: /ansible-managed/ansible-target/
