@@ -20,6 +20,8 @@
 
     - sourcejedi.libvirt_nss
 
+    - ansible_ubuntu_ppa
+
   tasks:
     - name: flatpak installs
       flatpak:

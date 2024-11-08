@@ -1,0 +1,5 @@
+---
+- import_tasks: main-tasks.yml
+  tags:
+    - ansible
+    - apt_source

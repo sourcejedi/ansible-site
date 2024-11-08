@@ -22,6 +22,7 @@
 - name: Install nextcloud for Ubuntu (GNOME) with Nautilus file manager
   apt:
     name: nautilus-nextcloud
+    state: present
 
 # Consistency check for existing installs.  Confirm that we still have
 # a working package source, to receive updates.
