@@ -13,9 +13,38 @@
       Please do so yourself before running this role.
 
 
-# Check we will not break e.g. Ubuntu apport.
+- name: "[1/4] Check if apport-core-dump-handler needs removing"
+  package:
+    name: apport-core-dump-handler
+    state: absent
+  check_mode: true
+  register: apport_core_dump_simulated_remove
+
+- name: "[2/4] Install apport + systemd-coredump (Requires Ubuntu 24.04 or above)"
+  package:
+    name:
+      - apport
+      - systemd-coredump
+    state: present
+  when: apport_core_dump_simulated_remove.changed
+
+- name: "[3/4] Check if apport-core-dump-handler is absent now"
+  package:
+    name: apport-core-dump-handler
+    state: absent
+  check_mode: true
+  register: apport_core_dump_simulated_remove
+
+# Deliberately break check_mode here.
+# The next task will break it anyway, and that failure is more confusing.
+- name: "[4/4] Require that apport-core-dump-handler is absent"
+  assert:
+    that: not apport_core_dump_simulated_remove.changed
+
+
+# Check we will not break Ubuntu apport or equivalent.
 #
-# Use grep to print the foreign core handler.
+# Use grep to find any foreign core handler.
 # If there is none, grep will return 1 (failure),
 # and we're ok to continue.
 #
