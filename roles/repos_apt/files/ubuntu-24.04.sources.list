@@ -1,9 +1,12 @@
 # This file is managed by a scripted process.
 # Manual changes will be destroyed if the script is re-applied.
 
-## Distribution repository for Ubuntu 24.04 Noble
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
 
-## The following settings can be tweaked to configure which packages to use from Ubuntu.
+## Ubuntu distribution repository
+##
+## The following settings can be adjusted to configure which packages to use from Ubuntu.
 ## Mirror your choices (except for URIs and Suites) in the security section below to
 ## ensure timely security updates.
 ##
@@ -19,10 +22,9 @@
 ##                      or updates from the Ubuntu security team.
 ## Components: Aside from main, the following components can be added to the list
 ##   restricted  - Software that may not be under a free license, or protected by patents.
-##   universe    - Community maintained packages. Software from this repository is
-##                 ENTIRELY UNSUPPORTED by the Ubuntu team. Also, please note
-##                 that software in universe WILL NOT receive any
-##                 review or updates from the Ubuntu security team.
+##   universe    - Community maintained packages. Software in this repository receives maintenance
+##                 from volunteers in the Ubuntu community, or a 10 year security maintenance
+##                 commitment from Canonical when an Ubuntu Pro subscription is attached.
 ##   multiverse  - Community maintained of restricted. Software from this repository is
 ##                 ENTIRELY UNSUPPORTED by the Ubuntu team, and may not be under a free
 ##                 licence. Please satisfy yourself as to your rights to use the software.
@@ -31,64 +33,23 @@
 ##
 ## See the sources.list(5) manual page for further settings.
 
-## Note when used on physical hardware, it may be required to enable "restricted".
+## Suites: universe is needed for Ansible & dependencies, atop, ...
+## Suites: multiverse provides the metapackage ubuntu-restricted-extras.
+## Among others, this pulls in codecs from universe.
+##
+## When installed on physical hardware, you might want nvidia drivers
+## from "restricted".
 
 Types: deb
-URIs: http://gb.archive.ubuntu.com/ubuntu
-Suites: noble noble-updates
-Components: main
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main universe multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 ## Ubuntu security updates. Aside from URIs and Suites,
 ## this should mirror your choices in the previous section.
-
 Types: deb
-URIs: http://security.ubuntu.com/ubuntu
+URIs: http://security.ubuntu.com/ubuntu/
 Suites: noble-security
-Components: main
+Components: main universe multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-
-## universe is needed for Ansible & dependencies, atop, ...
-
-Types: deb
-URIs: http://gb.archive.ubuntu.com/ubuntu/
-Suites: noble noble-updates
-Components: universe
-Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-Types: deb
-URIs: http://security.ubuntu.com/ubuntu
-Suites: noble-security
-Components: universe
-Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-## multiverse
-
-Enabled: no
-Types: deb
-URIs: http://gb.archive.ubuntu.com/ubuntu/
-Suites: noble noble-updates
-Components: multiverse
-Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-Enabled: no
-Types: deb
-URIs: http://security.ubuntu.com/ubuntu
-Suites: noble-security
-Components: multiverse
-Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-## FIXME: How do source code repositories work with deb822 format?
-
-# deb-src http://gb.archive.ubuntu.com/ubuntu noble main
-# deb-src http://gb.archive.ubuntu.com/ubuntu/ noble-updates main
-# deb-src http://security.ubuntu.com/ubuntu noble-security main
-
-# deb-src http://gb.archive.ubuntu.com/ubuntu/ noble universe
-# deb-src http://gb.archive.ubuntu.com/ubuntu/ noble-updates universe
-# deb-src http://security.ubuntu.com/ubuntu noble-security universe
-
-# deb-src http://gb.archive.ubuntu.com/ubuntu/ noble multiverse
-# deb-src http://gb.archive.ubuntu.com/ubuntu/ noble-updates multiverse
-# deb-src http://security.ubuntu.com/ubuntu noble-security multiverse
