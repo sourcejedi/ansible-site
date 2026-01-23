@@ -4,6 +4,7 @@ playbooks/*-secrets.yml
 
 hosts/aliases
 hosts/host_vars/drystone.yml
+hosts/host_vars/jenkins-laptop.yml
 
 files/ssh-authkeys
 files/ssh-hostkeys

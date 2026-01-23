@@ -14,8 +14,6 @@
   roles:
     - role: repos_apt
       repos_apt: ubuntu-24.04
-      # Disable this after install
-      #repos_apt_proxy: 'http://silo.carrier.duckdns.org:3142/'
 
     - sourcejedi.etckeeper
 
@@ -58,6 +56,7 @@
 
     - packages-cli-basics
     - packages-gui
+    - element_desktop
     #- bfq
 
   tasks:
