@@ -1,11 +1,12 @@
 ansible-galaxy-token
 
-files/ssh-authkeys
-files/ssh-hostkeys
-host_vars/drystone.yml
 playbooks/*-secrets.yml
 
+hosts/aliases
+hosts/host_vars/drystone.yml
 
+files/ssh-authkeys
+files/ssh-hostkeys
 
 # disabled now
 #playbooks/*.retry

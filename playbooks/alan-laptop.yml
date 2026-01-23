@@ -78,7 +78,7 @@
 
     - name: rc.local script to reduce power usage
       copy:
-        src: ../files/alan-laptop/rc.local
+        src: "alan-laptop/rc.local"
         dest: /etc/rc.d/rc.local
         mode: a+rx
       notify: restart rc.local

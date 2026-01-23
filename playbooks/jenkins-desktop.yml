@@ -64,19 +64,19 @@
     #- name: /00-README.txt
     #  copy:
     #    dest: /00-README.txt
-    #    src: "{{ inventory_dir }}/files/jenkins-desktop/README-rootfs.txt"
+    #    src: "jenkins-desktop/README-rootfs.txt"
     #  tags: jenkins-desktop
 
     - name: /home/00-README.txt
       copy:
         dest: /home/00-README.txt
-        src: "{{ inventory_dir }}/files/jenkins-desktop/README-home.txt"
+        src: "jenkins-desktop/README-home.txt"
       tags: jenkins-desktop
 
     #- name: /data/00-README.txt
     #  copy:
     #    dest: /data/00-README.txt
-    #    src: "{{ inventory_dir }}/files/jenkins-desktop/README-data.txt"
+    #    src: "jenkins-desktop/README-data.txt"
     #  tags: jenkins-desktop
 
     - name: Install apps
