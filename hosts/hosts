@@ -8,7 +8,6 @@ ansible_python_interpreter=/usr/bin/python3
 [common]
 alan-laptop
 alan-laptop-2023
-drystone-old
 drystone
 
 [common:children]
