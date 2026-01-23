@@ -17,11 +17,16 @@
     - flatpak
     - sourcejedi.google_chrome
     - element_desktop
+    - jpegcheck
 
     - sourcejedi.libvirt_nss
 
     - ansible_ubuntu_ppa
 
+    # Something is crashing.  Get the good stuff.
+    # (This is actually compatible with apport nowadays,
+    #  due to an update in Ubuntu 24.04).
+    - systemd-coredump
   tasks:
     - name: flatpak installs
       flatpak:
