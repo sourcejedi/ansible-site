@@ -5,7 +5,6 @@
 
     - sourcejedi.etckeeper
     - users
-    - sourcejedi.systemd_journal
 
     - role: systemd-coredump
       when: ansible_distribution == "Debian"
@@ -23,12 +22,12 @@
 
     - packages-cli-basics
     - packages-dev-basics
-    - sourcejedi.ccache
+    #- sourcejedi.ccache
 
     #
     # Roles which are not always used, or mostly used to test the role itself
     #
-
+    - sourcejedi.systemd_journal
     - sourcejedi.cups
 
     - deb-apache
@@ -50,6 +49,7 @@
           alias: 'alan-sysop'
 
     - packages-gui
+
     - element_desktop
 
     - sourcejedi.libvirt_nss
