@@ -36,13 +36,6 @@
     - dbus          # minimal debootstrap of jessie misses dbus, recommended
                     # by systemd and required for `machinectl login`.
 
-# https://unix.stackexchange.com/questions/364667/what-is-the-purpose-of-the-default-etc-securetty-settings-on-debian
-# Note - this workaround causes a notice in the log at login time
-- name: Unconfigure obsolete pam securetty (breaks `machinectl login`)
-  file:
-    name: /etc/securetty
-    state: absent
-
   # Squelch issues with random software that tries to look up the hostname,
   # when we haven't edited /etc/hosts.
   # E.g. unhandled errors in the cron job installed by exim4.
