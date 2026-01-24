@@ -138,7 +138,6 @@
     user: "{{ item.name }}"
     key: "{{ item.sshkey }}"
   with_items: "{{ openssh_server__authkeys }}"
-  when: item.sshkey is defined
   loop_control:
     label: "{{ item.name }}"
 
