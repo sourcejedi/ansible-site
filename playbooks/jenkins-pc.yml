@@ -3,15 +3,16 @@
 # (E.g. standard home router config.  Sucks if you don't have a router.)
 # Once this role is run, a firewall will be installed, and will allow the SSH port.
 
-- hosts: jenkins-laptop drystone
+- hosts:
+    - jenkins-laptop
+    - drystone
+
   roles:
     - repos_apt
 
     - sourcejedi.etckeeper
 
     - users
-
-    - sourcejedi.systemd_journal
 
     # ubuntu uses apport
     #- systemd-coredump
