@@ -156,7 +156,7 @@
   delegate_to: 127.0.0.1
   run_once: yes
   file:
-    path: "{{ playbook_dir }}/files/ssh-hostkeys/"
+    path: "{{ openssh_server__hostkeys_dir }}"
     state: directory
 
 - name: Read host public key (generated at install time)
@@ -171,4 +171,4 @@
   delegate_to: 127.0.0.1
   copy:
     content: "{{ hostkey.stdout }}\n"
-    dest: "{{ playbook_dir }}/files/ssh-hostkeys/{{ inventory_hostname }}"
+    dest: "{{ openssh_server__hostkeys_dir }}/{{ inventory_hostname }}"

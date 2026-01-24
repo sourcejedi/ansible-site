@@ -1,7 +1,4 @@
-# Update our master copy of the RPMFusion keys from the target system.
-# This should sound worrying!  The role contains one fragile mitigation:
-# the update is also reported as a failure.
-rpmfusion__update_master_keys: yes
+openssh_server__hostkeys_dir: '{{ playbook_dir }}/files/ssh-hostkeys'
 
 # roles/sourcejedi.disable_unwanted_servers
 #
@@ -11,3 +8,9 @@ disable_service_cups_browsed: yes
 
 # roles/sourcejedi.cups
 cups_disable_browsed: yes
+
+# Update our master copy of the RPMFusion keys from the target system.
+# This should sound worrying!  The role contains one fragile mitigation:
+# the update is also reported as a failure.
+rpmfusion__update_master_keys: yes
+
