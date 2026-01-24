@@ -1,6 +1,14 @@
-# Exclusions:
-#
-# Nowadays GNOME logs activity and indexes it, that shows up.
+# These should already be excluded by rsync.  But we list them here too.
+- .cache/
+- snap/*/common/.cache/
+
+- .thumbnails/
+
+# FUSE filesystems mounted by gvfs.
+- .gvfs/
+
+
+# Nowadays GNOME logs activity and indexes it.  That shows up.
 #
 # Thunderbird has an index for searching messages, which shows up.
 # This is due to the size of the blocks borg uses (megabytes?),
@@ -11,19 +19,13 @@
 # This is used to update data between package releases.
 # It was taking 10MB/day (uncompressed).
 #
-# On Debian, there may be an icedove profile which is half-migrated
-# to thunderbird, but still uses the old location.
-#
-# Plus, Ubuntu is moving Firefox and Thunderbird to snaps now.
+# Ubuntu has moved Firefox and Thunderbird to snaps now.
 
 - .local/share/tracker
 - .local/share/zeitgeist/fts.index
 
 - .thunderbird/*/global-messages-db.sqlite
 - .thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
-
-- .icedove/*/global-messages-db.sqlite
-- .icedove/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
 
 - snap/thunderbird/common/.thunderbird/*/global-messages-db.sqlite
 - snap/thunderbird/common/.thunderbird/*/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
@@ -37,8 +39,3 @@
 + snap/firefox/common/.mozilla/firefox/*/key4.db
 + snap/firefox/common/.mozilla/firefox/*/logins.json
 - snap/firefox/common/.mozilla/firefox/*
-
-
-# In daily-rsync, this should already be excluded by rsync.
-# But, daily-rsync was based on daily-borgbackup...
-- .cache

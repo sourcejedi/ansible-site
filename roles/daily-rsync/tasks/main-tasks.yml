@@ -5,7 +5,7 @@
 # robust enough so far.
 
 # NOTE 2: It is a good idea to install a mail setup, to catch cron errors.
-# See roles/deb-mail/
+# See roles/Oefenweb.postfix
 
 # This task list is unusual for me:
 # it runs tasks on two different hosts.

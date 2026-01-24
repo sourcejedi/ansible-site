@@ -1,13 +1,9 @@
 # List of files excluded from rsync to backup server
 
 - /.cache/
-- /.thumbnails/
-
 - /snap/*/common/.cache/
+
+- /.thumbnails/
 
 # FUSE filesystems mounted by gvfs.
 - /.gvfs/
-
-# Deleted files can be recovered from older snapshots.
-# Saving Trash in rdiff-backup would effectively store it twice.
-- /.local/share/Trash/files/
