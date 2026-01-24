@@ -31,12 +31,6 @@
        - ssh
 
     - sourcejedi.disable_unwanted_servers
-
-# FIXME - one-off error here, perhaps before the printer was automatically detected?
-# (definitely no error after printer was manually added)
-#
-# RUNNING HANDLER [sourcejedi.cups : Change ErrorPolicy for any existing printers] ********************
-#fatal: [drystone]: FAILED! => {"changed": true, "msg": "non-zero return code", "rc": 1, "stderr": "lpstat: No destinations added.\n", "stderr_lines": ["lpstat: No destinations added."], "stdout": "", "stdout_lines": []}
     - sourcejedi.cups
 
     - sourcejedi.atop
