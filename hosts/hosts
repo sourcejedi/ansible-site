@@ -1,14 +1,11 @@
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 
-# FIXME: "common"?
-# i had everything under common:children, but now it breaks, those are supposed to be groups :-).
-# so, does it really work to have *hosts* listed in two groups (fedora v.s. common)
-
 [common]
 alan-laptop
 alan-laptop-2023
-drystone
+drystone  repos_apt=ubuntu-24.04
+jenkins-laptop  repos_apt=ubuntu-24.04
 
 [common:children]
 alan_servers
@@ -39,14 +36,14 @@ test_vm_debian
 [test_nspawn_fedora]
 
 [test_nspawn_deb]
-bullseye   repos_apt=debian-bullseye
+bullseye  repos_apt=debian-bullseye
 
 # nss-libvirt
 [test_vm_fedora]
 fedora40-vm
 
 [test_vm_debian]
-debian11-vm repos_apt=debian-bullseye
+debian11-vm  repos_apt=debian-bullseye
 
-ubuntu2204-vm repos_apt=ubuntu-jammy
-ubuntu2404-vm repos_apt=ubuntu-24.04
+ubuntu2204-vm  repos_apt=ubuntu-jammy
+ubuntu2404-vm  repos_apt=ubuntu-24.04
