@@ -161,7 +161,7 @@
 
 - name: Read host public key (generated at install time)
   shell: |
-    ssh-keyscan -t ed25519 localhost | cut -d " " -f 2-
+    ssh-keyscan -t ed25519 localhost | grep -v '^#' | cut -d " " -f 2-
   register: hostkey
   failed_when: hostkey.rc != 0 or hostkey.stdout_lines|length != 1
   changed_when: false
