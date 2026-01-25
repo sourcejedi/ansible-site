@@ -14,21 +14,30 @@
     name: squid-deb-proxy-client
     state: "{{ 'present' if repos_apt_autodetect_apt_proxy else 'absent' }}"
 
-- name: Check if system uses sources.list.d/ubuntu.sources
-  stat:
-    path: /etc/apt/sources.list.d/ubuntu.sources
-  register: ubuntu_sources
+- name: Check for deb822-format sources
+  set_fact:
+    deb822: "{{ lookup('fileglob', repos_apt ~ '.sources') | length > 0 }}"
 
-- set_fact:
-    sources_file:
-      "{{ '/etc/apt/sources.list.d/ubuntu.sources' if ubuntu_sources.stat.isreg is defined else
-          '/etc/apt/sources.list' }}"
+- name: Clear sources.list in favour of sources.list.d (deb822 format)
+  copy:
+    src: "empty.sources.list"
+    dest: "/etc/apt/sources.list"
+  when: deb822
 
-- name: Configure apt sources
+- name: Configure apt sources using deb22 format
+  copy:
+    src: "{{ repos_apt }}.sources"
+    dest: "/etc/apt/sources.list.d/{{ ansible_distribution.lower() }}.sources"
+  register: sources
+  when: deb822
+
+- name: Configure apt sources using sources.list
   copy:
     src: "{{ repos_apt }}.sources.list"
-    dest: "{{ sources_file }}"
+    dest: "/etc/apt/sources.list"
   register: sources
+  when: not deb822
+
 
 # This test is slow, only bother when changed.
 # (In which case, the next use of apt would have had to do it anyway).
