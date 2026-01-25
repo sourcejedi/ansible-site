@@ -2,6 +2,7 @@
   assert:
     that: "ansible_os_family == 'Debian'"
 
+# Hum.  Classic Debian installer just uses /etc/apt/apt.conf for this.
 - name: Configure apt proxy
   template:
     src: apt.conf.d/02proxy.j2

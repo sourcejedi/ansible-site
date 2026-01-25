@@ -34,7 +34,7 @@ bullseye  repos_apt=debian-bullseye
 fedora40-vm
 
 [test_vm_debian]
-debian11-vm  repos_apt=debian-bullseye
+debian13-vm  repos_apt=debian-13
 
 ubuntu2204-vm  repos_apt=ubuntu-jammy
 ubuntu2404-vm  repos_apt=ubuntu-24.04

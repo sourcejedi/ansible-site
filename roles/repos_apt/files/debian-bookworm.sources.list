@@ -8,7 +8,7 @@
 # (hopefully) configured to use a nearby server.
 
 
-# Debian release 11.x
+# Debian release 12.x
 deb http://deb.debian.org/debian/ bookworm main
 
 # Security updates
