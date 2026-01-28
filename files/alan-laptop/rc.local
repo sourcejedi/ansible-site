@@ -26,8 +26,11 @@ set -e
 # 2021-07-26: graphics corruption
 
 # Package C2 -> C6 !
-echo 'med_power_with_dipm' > '/sys/class/scsi_host/host0/link_power_management_policy'
-echo 'med_power_with_dipm' > '/sys/class/scsi_host/host1/link_power_management_policy'
+# This isn't supported anymore (on alan-laptop),
+# however it also doesn't seem necessary because I am achieving
+# an even split between pc7 and pc8.  1.7W!
+#echo 'med_power_with_dipm' > '/sys/class/scsi_host/host0/link_power_management_policy'
+#echo 'med_power_with_dipm' > '/sys/class/scsi_host/host1/link_power_management_policy'
 
 # moar?
 echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata1/power/control'

@@ -79,15 +79,6 @@
       notify: restart rc.local
       tags: rc_local
 
-    - name: flatpak installs
-      flatpak:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - com.skype.Client
-        - us.zoom.Zoom
-      tags: flatpak
-
   handlers:
     - name: restart rc.local
       service:
