@@ -78,11 +78,9 @@ backup() {
 	# Prune old backups to save space
 	log_cmd borg prune $BORG_STATS \
 		--keep-daily 21 --keep-weekly 6 \
-		--keep-monthly 12 --keep-yearly -1
+		--keep-monthly 12 --keep-yearly -1 &&
 
-	# BUG: so, we actually need to run "borg compact" here, lol.
-	# Might want to wait for borg 1.2.7, to avoid cosmetic errors:
-	# https://github.com/borgbackup/borg/issues/6687#issuecomment-1836923703
+	log_cmd borg compact
 }
 
 # borgbackup run #
