@@ -11,10 +11,6 @@
 
     - sourcejedi.etckeeper
     - users
-    - { role: sourcejedi.systemd_journal,
-                         # see rsyslog below
-                         systemd_journal__disable_syslog_daemon: no
-      }
     - systemd-coredump
 
     - openssh-server
