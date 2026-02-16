@@ -3,7 +3,6 @@
     - sourcejedi.etckeeper
 
     - users
-    - sourcejedi.systemd_journal
     - openssh-server
 
     - sourcejedi.atop
@@ -14,12 +13,13 @@
     #
     # Roles which are not always used, or mostly used to test the role itself
     #
-
     - role: sourcejedi.firewalld
       firewalld__services:
        - dhcpv6-client
        - mdns
        - ssh
+
+    - sourcejedi.systemd_journal
 
     #- sourcejedi.rpmfusion_free
     #- sourcejedi.rpmfusion_nonfree
