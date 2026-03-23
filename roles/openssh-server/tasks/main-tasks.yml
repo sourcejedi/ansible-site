@@ -111,6 +111,9 @@
       
       # No fearmongering about missing DNS ("POSSIBLE BREAK IN ATTEMPT")
       UseDNS no
+
+      # No stale connections presented when operator wants to poweroff.
+      ClientAliveInterval 15
       
     #end block
   notify: [ 'Test sshd configuration and restart' ]
